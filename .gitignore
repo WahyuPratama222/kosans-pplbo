@@ -17,3 +17,6 @@ buildNumber.properties
 *.log
 temp/
 tmp/
+
+# Dotenv
+.env
