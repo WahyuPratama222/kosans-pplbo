@@ -9,8 +9,8 @@ services:
     ports:
       - "${DOCKER_DB_PORT}:3306"
     volumes:
-      - kosans_db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
       - ./db-init:/docker-entrypoint-initdb.d
 
-  volumes:
-    db_data:
+volumes:
+  db_data:
