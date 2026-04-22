@@ -6,7 +6,7 @@
 -- =====================================================
 -- SEEDER DATA USERS
 -- =====================================================
-
+--password seluruh password123
 -- Admin Users
 INSERT INTO users (username, password, email, role, nomor_hp, is_verified) VALUES
 ('admin_1', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'admin@kosans.com', 'ADMIN', '081234567890', TRUE),
