@@ -1,7 +1,7 @@
 -- Kosans Database Seeder
 -- Script untuk mengisi data sample ke database kosans_db
 
-USE kosans_db;
+
 
 -- =====================================================
 -- SEEDER DATA USERS
@@ -102,18 +102,3 @@ INSERT INTO pembayaran (id_booking, jumlah_bayar, bukti_bayar, status_verifikasi
 -- =====================================================
 -- Verifikasi data yang sudah diinsert
 -- =====================================================
-
-SELECT 'Users' AS 'Total Records:', COUNT(*) FROM users;
-SELECT 'Kos' AS 'Total Records:', COUNT(*) FROM kos;
-SELECT 'Kamar' AS 'Total Records:', COUNT(*) FROM kamar;
-SELECT 'Booking' AS 'Total Records:', COUNT(*) FROM booking;
-SELECT 'Pembayaran' AS 'Total Records:', COUNT(*) FROM pembayaran;
-
--- Detail Users
-SELECT COUNT(*) as total, role FROM users GROUP BY role;
-
--- Detail Kos
-SELECT k.id_kos, k.nama_kos, COUNT(km.id_kamar) as jumlah_kamar 
-FROM kos k 
-LEFT JOIN kamar km ON k.id_kos = km.id_kos 
-GROUP BY k.id_kos, k.nama_kos;
