@@ -36,7 +36,7 @@
                         <Font name="SansSerif Regular" size="12.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" text="Kos" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                  <Label alignment="CENTER" text="Daftar Kamar" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                      <font>
                         <Font name="SansSerif Regular" size="12.0" />
                      </font>
