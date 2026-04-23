@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css">
+    <!-- TOP NAVBAR -->
+    <top>
+        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #1E2E4F, #31487A);" className="navbar-pemilik">
+            <left>
+                <Label text="🏠 Pemilik Kos Dashboard" style="-fx-text-fill: white;" className="navbar-title" BorderPane.alignment="CENTER">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                </Label>
+            </left>
+            <right>
+                <HBox spacing="20" alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+                    <Label text="👤 Pemilik Kos" style="-fx-text-fill: white; -fx-font-size: 12px;" />
+                    <Button text="Logout" className="btn-danger" style="-fx-padding: 5 15;" />
+                    <padding>
+                        <Insets right="20.0" />
+                    </padding>
+                </HBox>
+            </right>
+        </BorderPane>
+    </top>
+
+    <!-- LEFT SIDEBAR -->
+    <left>
+        <VBox prefWidth="250.0" prefHeight="700.0" style="-fx-background-color: #1E2E4F;" spacing="10" className="side-menu">
+            <Label text="MENU" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" />
+            <Separator />
+            
+            <Button text="📊 Dashboard" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="🏠 Manajemen Kos" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="🛏️ Manajemen Kamar" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="📋 Booking Penyewa" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="💰 Laporan Pembayaran" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="💬 Pesan Penyewa" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="⚙️ Pengaturan Profil" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            
+            <Region VBox.vgrow="ALWAYS" />
+            <Separator />
+            <Label text="v1.0 © 2026" style="-fx-text-fill: #8FB3E2; -fx-font-size: 10px;" />
+            <padding>
+                <Insets all="15.0" />
+            </padding>
+        </VBox>
+    </left>
+
+    <!-- CENTER CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: #F8FAFC;">
+            <VBox spacing="20" className="page-content">
+                <!-- HEADER -->
+                <VBox spacing="5">
+                    <Label text="Selamat Datang, Pemilik Kos" className="label-title" />
+                    <Label text="Kelola kos dan kamar Anda dengan mudah" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+                </VBox>
+
+                <!-- STATISTICS SECTION -->
+                <Label text="Statistik Kos Anda" className="label-subtitle" />
+                <HBox spacing="15">
+                    <!-- Total Kos -->
+                    <VBox className="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="🏠 Total Kos" className="stat-label" />
+                        <Label text="3" className="stat-value" />
+                        <Label text="Kos yang Anda kelola" style="-fx-text-fill: #64748B; -fx-font-size: 11px;" />
+                    </VBox>
+
+                    <!-- Total Kamar -->
+                    <VBox className="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="🛏️ Total Kamar" className="stat-label" />
+                        <Label text="45" className="stat-value" />
+                        <Label text="28 Terisi • 17 Kosong" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+                    </VBox>
+
+                    <!-- Booking Pending -->
+                    <VBox className="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="📋 Booking Pending" className="stat-label" />
+                        <Label text="5" className="stat-value" />
+                        <Label text="Butuh konfirmasi" style="-fx-text-fill: #F59E0B; -fx-font-size: 11px;" />
+                    </VBox>
+
+                    <!-- Pendapatan Bulan Ini -->
+                    <VBox className="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="💰 Pendapatan Bulan Ini" className="stat-label" />
+                        <Label text="Rp 28.5M" className="stat-value" />
+                        <Label text="↑ 15% dari bulan lalu" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+                    </VBox>
+                </HBox>
+
+                <!-- QUICK ACTIONS -->
+                <Label text="Aksi Cepat" className="label-subtitle" />
+                <HBox spacing="10">
+                    <Button text="➕ Tambah Kos Baru" className="btn-primary" prefWidth="160" />
+                    <Button text="➕ Tambah Kamar Baru" className="btn-primary" prefWidth="160" />
+                    <Button text="👁️ Lihat Booking Pending" className="btn-warning" prefWidth="160" />
+                    <Button text="📊 Laporan Pendapatan" className="btn-secondary" prefWidth="160" />
+                </HBox>
+
+                <!-- KOS OVERVIEW -->
+                <Label text="Daftar Kos Anda" className="label-subtitle" />
+                <VBox spacing="10">
+                    <!-- Kos 1 -->
+                    <HBox className="card" spacing="15" style="-fx-padding: 15;">
+                        <Label text="🏢" style="-fx-font-size: 32px;" />
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Kos Kurniawan - Utama" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
+                            <Label text="Jl. Ahmad Yani No. 45, Bandung" style="-fx-font-size: 11px; -fx-text-fill: #64748B;" />
+                            <HBox spacing="20" style="-fx-padding: 8 0;">
+                                <Label text="📍 Kamar: 20/20 Terisi" style="-fx-font-size: 10px;" />
+                                <Label text="💰 Rp 12.5M/bulan" style="-fx-font-size: 10px; -fx-text-fill: #10B981;" />
+                                <Label text="⭐ Rating: 4.8/5" style="-fx-font-size: 10px; -fx-text-fill: #F59E0B;" />
+                            </HBox>
+                        </VBox>
+                        <VBox spacing="5" style="-fx-alignment: center;">
+                            <Button text="Edit" className="btn-secondary" prefWidth="80" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
+                            <Button text="Lihat Detail" className="btn-outline" prefWidth="80" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- Kos 2 -->
+                    <HBox className="card" spacing="15" style="-fx-padding: 15;">
+                        <Label text="🏘️" style="-fx-font-size: 32px;" />
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Kos Kurniawan - Cabang 1" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
+                            <Label text="Jl. Gatot Subroto No. 89, Bandung" style="-fx-font-size: 11px; -fx-text-fill: #64748B;" />
+                            <HBox spacing="20" style="-fx-padding: 8 0;">
+                                <Label text="📍 Kamar: 15/15 Terisi" style="-fx-font-size: 10px;" />
+                                <Label text="💰 Rp 9.2M/bulan" style="-fx-font-size: 10px; -fx-text-fill: #10B981;" />
+                                <Label text="⭐ Rating: 4.6/5" style="-fx-font-size: 10px; -fx-text-fill: #F59E0B;" />
+                            </HBox>
+                        </VBox>
+                        <VBox spacing="5" style="-fx-alignment: center;">
+                            <Button text="Edit" className="btn-secondary" prefWidth="80" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
+                            <Button text="Lihat Detail" className="btn-outline" prefWidth="80" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- Kos 3 -->
+                    <HBox className="card" spacing="15" style="-fx-padding: 15;">
+                        <Label text="🏠" style="-fx-font-size: 32px;" />
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Kos Kurniawan - Cabang 2" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
+                            <Label text="Jl. Pasteur No. 123, Bandung" style="-fx-font-size: 11px; -fx-text-fill: #64748B;" />
+                            <HBox spacing="20" style="-fx-padding: 8 0;">
+                                <Label text="📍 Kamar: 10/15 Terisi" style="-fx-font-size: 10px;" />
+                                <Label text="💰 Rp 6.8M/bulan" style="-fx-font-size: 10px; -fx-text-fill: #10B981;" />
+                                <Label text="⭐ Rating: 4.7/5" style="-fx-font-size: 10px; -fx-text-fill: #F59E0B;" />
+                            </HBox>
+                        </VBox>
+                        <VBox spacing="5" style="-fx-alignment: center;">
+                            <Button text="Edit" className="btn-secondary" prefWidth="80" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
+                            <Button text="Lihat Detail" className="btn-outline" prefWidth="80" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- RECENT BOOKINGS -->
+                <Label text="Booking Terbaru" className="label-subtitle" />
+                <VBox className="card" spacing="10">
+                    <HBox spacing="15" style="-fx-padding: 10 0; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0;">
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Booking Baru - Kamar 12, Kos Utama" style="-fx-font-weight: bold; -fx-font-size: 12px;" />
+                            <Label text="Penyewa: Andi Wijaya | Periode: 3 bulan | Total: Rp 3.000.000" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
+                        </VBox>
+                        <Button text="Lihat" className="btn-secondary" prefWidth="70" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
+                    </HBox>
+
+                    <HBox spacing="15" style="-fx-padding: 10 0; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0;">
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Pembayaran Diterima" style="-fx-font-weight: bold; -fx-font-size: 12px;" />
+                            <Label text="Penyewa: Siti Nurhaliza | Jumlah: Rp 2.500.000 | Status: Dikonfirmasi" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
+                        </VBox>
+                        <Button text="Lihat" className="btn-secondary" prefWidth="70" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
+                    </HBox>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>
