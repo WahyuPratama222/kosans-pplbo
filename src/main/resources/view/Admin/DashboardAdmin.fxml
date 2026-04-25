@@ -7,12 +7,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css">
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css">
     <!-- TOP NAVBAR -->
     <top>
-        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);" className="navbar-admin">
+        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);" styleClass="navbar-admin">
             <left>
-                <Label text="🏢 Admin Dashboard" style="-fx-text-fill: white;" className="navbar-title" BorderPane.alignment="CENTER">
+                <Label text="🏢 Admin Dashboard" style="-fx-text-fill: white;" styleClass="navbar-title" BorderPane.alignment="CENTER">
                     <padding>
                         <Insets left="20.0" />
                     </padding>
@@ -21,7 +21,7 @@
             <right>
                 <HBox spacing="20" alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
                     <Label text="👤 Administrator" style="-fx-text-fill: white; -fx-font-size: 12px;" />
-                    <Button text="Logout" className="btn-danger" style="-fx-padding: 5 15;" />
+                    <Button text="Logout" styleClass="btn-danger" style="-fx-padding: 5 15;" />
                     <padding>
                         <Insets right="20.0" />
                     </padding>
@@ -32,16 +32,16 @@
 
     <!-- LEFT SIDEBAR -->
     <left>
-        <VBox prefWidth="250.0" prefHeight="700.0" style="-fx-background-color: #1E2E4F;" spacing="10" className="side-menu">
+        <VBox prefWidth="250.0" prefHeight="700.0" style="-fx-background-color: #1E2E4F;" spacing="10" styleClass="side-menu">
             <Label text="MENU" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" />
             <Separator />
             
-            <Button text="📊 Dashboard" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button text="👥 Manajemen Pengguna" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button text="🏠 Manajemen Kos" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button text="💰 Laporan Pembayaran" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button text="📋 Laporan Booking" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button text="⚙️ Pengaturan Sistem" className="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="📊 Dashboard" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="👥 Manajemen Pengguna" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="🏠 Manajemen Kos" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="💰 Laporan Pembayaran" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="📋 Laporan Booking" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
+            <Button text="⚙️ Pengaturan Sistem" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
             
             <Region VBox.vgrow="ALWAYS" />
             <Separator />
@@ -55,64 +55,64 @@
     <!-- CENTER CONTENT -->
     <center>
         <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: #F8FAFC;">
-            <VBox spacing="20" className="page-content">
+            <VBox spacing="20" styleClass="page-content">
                 <!-- HEADER -->
                 <VBox spacing="5">
-                    <Label text="Selamat Datang, Administrator" className="label-title" />
+                    <Label text="Selamat Datang, Administrator" styleClass="label-title" />
                     <Label text="Kelola semua aspek sistem Kos Kurniawan dari sini" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
                 </VBox>
 
                 <!-- STATISTICS SECTION -->
-                <Label text="Statistik Keseluruhan" className="label-subtitle" />
+                <Label text="Statistik Keseluruhan" styleClass="label-subtitle" />
                 <HBox spacing="15">
                     <!-- Total Pengguna -->
-                    <VBox className="stat-card" spacing="10" HBox.hgrow="ALWAYS">
-                        <Label text="👥 Total Pengguna" className="stat-label" />
-                        <Label text="2,547" className="stat-value" />
-                        <Label text="↑ 12% dari minggu lalu" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+                    <VBox styleClass="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="Total Pengguna" styleClass="stat-label" />
+                        <Label text="2,547" styleClass="stat-value" />
+                        <Label text="+ 12% dari minggu lalu" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
                     </VBox>
 
                     <!-- Total Kos -->
-                    <VBox className="stat-card" spacing="10" HBox.hgrow="ALWAYS">
-                        <Label text="🏠 Total Kos" className="stat-label" />
-                        <Label text="328" className="stat-value" />
-                        <Label text="↑ 8% dari bulan lalu" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+                    <VBox styleClass="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="Total Kos" styleClass="stat-label" />
+                        <Label text="328" styleClass="stat-value" />
+                        <Label text="+ 8% dari bulan lalu" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
                     </VBox>
 
                     <!-- Total Booking -->
-                    <VBox className="stat-card" spacing="10" HBox.hgrow="ALWAYS">
-                        <Label text="📋 Total Booking Aktif" className="stat-label" />
-                        <Label text="1,205" className="stat-value" />
-                        <Label text="↓ 3% dari periode lalu" style="-fx-text-fill: #EF4444; -fx-font-size: 11px;" />
+                    <VBox styleClass="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="Total Booking Aktif" styleClass="stat-label" />
+                        <Label text="1,205" styleClass="stat-value" />
+                        <Label text="- 3% dari periode lalu" style="-fx-text-fill: #EF4444; -fx-font-size: 11px;" />
                     </VBox>
 
                     <!-- Total Pembayaran -->
-                    <VBox className="stat-card" spacing="10" HBox.hgrow="ALWAYS">
-                        <Label text="💰 Total Pembayaran Bulan Ini" className="stat-label" />
-                        <Label text="Rp 2.5M" className="stat-value" />
-                        <Label text="↑ 25% dari bulan lalu" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+                    <VBox styleClass="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="Total Pembayaran Bulan Ini" styleClass="stat-label" />
+                        <Label text="Rp 2.5M" styleClass="stat-value" />
+                        <Label text="+ 25% dari bulan lalu" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
                     </VBox>
                 </HBox>
 
                 <!-- QUICK ACTIONS -->
-                <Label text="Aksi Cepat" className="label-subtitle" />
+                <Label text="Aksi Cepat" styleClass="label-subtitle" />
                 <HBox spacing="10">
-                    <Button text="✚ Tambah Pengguna Baru" className="btn-primary" prefWidth="150" />
-                    <Button text="✚ Tambah Kos Baru" className="btn-primary" prefWidth="150" />
-                    <Button text="📊 Lihat Laporan" className="btn-secondary" prefWidth="150" />
-                    <Button text="⚙️ Pengaturan" className="btn-outline" prefWidth="150" />
+                    <Button text="+ Tambah Pengguna Baru" styleClass="btn-primary" prefWidth="150" />
+                    <Button text="✚ Tambah Kos Baru" styleClass="btn-primary" prefWidth="150" />
+                    <Button text="📊 Lihat Laporan" styleClass="btn-secondary" prefWidth="150" />
+                    <Button text="⚙️ Pengaturan" styleClass="btn-outline" prefWidth="150" />
                 </HBox>
 
                 <!-- RECENT ACTIVITIES -->
-                <Label text="Aktivitas Terbaru" className="label-subtitle" />
-                <VBox className="card" spacing="10">
+                <Label text="Aktivitas Terbaru" styleClass="label-subtitle" />
+                <VBox styleClass="card" spacing="10">
                     <HBox spacing="15" style="-fx-padding: 10 0; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0;">
                         <Label text="🔔" style="-fx-font-size: 16px;" />
                         <VBox spacing="3" HBox.hgrow="ALWAYS">
                             <Label text="Pengguna baru mendaftar" style="-fx-font-weight: bold; -fx-font-size: 12px;" />
                             <Label text="Budi Santoso melakukan pendaftaran sebagai Penyewa" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
                         </VBox>
-                        <Label text="2 jam yang lalu" className="label-muted" />
+                        <Label text="2 jam yang lalu" styleClass="label-muted" />
                     </HBox>
 
                     <HBox spacing="15" style="-fx-padding: 10 0; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0;">
@@ -121,7 +121,7 @@
                             <Label text="Booking baru dikonfirmasi" style="-fx-font-weight: bold; -fx-font-size: 12px;" />
                             <Label text="Booking ID #KOS-2026-001 telah dikonfirmasi oleh pemilik kos" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
                         </VBox>
-                        <Label text="5 jam yang lalu" className="label-muted" />
+                        <Label text="5 jam yang lalu" styleClass="label-muted" />
                     </HBox>
 
                     <HBox spacing="15" style="-fx-padding: 10 0; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0;">
@@ -130,12 +130,12 @@
                             <Label text="Pembayaran diterima" style="-fx-font-weight: bold; -fx-font-size: 12px;" />
                             <Label text="Pembayaran sebesar Rp 2.500.000 dari Siti Nurhaliza telah dikonfirmasi" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
                         </VBox>
-                        <Label text="1 hari yang lalu" className="label-muted" />
+                        <Label text="1 hari yang lalu" styleClass="label-muted" />
                     </HBox>
                 </VBox>
 
                 <!-- RECENT BOOKINGS TABLE -->
-                <Label text="Booking Terbaru" className="label-subtitle" />
+                <Label text="Booking Terbaru" styleClass="label-subtitle" />
                 <TableView>
                     <columns>
                         <TableColumn text="ID Booking" prefWidth="100" />
