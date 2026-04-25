@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.SearchFilterController">
+    <!-- Navbar Konsisten dengan Default -->
+    <top>
+        <AnchorPane prefHeight="60.0" style="-fx-background-color: #ffffff; -fx-border-color: #eeeeee; -fx-border-width: 0 0 1 0;">
+            <children>
+                <Label layoutX="20.0" layoutY="20.0" text="KosKurniawan" AnchorPane.leftAnchor="20.0">
+                    <font>
+                        <Font name="SansSerif Bold Italic" size="18.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER" layoutX="300.0" layoutY="15.0" spacing="30.0" AnchorPane.rightAnchor="50.0">
+                    <children>
+                        <Label style="-fx-text-fill: #2d3436; -fx-font-weight: bold;" text="Kos" />
+                        <Label style="-fx-text-fill: #636e72;" text="Riwayat" />
+                        <Label style="-fx-text-fill: #636e72;" text="Chat" />
+                        <Label style="-fx-text-fill: #636e72;" text="Notifikasi" />
+                        <AnchorPane prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #dfe6e9; -fx-background-radius: 50;" />
+                    </children>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </top>
+
+    <!-- Sidebar Filter Lanjutan (Fitur Baru) -->
+    <left>
+        <VBox prefWidth="250.0" spacing="15.0" style="-fx-background-color: #f9f9f9; -fx-border-color: #eeeeee; -fx-border-width: 0 1 0 0;">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <Label text="Filter Pencarian">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                <Separator />
+                
+                <VBox spacing="5.0">
+                    <children>
+                        <Label style="-fx-font-weight: bold;" text="Rentang Harga" />
+                        <TextField fx:id="minPriceField" promptText="Min (Rp)" />
+                        <TextField fx:id="maxPriceField" promptText="Max (Rp)" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <children>
+                        <Label style="-fx-font-weight: bold;" text="Tipe Kamar" />
+                        <CheckBox fx:id="regulerCheck" text="Reguler" />
+                        <CheckBox fx:id="exclusiveCheck" text="Exclusive" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <children>
+                        <Label style="-fx-font-weight: bold;" text="Fasilitas" />
+                        <CheckBox fx:id="wifiCheck" text="WiFi" />
+                        <CheckBox fx:id="acCheck" text="AC" />
+                        <CheckBox fx:id="kmDalamCheck" text="Kamar Mandi Dalam" />
+                        <CheckBox fx:id="parkirCheck" text="Parkir Motor" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <children>
+                        <Label style="-fx-font-weight: bold;" text="Urutkan Berdasarkan" />
+                        <ComboBox fx:id="sortCombo" prefWidth="210.0" promptText="Terbaru" />
+                    </children>
+                </VBox>
+
+                <Button maxWidth="Infinity" onAction="#handleApplyFilter" style="-fx-background-color: #0984e3; -fx-text-fill: white; -fx-font-weight: bold;" text="Terapkan Filter">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+        </VBox>
+    </left>
+
+    <!-- Main Content: Hasil Pencarian -->
+    <center>
+        <VBox spacing="15.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <TextField fx:id="searchField" prefHeight="35.0" prefWidth="400.0" promptText="Cari nama kos atau lokasi..." style="-fx-background-radius: 20;" />
+                        <Button onAction="#handleSearch" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #0984e3; -fx-text-fill: white; -fx-background-radius: 20;" text="Cari" />
+                    </children>
+                </HBox>
+                
+                <Label text="Hasil Pencarian:">
+                    <font>
+                        <Font name="System Italic" size="12.0" />
+                    </font>
+                </Label>
+
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                    <content>
+                        <GridPane fx:id="kosGrid" hgap="20.0" vgap="20.0">
+                            <!-- Kartu Kos akan dimasukkan secara dinamis di sini -->
+                        </GridPane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
