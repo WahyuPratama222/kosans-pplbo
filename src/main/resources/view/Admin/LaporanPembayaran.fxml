@@ -1,189 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css">
-    <!-- TOP NAVBAR -->
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <top>
-        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);" styleClass="navbar-admin">
+        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);">
             <left>
-                <Label text="💰 Laporan Pembayaran Sistem" style="-fx-text-fill: white;" styleClass="navbar-title" BorderPane.alignment="CENTER">
+                <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="📋 Laporan Sistem" BorderPane.alignment="CENTER">
                     <padding>
                         <Insets left="20.0" />
                     </padding>
                 </Label>
             </left>
             <right>
-                <Button text="← Kembali" styleClass="btn-outline" style="-fx-text-fill: white; -fx-padding: 5 15; -fx-border-color: white;" BorderPane.alignment="CENTER">
-                    <padding>
+                <Button style="-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="← Kembali" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
                         <Insets right="20.0" />
-                    </padding>
+                    </BorderPane.margin>
                 </Button>
             </right>
         </BorderPane>
     </top>
 
-    <!-- CENTER CONTENT -->
     <center>
-        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: #F8FAFC;">
-            <VBox spacing="20" styleClass="page-content">
-                <!-- HEADER -->
-                <VBox spacing="10">
-                    <HBox spacing="15" alignment="CENTER_LEFT">
-                        <VBox spacing="3" HBox.hgrow="ALWAYS">
-                            <Label text="Laporan Pembayaran Seluruh Sistem" styleClass="label-title" />
-                            <Label text="Pantau semua transaksi pembayaran dari semua penyewa di seluruh kos" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+        <ScrollPane fitToHeight="true" fitToWidth="true">
+            <content>
+                <VBox spacing="20.0" style="-fx-padding: 25; -fx-background-color: #F8FAFC;">
+                    <children>
+                        <VBox spacing="5.0">
+                            <children>
+                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Laporan Keseluruhan" />
+                                <Separator />
+                            </children>
                         </VBox>
-                        <Button text="📥 Unduh Excel" styleClass="btn-secondary" prefWidth="150" />
-                        <Button text="📄 Export PDF" styleClass="btn-secondary" prefWidth="130" />
-                        <Button text="🖨️ Cetak" styleClass="btn-outline" prefWidth="100" />
-                    </HBox>
-                    <Separator />
+
+                        <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <TableView fx:id="mainTable" prefHeight="400.0" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn prefWidth="50.0" text="ID" />
+                                        <TableColumn prefWidth="200.0" text="Nama" />
+                                        <TableColumn prefWidth="150.0" text="Status" />
+                                        <TableColumn prefWidth="150.0" text="Tanggal" />
+                                    </columns> </TableView> </children>
+                        </VBox>
+
+                        <HBox alignment="CENTER" spacing="10.0">
+                            <children>
+                                <Button text="← Sebelumnya" />
+                                <Label text="Halaman 1" />
+                                <Button text="Selanjutnya →" />
+                                <ComboBox prefWidth="80.0" promptText="10">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="10" />
+                                            <String fx:value="25" />
+                                            <String fx:value="50" />
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                            </children>
+                        </HBox>
+                    </children>
                 </VBox>
-
-                <!-- FILTER -->
-                <HBox spacing="10">
-                    <DatePicker promptText="Dari Tanggal" styleClass="text-field" prefWidth="140" />
-                    <DatePicker promptText="Sampai Tanggal" styleClass="text-field" prefWidth="140" />
-                    <ComboBox promptText="Status" prefWidth="150" styleClass="combo-box">
-                        <items>
-                            <String fx:value="Semua" />
-                            <String fx:value="Lunas" />
-                            <String fx:value="Pending" />
-                            <String fx:value="Tertunda" />
-                        </items>
-                    </ComboBox>
-                    <ComboBox promptText="Metode Pembayaran" prefWidth="160" styleClass="combo-box">
-                        <items>
-                            <String fx:value="Semua" />
-                            <String fx:value="Transfer Bank" />
-                            <String fx:value="E-wallet" />
-                            <String fx:value="Tunai" />
-                        </items>
-                    </ComboBox>
-                    <TextField promptText="Cari nama penyewa..." prefWidth="180" styleClass="text-field" />
-                    <Button text="🔍 Filter" styleClass="btn-secondary" prefWidth="100" />
-                    <Region HBox.hgrow="ALWAYS" />
-                    <Button text="↻ Reset" styleClass="btn-outline" prefWidth="80" />
-                </HBox>
-
-                <!-- STATISTICS SECTION -->
-                <HBox spacing="15">
-                    <VBox styleClass="stat-card" spacing="8" HBox.hgrow="ALWAYS" style="-fx-padding: 12;">
-                        <Label text="Total Pendapatan Bulan Ini" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
-                        <Label text="Rp 2.5B" style="-fx-text-fill: #1E2E4F; -fx-font-size: 24px; -fx-font-weight: bold;" />
-                        <Label text="↑ 25% dari bulan lalu" style="-fx-text-fill: #10B981; -fx-font-size: 10px;" />
-                    </VBox>
-                    <VBox styleClass="stat-card" spacing="8" HBox.hgrow="ALWAYS" style="-fx-padding: 12;">
-                        <Label text="Total Transaksi" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
-                        <Label text="1,205" style="-fx-text-fill: #1E2E4F; -fx-font-size: 24px; -fx-font-weight: bold;" />
-                    </VBox>
-                    <VBox styleClass="stat-card" spacing="8" HBox.hgrow="ALWAYS" style="-fx-padding: 12;">
-                        <Label text="Transaksi Lunas" style="-fx-text-fill: #10B981; -fx-font-size: 12px;" />
-                        <Label text="1,189 (98.7%)" style="-fx-text-fill: #10B981; -fx-font-size: 24px; -fx-font-weight: bold;" />
-                    </VBox>
-                    <VBox styleClass="stat-card" spacing="8" HBox.hgrow="ALWAYS" style="-fx-padding: 12;">
-                        <Label text="Transaksi Pending" style="-fx-text-fill: #F59E0B; -fx-font-size: 12px;" />
-                        <Label text="16 (1.3%)" style="-fx-text-fill: #F59E0B; -fx-font-size: 24px; -fx-font-weight: bold;" />
-                    </VBox>
-                </HBox>
-
-                <!-- SUMMARY CARDS -->
-                <HBox spacing="15">
-                    <!-- Payment Method Summary -->
-                    <VBox styleClass="card" spacing="10" HBox.hgrow="ALWAYS">
-                        <Label text="Metode Pembayaran" styleClass="card-header" />
-                        <VBox spacing="8" style="-fx-padding: 5;">
-                            <HBox spacing="10">
-                                <Label text="💳 Transfer Bank:" style="-fx-font-size: 11px; -fx-font-weight: bold;" />
-                                <ProgressBar progress="0.68" prefWidth="100" HBox.hgrow="ALWAYS" />
-                                <Label text="Rp 1.7B (68%)" style="-fx-text-fill: #64748B; -fx-font-size: 10px;" />
-                            </HBox>
-                            <HBox spacing="10">
-                                <Label text="📱 E-wallet:" style="-fx-font-size: 11px; -fx-font-weight: bold;" />
-                                <ProgressBar progress="0.25" prefWidth="100" HBox.hgrow="ALWAYS" />
-                                <Label text="Rp 625M (25%)" style="-fx-text-fill: #64748B; -fx-font-size: 10px;" />
-                            </HBox>
-                            <HBox spacing="10">
-                                <Label text="💵 Tunai:" style="-fx-font-size: 11px; -fx-font-weight: bold;" />
-                                <ProgressBar progress="0.07" prefWidth="100" HBox.hgrow="ALWAYS" />
-                                <Label text="Rp 175M (7%)" style="-fx-text-fill: #64748B; -fx-font-size: 10px;" />
-                            </HBox>
-                        </VBox>
-                    </VBox>
-
-                    <!-- Top Kos -->
-                    <VBox styleClass="card" spacing="10" HBox.hgrow="ALWAYS">
-                        <Label text="Top 5 Kos Berdasarkan Pendapatan" styleClass="card-header" />
-                        <VBox spacing="6" style="-fx-padding: 5;">
-                            <HBox spacing="10">
-                                <Label text="1." />
-                                <Label text="Kos Kurniawan - Utama" HBox.hgrow="ALWAYS" />
-                                <Label text="Rp 750M" style="-fx-font-weight: bold;" />
-                            </HBox>
-                            <HBox spacing="10">
-                                <Label text="2." />
-                                <Label text="Kos Kurniawan - Cabang 1" HBox.hgrow="ALWAYS" />
-                                <Label text="Rp 580M" style="-fx-font-weight: bold;" />
-                            </HBox>
-                            <HBox spacing="10">
-                                <Label text="3." />
-                                <Label text="Kos Kurniawan - Cabang 2" HBox.hgrow="ALWAYS" />
-                                <Label text="Rp 420M" style="-fx-font-weight: bold;" />
-                            </HBox>
-                            <HBox spacing="10">
-                                <Label text="4." />
-                                <Label text="Kos Berkah Sentosa" HBox.hgrow="ALWAYS" />
-                                <Label text="Rp 380M" style="-fx-font-weight: bold;" />
-                            </HBox>
-                            <HBox spacing="10">
-                                <Label text="5." />
-                                <Label text="Kos Mahasiswa Indonesia" HBox.hgrow="ALWAYS" />
-                                <Label text="Rp 370M" style="-fx-font-weight: bold;" />
-                            </HBox>
-                        </VBox>
-                    </VBox>
-                </HBox>
-
-                <!-- PAYMENT TABLE -->
-                <VBox styleClass="card" spacing="10">
-                    <Label text="Detail Pembayaran" styleClass="card-header" />
-                    <TableView style="-fx-font-size: 10px;" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="No" prefWidth="40" />
-                            <TableColumn text="Nama Penyewa" prefWidth="130" />
-                            <TableColumn text="Kos" prefWidth="140" />
-                            <TableColumn text="Kamar" prefWidth="70" />
-                            <TableColumn text="Jumlah" prefWidth="110" />
-                            <TableColumn text="Tanggal Bayar" prefWidth="110" />
-                            <TableColumn text="Status" prefWidth="90" />
-                            <TableColumn text="Metode" prefWidth="100" />
-                            <TableColumn text="No. Invoice" prefWidth="100" />
-                            <TableColumn text="Aksi" prefWidth="90" />
-                        </columns>
-                    </TableView>
-                </VBox>
-
-                <!-- PAGINATION -->
-                <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-                    <Button text="← Sebelumnya" styleClass="btn-outline" prefWidth="100" />
-                    <Label text="Halaman 1 dari 25" style="-fx-text-fill: #1E2E4F; -fx-font-weight: bold;" />
-                    <Button text="Selanjutnya →" styleClass="btn-outline" prefWidth="100" />
-                    <Separator orientation="VERTICAL" />
-                    <Label text="Tampilkan per halaman:" style="-fx-text-fill: #64748B;" />
-                    <ComboBox styleClass="combo-box" prefWidth="80">
-                        <items>
-                            <String fx:value="10" />
-                            <String fx:value="25" />
-                            <String fx:value="50" />
-                            <String fx:value="100" />
-                        </items>
-                    </ComboBox>
-                </HBox>
-            </VBox>
+            </content>
         </ScrollPane>
     </center>
 </BorderPane>
