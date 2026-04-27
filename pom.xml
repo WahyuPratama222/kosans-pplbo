@@ -80,4 +80,18 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!-- JavaFX Maven Plugin: jalankan dengan 'mvn javafx:run' -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>com.kosku.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+    private static SessionFactory sessionFactory;
 
     private static SessionFactory buildSessionFactory() {
         try {
@@ -28,14 +28,19 @@ public class HibernateUtil {
         } catch (Throwable ex) {
             System.err.println("Database connection failed!");
             System.err.println("Error Message: " + ex.getMessage());
-            
             System.err.println("Tip: Make sure Docker/MySQL is running and the database is created.");
-            
-            throw new ExceptionInInitializerError(ex);
+            return null;
         }
     }
 
     public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            sessionFactory = buildSessionFactory();
+        }
         return sessionFactory;
+    }
+
+    public static boolean isConnected() {
+        return sessionFactory != null;
     }
 }
