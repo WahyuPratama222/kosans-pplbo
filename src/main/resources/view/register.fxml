@@ -9,7 +9,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.RegisterController">
+=======
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
+>>>>>>> ced338598f51a0a44c8be3906b2238a52fc25893
    <top>
       <Pane prefHeight="401.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -23,18 +27,20 @@
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
-            <PasswordField layoutX="190.0" layoutY="223.0" prefHeight="25.0" prefWidth="220.0" text="Password" />
-            <Button layoutX="253.0" layoutY="302.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0" text="Register" />
+            <TextField fx:id="namaLengkapField" layoutX="190.0" layoutY="102.0" prefHeight="25.0" prefWidth="220.0" promptText="Nama Lengkap" />
+            <TextField fx:id="emailField" layoutX="190.0" layoutY="142.0" prefHeight="25.0" prefWidth="220.0" promptText="Email" />
+            <ComboBox fx:id="jenisKelaminBox" layoutX="190.0" layoutY="183.0" prefHeight="25.0" prefWidth="220.0" promptText="Jenis Kelamin" />
+            <PasswordField fx:id="passwordField" layoutX="190.0" layoutY="223.0" prefHeight="25.0" prefWidth="220.0" promptText="Password" />
+            <PasswordField fx:id="confirmPasswordField" layoutX="190.0" layoutY="262.0" prefHeight="25.0" prefWidth="220.0" promptText="Confirm Password" />
+            
+            <Button fx:id="registerButton" layoutX="253.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleRegister" prefHeight="25.0" prefWidth="93.0" text="Register" style="-fx-cursor: hand;" />
+            
             <Label layoutX="197.0" layoutY="344.0" prefHeight="17.0" prefWidth="135.0" text="Already have an account?" />
-            <Label layoutX="336.0" layoutY="344.0" prefHeight="17.0" prefWidth="67.0" text="Regist Here">
+            <Label layoutX="336.0" layoutY="344.0" onMouseClicked="#handleGoToLogin" prefHeight="17.0" prefWidth="67.0" text="Login Here" style="-fx-cursor: hand; -fx-text-fill: blue;">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <PasswordField layoutX="190.0" layoutY="262.0" prefHeight="25.0" prefWidth="220.0" text="Password" />
-            <TextField layoutX="190.0" layoutY="142.0" prefHeight="25.0" prefWidth="220.0" text="Email" />
-            <TextField layoutX="190.0" layoutY="102.0" prefHeight="25.0" prefWidth="220.0" text="Nama Lengkap" />
-            <ComboBox layoutX="190.0" layoutY="183.0" prefHeight="25.0" prefWidth="220.0" promptText="Jenis Kelamin" />
          </children>
       </Pane>
    </top>

@@ -1,6 +1,7 @@
 -- Kosans Database Schema
 -- Sistem Manajemen Kos
-
+create DATABASE IF NOT EXISTS kosans_db;
+USE kosans_db;
 -- Tabel: users
 -- Menyimpan data pengguna (Admin, Pemilik, Penyewa)
 CREATE DATABASE IF NOT EXISTS kosan_db;
