@@ -1,53 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="70.0" prefWidth="900.0" style="-fx-background-color: #ffffff; -fx-border-color: #eeeeee; -fx-border-width: 0 0 1 0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="30.0" layoutY="22.0" style="-fx-text-fill: #0984e3;" text="KosKurniawan" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="22.0">
-         <font>
-            <Font name="SansSerif Bold Italic" size="20.0" />
-         </font>
-      </Label>
-      
-      <HBox alignment="CENTER" spacing="40.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="25.0">
+<BorderPane prefHeight="70.0" prefWidth="1200.0" styleClass="navbar-pemilik" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.NavbarPemilikController">
+   <left>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label style="-fx-text-fill: #2d3436; -fx-font-weight: bold; -fx-cursor: hand;" text="Dashboard">
+            <Label styleClass="navbar-brand" text="🏠 KosKurniawan">
                <font>
-                  <Font name="SansSerif Regular" size="14.0" />
-               </font>
-            </Label>
-            <Label style="-fx-text-fill: #636e72; -fx-cursor: hand;" text="Kelola Kos">
-               <font>
-                  <Font name="SansSerif Regular" size="14.0" />
-               </font>
-            </Label>
-            <Label style="-fx-text-fill: #636e72; -fx-cursor: hand;" text="Booking">
-               <font>
-                  <Font name="SansSerif Regular" size="14.0" />
-               </font>
-            </Label>
-            <Label style="-fx-text-fill: #636e72; -fx-cursor: hand;" text="Laporan">
-               <font>
-                  <Font name="SansSerif Regular" size="14.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Label>
          </children>
       </HBox>
-
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="830.0" layoutY="15.0" pickOnBounds="true" preserveRatio="false" AnchorPane.rightAnchor="30.0">
-         <image>
-            <Image url="@../../images/tesProfile.png" />
-         </image>
-         <clip>
-            <Circle centerX="20" centerY="20" radius="20" />
-         </clip>
-      </ImageView>
-   </children>
-</AnchorPane>
+   </left>
+   <center>
+      <HBox fx:id="navMenuContainer" alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="containerDashboard" alignment="CENTER" onMouseClicked="#goToDashboard" styleClass="nav-item-container">
+               <children>
+                  <Label fx:id="navDashboard" styleClass="nav-item-label" text="📊 Dashboard" />
+               </children>
+            </VBox>
+            <VBox fx:id="containerKelolaKos" alignment="CENTER" onMouseClicked="#goToKelolaKos" styleClass="nav-item-container">
+               <children>
+                  <Label fx:id="navKelolaKos" styleClass="nav-item-label" text="🏠 Kelola Kos" />
+               </children>
+            </VBox>
+            <VBox fx:id="containerBooking" alignment="CENTER" onMouseClicked="#goToBooking" styleClass="nav-item-container">
+               <children>
+                  <Label fx:id="navBooking" styleClass="nav-item-label" text="📋 Booking" />
+               </children>
+            </VBox>
+            <VBox fx:id="containerLaporan" alignment="CENTER" onMouseClicked="#goToLaporan" styleClass="nav-item-container">
+               <children>
+                  <Label fx:id="navLaporan" styleClass="nav-item-label" text="💰 Laporan" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+   <right>
+      <HBox alignment="CENTER_RIGHT" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" spacing="12.0" styleClass="profile-section">
+               <children>
+                  <VBox alignment="CENTER_RIGHT" spacing="2.0">
+                     <children>
+                        <Label style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px;" text="Pemilik Kos" />
+                        <Label style="-fx-text-fill: white; -fx-opacity: 0.6; -fx-font-size: 10px;" text="Premium Member" />
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="false">
+                     <image>
+                        <Image url="@../../images/tesProfile.png" />
+                     </image>
+                     <clip>
+                        <Circle centerX="19.0" centerY="19.0" radius="19.0" />
+                     </clip>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#handleLogout" styleClass="btn-danger" style="-fx-background-radius: 20; -fx-padding: 8 20;" text="Logout" />
+         </children>
+      </HBox>
+   </right>
+</BorderPane>

@@ -1,13 +1,214 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.DaftarKosController">
    <top>
-        <fx:include source="navbarPemilik.fxml" />
+        <fx:include fx:id="navbar" source="navbarPemilik.fxml" />
     </top>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="main-container">
+         <content>
+            <VBox spacing="25.0" styleClass="page-content">
+               <children>
+                  <!-- PAGE HEADER -->
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="label-title" text="Daftar Kos Anda">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label styleClass="text-muted" text="Kelola properti kos Anda di satu tempat" />
+                           </children>
+                        </VBox>
+                        <Button mnemonicParsing="false" onAction="#handleTambahKos" styleClass="btn-primary" text="➕ Tambah Kos Baru" />
+                     </children>
+                  </HBox>
+
+                  <Separator />
+
+                  <!-- STATISTICS -->
+                  <HBox spacing="20.0">
+                     <children>
+                        <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="stat-label" text="Total Unit Kos" />
+                              <Label fx:id="totalKosLabel" styleClass="stat-value" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="stat-label" text="Total Kamar" />
+                              <Label fx:id="totalKamarLabel" styleClass="stat-value" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="stat-label" text="Kamar Terisi" />
+                              <Label fx:id="kamarTerisiLabel" styleClass="stat-value" text="0" />
+                           </children>
+                           <styleClass>
+                              <String fx:value="stat-card" />
+                           </styleClass>
+                        </VBox>
+                        <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="stat-label" text="Status Verifikasi" />
+                              <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                 <children>
+                                    <Label styleClass="badge-success" text="Verified" style="-fx-padding: 2 8; -fx-background-radius: 10; -fx-text-fill: white;" />
+                                    <Label styleClass="text-muted" text="Semua Terverifikasi" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+
+                  <!-- SEARCH & FILTER BAR -->
+                  <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="card" style="-fx-padding: 15;">
+                     <children>
+                        <TextField fx:id="searchField" prefWidth="350.0" promptText="Cari nama kos atau alamat..." styleClass="text-field" />
+                        <ComboBox fx:id="sortComboBox" prefWidth="180.0" promptText="Urutkan" styleClass="combo-box" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#handleSearch" styleClass="btn-secondary" text="🔍 Cari" />
+                        <Button mnemonicParsing="false" onAction="#handleReset" styleClass="btn-outline" text="↻ Reset" />
+                     </children>
+                  </HBox>
+
+                  <!-- KOS LIST SECTION -->
+                  <VBox fx:id="kosContainer" spacing="15.0">
+                     <children>
+                        <Label styleClass="label-subtitle" text="Properti Aktif" />
+                        
+                        <!-- Kos Item Card 1 -->
+                        <HBox spacing="20.0" styleClass="card">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: -color-lavender; -fx-background-radius: 8;">
+                                 <children>
+                                    <Label text="🏢" style="-fx-font-size: 40px;" />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                       <children>
+                                          <Label styleClass="label-subtitle" text="Kos Kurniawan - Utama" />
+                                          <Label styleClass="badge-success" text="VERIFIED" style="-fx-padding: 2 6; -fx-font-size: 9px; -fx-background-radius: 4; -fx-text-fill: white;" />
+                                       </children>
+                                    </HBox>
+                                    <Label styleClass="text-muted" text="📍 Jl. Ahmad Yani No. 45, Coblong, Bandung" />
+                                    <HBox spacing="15.0" style="-fx-padding: 5 0 0 0;">
+                                       <children>
+                                          <VBox>
+                                             <children>
+                                                <Label styleClass="text-muted" text="Kamar Tersedia" />
+                                                <Label style="-fx-font-weight: bold;" text="12/20 Unit" />
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label styleClass="text-muted" text="Pendapatan Estimasi" />
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: -color-success;" text="Rp 15.000.000/bln" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <Button maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-primary" text="🛏️ Kelola Kamar" />
+                                    <HBox spacing="5.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" styleClass="btn-outline" text="✏️ Edit" />
+                                          <Button mnemonicParsing="false" styleClass="btn-danger" text="🗑️" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+
+                        <!-- Kos Item Card 2 -->
+                        <HBox spacing="20.0" styleClass="card">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: -color-lavender; -fx-background-radius: 8;">
+                                 <children>
+                                    <Label text="🏠" style="-fx-font-size: 40px;" />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                       <children>
+                                          <Label styleClass="label-subtitle" text="Kos Kurniawan - Cabang Dago" />
+                                          <Label styleClass="badge-success" text="VERIFIED" style="-fx-padding: 2 6; -fx-font-size: 9px; -fx-background-radius: 4; -fx-text-fill: white;" />
+                                       </children>
+                                    </HBox>
+                                    <Label styleClass="text-muted" text="📍 Jl. Ir. H. Juanda No. 120, Dago, Bandung" />
+                                    <HBox spacing="15.0" style="-fx-padding: 5 0 0 0;">
+                                       <children>
+                                          <VBox>
+                                             <children>
+                                                <Label styleClass="text-muted" text="Kamar Tersedia" />
+                                                <Label style="-fx-font-weight: bold;" text="5/15 Unit" />
+                                             </children>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label styleClass="text-muted" text="Pendapatan Estimasi" />
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: -color-success;" text="Rp 9.500.000/bln" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <Button maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-primary" text="🛏️ Kelola Kamar" />
+                                    <HBox spacing="5.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" styleClass="btn-outline" text="✏️ Edit" />
+                                          <Button mnemonicParsing="false" styleClass="btn-danger" text="🗑️" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+
+                        <!-- Empty State Example (Hidden or as inspiration) -->
+                        <!-- 
+                        <VBox alignment="CENTER" spacing="15.0" styleClass="card" style="-fx-padding: 40;">
+                           <children>
+                              <Label text="🏘️" style="-fx-font-size: 60px; -fx-opacity: 0.5;" />
+                              <Label styleClass="label-subtitle" text="Belum ada kos yang terdaftar" />
+                              <Button mnemonicParsing="false" styleClass="btn-primary" text="Daftarkan Kos Pertama Anda" />
+                           </children>
+                        </VBox> 
+                        -->
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
    </center>
 </BorderPane>
