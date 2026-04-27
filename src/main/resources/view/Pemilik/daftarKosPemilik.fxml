@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.DaftarKosController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.DaftarKosController">
    <top>
         <fx:include fx:id="navbar" source="navbarPemilik.fxml" />
     </top>

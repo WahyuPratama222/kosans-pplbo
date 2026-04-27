@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #E6EFFF, #4382FF);" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="50.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #E6EFFF, #4382FF);" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <AnchorPane prefHeight="50.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="50.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
          <children>
             <GridPane alignment="CENTER" hgap="50.0" layoutX="272.0" layoutY="21.0" prefHeight="16.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="17.0">
               <columnConstraints>

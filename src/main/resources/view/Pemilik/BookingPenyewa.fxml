@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.BookingPenyewaController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.BookingPenyewaController">
     <top>
         <fx:include fx:id="navbar" source="navbarPemilik.fxml" />
     </top>

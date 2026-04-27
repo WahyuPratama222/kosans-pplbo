@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css">
     <!-- TOP NAVBAR -->
     <top>
-        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);" styleClass="navbar-admin">
+        <BorderPane prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);" styleClass="navbar-admin">
             <left>
                 <Label text="🏠 Manajemen Kos" style="-fx-text-fill: white;" styleClass="navbar-title" BorderPane.alignment="CENTER">
                     <padding>
