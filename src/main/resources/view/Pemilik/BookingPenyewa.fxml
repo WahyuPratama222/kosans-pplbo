@@ -7,54 +7,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.BookingPenyewaController">
     <top>
-        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #1E2E4F, #31487A);">
-            <left>
-                <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="📋 Booking Penyewa" BorderPane.alignment="CENTER">
-                    <padding>
-                        <Insets left="20.0" />
-                    </padding>
-                </Label>
-            </left>
-            <right>
-                <Button style="-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="← Kembali" BorderPane.alignment="CENTER">
-                    <padding>
-                        <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
-                    </padding>
-                    <BorderPane.margin>
-                        <Insets right="20.0" />
-                    </BorderPane.margin>
-                </Button>
-            </right>
-        </BorderPane>
+        <fx:include fx:id="navbar" source="navbarPemilik.fxml" />
     </top>
 
     <center>
-        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: #F8FAFC;">
+        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="main-container">
             <content>
-                <VBox spacing="20.0" style="-fx-padding: 25;">
+                <VBox spacing="25.0" styleClass="page-content">
                     <children>
-                        <VBox spacing="10.0">
+                        <VBox spacing="5.0">
                             <children>
-                                <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                    <children>
-                                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
-                                            <children>
-                                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Booking Penyewa Anda" />
-                                                <Label style="-fx-text-fill: #64748B; -fx-font-size: 12px;" text="Lihat dan kelola semua booking dari penyewa untuk kos Anda" />
-                                            </children>
-                                        </VBox>
-                                        <Button prefWidth="120.0" text="📥 Export" />
-                                    </children>
-                                </HBox>
-                                <Separator />
+                                <Label styleClass="label-title" text="Booking Penyewa Anda" />
+                                <Label styleClass="text-muted" text="Lihat dan kelola semua booking dari penyewa untuk kos Anda" />
                             </children>
                         </VBox>
 
-                        <HBox spacing="10.0">
+                        <Separator />
+
+                        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="card" style="-fx-padding: 15;">
                             <children>
-                                <ComboBox prefWidth="150.0" promptText="Semua Status">
+                                <ComboBox prefWidth="180.0" promptText="Semua Status" styleClass="combo-box">
                                     <items>
                                         <FXCollections fx:factory="observableArrayList">
                                             <String fx:value="Semua" />
@@ -66,101 +40,74 @@
                                         </FXCollections>
                                     </items>
                                 </ComboBox>
-                                <ComboBox prefWidth="200.0" promptText="Pilih Kos">
+                                <ComboBox prefWidth="220.0" promptText="Pilih Properti Kos" styleClass="combo-box">
                                     <items>
                                         <FXCollections fx:factory="observableArrayList">
                                             <String fx:value="Semua Kos" />
                                             <String fx:value="Kos Kurniawan - Utama" />
                                             <String fx:value="Kos Kurniawan - Cabang 1" />
-                                            <String fx:value="Kos Kurniawan - Cabang 2" />
                                         </FXCollections>
                                     </items>
                                 </ComboBox>
-                                <TextField prefWidth="250.0" promptText="Cari nama penyewa..." />
-                                <Button prefWidth="100.0" text="🔍 Cari" />
+                                <TextField prefWidth="300.0" promptText="Cari nama penyewa..." styleClass="text-field" />
+                                <Button prefWidth="100.0" styleClass="btn-secondary" text="🔍 Cari" />
                                 <Region HBox.hgrow="ALWAYS" />
-                                <Button prefWidth="80.0" text="↻ Reset" />
+                                <Button prefWidth="90.0" styleClass="btn-outline" text="↻ Reset" />
                             </children>
                         </HBox>
 
                         <HBox spacing="15.0">
                             <children>
-                                <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Label text="Total Booking" textFill="#64748b" />
-                                        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="147" />
+                                        <Label styleClass="stat-label" text="📋 Total Booking" />
+                                        <Label styleClass="stat-value" text="147" />
                                     </children>
                                 </VBox>
-                                <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Label text="Pending" textFill="#f59e0b" />
-                                        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="5" textFill="#f59e0b" />
+                                        <Label styleClass="stat-label" text="⏳ Menunggu Konfirmasi" />
+                                        <Label styleClass="stat-value" text="5" textFill="#f59e0b" />
                                     </children>
                                 </VBox>
-                                <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Label text="Booking Aktif" textFill="#10b981" />
-                                        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="128" textFill="#10b981" />
+                                        <Label styleClass="stat-label" text="✅ Booking Aktif" />
+                                        <Label styleClass="stat-value" text="128" textFill="#10b981" />
                                     </children>
                                 </VBox>
                             </children>
                         </HBox>
 
-                        <HBox spacing="10.0" style="-fx-background-color: #FFFBEB; -fx-padding: 15; -fx-border-color: #F59E0B; -fx-border-radius: 5;">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="alert-warning">
                             <children>
-                                <Label style="-fx-font-size: 16px;" text="⚠️" />
+                                <Label style="-fx-font-size: 18px;" text="⚠️" />
                                 <VBox spacing="3.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Label style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Ada 5 booking yang menunggu konfirmasi Anda" />
-                                        <Label style="-fx-font-size: 11px;" text="Silakan review dan konfirmasi booking segera." />
+                                        <Label style="-fx-font-weight: bold;" text="Ada 5 booking yang menunggu konfirmasi Anda" />
+                                        <Label style="-fx-font-size: 11px;" text="Silakan review dan konfirmasi booking sesegera mungkin." />
                                     </children>
                                 </VBox>
-                                <Button style="-fx-background-color: #F59E0B; -fx-text-fill: white;" text="Lihat" />
+                                <Button styleClass="btn-warning" text="Lihat Sekarang" />
                             </children>
                         </HBox>
 
-                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;">
+                        <VBox spacing="15.0" styleClass="card">
                             <children>
-                                <Label style="-fx-font-weight: bold;" text="Daftar Booking Terbaru" />
-                                <TableView prefHeight="300.0">
+                                <Label styleClass="label-subtitle" text="Riwayat Booking Terbaru" />
+                                <TableView prefHeight="350.0" styleClass="table-view">
                                     <columns>
-                                        <TableColumn prefWidth="100.0" text="ID Booking" />
-                                        <TableColumn prefWidth="150.0" text="Nama Penyewa" />
-                                        <TableColumn prefWidth="100.0" text="Check-in" />
-                                        <TableColumn prefWidth="100.0" text="Status" />
+                                        <TableColumn prefWidth="120.0" text="ID Booking" />
+                                        <TableColumn prefWidth="200.0" text="Penyewa" />
+                                        <TableColumn prefWidth="180.0" text="Properti" />
+                                        <TableColumn prefWidth="120.0" text="Check-in" />
+                                        <TableColumn prefWidth="120.0" text="Status" />
                                         <TableColumn prefWidth="150.0" text="Aksi" />
                                     </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
                                 </TableView>
-                            </children>
-                        </VBox>
-
-                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Detail Booking" />
-                        
-                        <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #E2E8F0; -fx-border-radius: 10;">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                    <children>
-                                        <Label style="-fx-font-size: 24px;" text="⏳" />
-                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                                            <children>
-                                                <HBox spacing="10.0">
-                                                    <children>
-                                                        <Label style="-fx-font-weight: bold;" text="ID: #KOS-2026-001" />
-                                                        <Label style="-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-padding: 2 8; -fx-font-size: 9px;" text="PENDING" />
-                                                    </children>
-                                                </HBox>
-                                                <Label style="-fx-font-size: 11px;" text="Andi Wijaya | Kamar 12 | Kos Utama" />
-                                                <Label style="-fx-font-size: 10px; -fx-text-fill: #64748B;" text="Check-in: 25 Apr 2026 | Durasi: 3 bulan" />
-                                            </children>
-                                        </VBox>
-                                        <VBox spacing="5.0">
-                                            <children>
-                                                <Button prefWidth="110.0" style="-fx-background-color: #10B981; -fx-text-fill: white;" text="✅ Konfirmasi" />
-                                                <Button prefWidth="110.0" style="-fx-background-color: #EF4444; -fx-text-fill: white;" text="❌ Tolak" />
-                                            </children>
-                                        </VBox>
-                                    </children>
-                                </HBox>
                             </children>
                         </VBox>
                     </children>
