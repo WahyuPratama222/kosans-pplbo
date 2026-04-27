@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css">
+    <!-- TOP NAVBAR -->
+    <top>
+        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);" styleClass="navbar-admin">
+            <left>
+                <Label text="👥 Manajemen Pengguna" style="-fx-text-fill: white;" styleClass="navbar-title" BorderPane.alignment="CENTER">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                </Label>
+            </left>
+            <right>
+                <Button text="← Kembali" styleClass="btn-outline" style="-fx-text-fill: white; -fx-padding: 5 15; -fx-border-color: white;" BorderPane.alignment="CENTER">
+                    <padding>
+                        <Insets right="20.0" />
+                    </padding>
+                </Button>
+            </right>
+        </BorderPane>
+    </top>
+
+    <!-- CENTER CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: #F8FAFC;">
+            <VBox spacing="20" styleClass="page-content">
+                <!-- HEADER -->
+                <VBox spacing="10">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Kelola Pengguna Sistem" styleClass="label-title" />
+                            <Label text="Tambah, edit, atau hapus akun pengguna" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+                        </VBox>
+                        <Button text="➕ Tambah Pengguna" styleClass="btn-primary" prefWidth="160" />
+                    </HBox>
+                    <Separator />
+                </VBox>
+
+                <!-- SEARCH & FILTER -->
+                <HBox spacing="10">
+                    <TextField promptText="Cari berdasarkan nama, email, atau role..." prefWidth="300" styleClass="text-field" />
+                    <ComboBox promptText="Filter Role" prefWidth="150" styleClass="combo-box">
+                        <items>
+                            <String fx:value="Semua" />
+                            <String fx:value="Admin" />
+                            <String fx:value="Pemilik Kos" />
+                            <String fx:value="Penyewa" />
+                        </items>
+                    </ComboBox>
+                    <ComboBox promptText="Status" prefWidth="150" styleClass="combo-box">
+                        <items>
+                            <String fx:value="Semua" />
+                            <String fx:value="Aktif" />
+                            <String fx:value="Nonaktif" />
+                        </items>
+                    </ComboBox>
+                    <Button text="🔍 Cari" styleClass="btn-secondary" prefWidth="100" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button text="↻ Reset" styleClass="btn-outline" prefWidth="80" />
+                </HBox>
+
+                <!-- STATISTICS CARDS -->
+                <HBox spacing="15">
+                    <VBox styleClass="stat-card" spacing="8" HBox.hgrow="ALWAYS" style="-fx-padding: 12;">
+                        <Label text="Total Pengguna" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+                        <Label text="2,547" style="-fx-text-fill: #1E2E4F; -fx-font-size: 24px; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox styleClass="stat-card" spacing="8" HBox.hgrow="ALWAYS" style="-fx-padding: 12;">
+                        <Label text="Admin" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+                        <Label text="12" style="-fx-text-fill: #31487A; -fx-font-size: 24px; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox styleClass="stat-card" spacing="8" HBox.hgrow="ALWAYS" style="-fx-padding: 12;">
+                        <Label text="Pemilik Kos" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+                        <Label text="342" style="-fx-text-fill: #31487A; -fx-font-size: 24px; -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox styleClass="stat-card" spacing="8" HBox.hgrow="ALWAYS" style="-fx-padding: 12;">
+                        <Label text="Penyewa" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+                        <Label text="2,193" style="-fx-text-fill: #31487A; -fx-font-size: 24px; -fx-font-weight: bold;" />
+                    </VBox>
+                </HBox>
+
+                <!-- USERS TABLE -->
+                <VBox styleClass="card" spacing="10">
+                    <Label text="Daftar Pengguna" styleClass="card-header" />
+                    <TableView>
+                        <columns>
+                            <TableColumn text="No" prefWidth="50" />
+                            <TableColumn text="Nama Pengguna" prefWidth="150" />
+                            <TableColumn text="Email" prefWidth="180" />
+                            <TableColumn text="Role" prefWidth="120" />
+                            <TableColumn text="No. Telepon" prefWidth="120" />
+                            <TableColumn text="Tanggal Daftar" prefWidth="120" />
+                            <TableColumn text="Status" prefWidth="100" />
+                            <TableColumn text="Aksi" prefWidth="200" />
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- PAGINATION -->
+                <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+                    <Button text="← Sebelumnya" styleClass="btn-outline" prefWidth="100" />
+                    <Label text="Halaman 1 dari 15" style="-fx-text-fill: #1E2E4F; -fx-font-weight: bold;" />
+                    <Button text="Selanjutnya →" styleClass="btn-outline" prefWidth="100" />
+                    <Label text="Tampilkan per halaman:" style="-fx-text-fill: #64748B;" />
+                    <ComboBox styleClass="combo-box" prefWidth="80">
+                        <items>
+                            <String fx:value="10" />
+                            <String fx:value="25" />
+                            <String fx:value="50" />
+                            <String fx:value="100" />
+                        </items>
+                    </ComboBox>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

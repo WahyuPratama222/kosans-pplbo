@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);">
+            <left>
+                <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="📋 Laporan Sistem" BorderPane.alignment="CENTER">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                </Label>
+            </left>
+            <right>
+                <Button style="-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="← Kembali" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets right="20.0" />
+                    </BorderPane.margin>
+                </Button>
+            </right>
+        </BorderPane>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true">
+            <content>
+                <VBox spacing="20.0" style="-fx-padding: 25; -fx-background-color: #F8FAFC;">
+                    <children>
+                        <VBox spacing="5.0">
+                            <children>
+                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Laporan Keseluruhan" />
+                                <Separator />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <TableView fx:id="mainTable" prefHeight="400.0" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn prefWidth="50.0" text="ID" />
+                                        <TableColumn prefWidth="200.0" text="Nama" />
+                                        <TableColumn prefWidth="150.0" text="Status" />
+                                        <TableColumn prefWidth="150.0" text="Tanggal" />
+                                    </columns> </TableView> </children>
+                        </VBox>
+
+                        <HBox alignment="CENTER" spacing="10.0">
+                            <children>
+                                <Button text="← Sebelumnya" />
+                                <Label text="Halaman 1" />
+                                <Button text="Selanjutnya →" />
+                                <ComboBox prefWidth="80.0" promptText="10">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="10" />
+                                            <String fx:value="25" />
+                                            <String fx:value="50" />
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

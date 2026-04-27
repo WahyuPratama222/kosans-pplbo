@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.DashboardPemilikController">
+    <top>
+        <fx:include fx:id="navbar" source="navbarPemilik.fxml" />
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="main-container">
+            <content>
+                <VBox spacing="25.0" styleClass="page-content">
+                    <children>
+                        <VBox spacing="5.0">
+                            <children>
+                                <Label styleClass="label-title" text="Selamat Datang, Pemilik Kos" />
+                                <Label styleClass="text-muted" text="Kelola properti dan pantau bisnis kos Anda dengan mudah" />
+                            </children>
+                        </VBox>
+
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="stat-label" text="🏠 Total Unit Kos" />
+                                        <Label styleClass="stat-value" text="3" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="stat-label" text="🛏️ Total Kamar" />
+                                        <Label styleClass="stat-value" text="45" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="stat-label" text="💰 Total Pendapatan" />
+                                        <Label styleClass="stat-value" text="Rp 28.5M" textFill="#10b981" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <Label styleClass="label-subtitle" text="Aksi Cepat" />
+                        <HBox spacing="15.0">
+                            <children>
+                                <Button prefWidth="180.0" styleClass="btn-primary" text="➕ Tambah Kos Baru" />
+                                <Button prefWidth="180.0" styleClass="btn-secondary" text="🛏️ Kelola Kamar" />
+                                <Button prefWidth="180.0" styleClass="btn-warning" text="👁️ Lihat Booking" />
+                            </children>
+                        </HBox>
+
+                        <Label styleClass="label-subtitle" text="Daftar Properti Utama" />
+                        <VBox spacing="10.0">
+                            <children>
+                                <HBox spacing="15.0" styleClass="card">
+                                    <children>
+                                        <Label style="-fx-font-size: 32px;" text="🏢" />
+                                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Kos Kurniawan - Utama" />
+                                                <Label styleClass="text-muted" text="📍 Jl. Ahmad Yani No. 45, Bandung" />
+                                            </children>
+                                        </VBox>
+                                        <Button styleClass="btn-outline" text="Lihat Detail" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

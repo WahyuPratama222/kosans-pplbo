@@ -11,7 +11,11 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
 <BorderPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #4382FF, #E6EFFF);" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.NavbarController">
+=======
+<BorderPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #E6EFFF, #4382FF);" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
+>>>>>>> ced338598f51a0a44c8be3906b2238a52fc25893
    <top>
       <AnchorPane prefHeight="50.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,27 +32,31 @@
                <children>
                   <Label alignment="CENTER" text="Notifikasi" GridPane.columnIndex="3" onMouseClicked="#goToNotif" style="-fx-cursor: hand;">
                      <font>
-                        <Font name="SansSerif Regular" size="12.0" />
+                        <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" text="Riwayat" textAlignment="CENTER" GridPane.columnIndex="1" onMouseClicked="#goToRiwayat" style="-fx-cursor: hand;">
                      <font>
-                        <Font name="SansSerif Regular" size="12.0" />
+                        <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" text="Kos" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" onMouseClicked="#goToMainMenu" style="-fx-cursor: hand;">
                      <font>
-                        <Font name="SansSerif Regular" size="12.0" />
+                        <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" text="Chat" textAlignment="CENTER" GridPane.columnIndex="2" onMouseClicked="#goToChat" style="-fx-cursor: hand;">
                      <font>
-                        <Font name="SansSerif Regular" size="12.0" />
+                        <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
             </GridPane>
+<<<<<<< HEAD
             <Label layoutX="40.0" layoutY="20.0" style="-fx-text-fill: white; -fx-cursor: hand;" text="KosKurniawan" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="17.0" onMouseClicked="#goToMainMenu">
+=======
+            <Label layoutX="124.0" layoutY="29.0" style="-fx-text-fill: white;" AnchorPane.leftAnchor="124.0" AnchorPane.topAnchor="29.0">
+>>>>>>> ced338598f51a0a44c8be3906b2238a52fc25893
                <font>
                   <Font name="SansSerif Bold Italic" size="14.0" />
                </font>
@@ -61,6 +69,27 @@
                   <Circle centerX="18" centerY="18" radius="18" />
                </clip>
             </ImageView>
+            <GridPane layoutX="1.0" layoutY="12.0" prefHeight="50.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/nama%20kos.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../../images/logo%20kos.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
          </children>
       </AnchorPane>
    </top>

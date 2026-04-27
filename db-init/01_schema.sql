@@ -4,6 +4,8 @@ create DATABASE IF NOT EXISTS kosans_db;
 USE kosans_db;
 -- Tabel: users
 -- Menyimpan data pengguna (Admin, Pemilik, Penyewa)
+CREATE DATABASE IF NOT EXISTS kosan_db;
+USE kosan_db;
 
 CREATE TABLE IF NOT EXISTS users (
     id_user INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?> <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #1E2E4F, #31487A);">
+            <left>
+                <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="🛏️ Manajemen Kamar" BorderPane.alignment="CENTER">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                </Label>
+            </left>
+            <right>
+                <Button style="-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="← Kembali" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets right="20.0" />
+                    </BorderPane.margin>
+                    <padding>
+                        <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                    </padding>
+                </Button>
+            </right>
+        </BorderPane>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true">
+            <content>
+                <VBox spacing="20.0" style="-fx-background-color: #F8FAFC; -fx-padding: 30;">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                            <children>
+                                <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Kelola Kamar di Kos Anda" />
+                                        <Label style="-fx-text-fill: #64748B;" text="Tambah, edit, atau hapus kamar dan atur harga sewa" />
+                                    </children>
+                                </VBox>
+                                <Button style="-fx-background-color: #31487A; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;" text="➕ Tambah Kamar" />
+                            </children>
+                        </HBox>
+                        <Separator />
+
+                        <HBox spacing="10.0">
+                            <children>
+                                <ComboBox prefWidth="200.0" promptText="Pilih Kos">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Kos Kurniawan - Utama" />
+                                            <String fx:value="Kos Kurniawan - Cabang 1" />
+                                            <String fx:value="Kos Kurniawan - Cabang 2" />
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                                <ComboBox prefWidth="150.0" promptText="Status">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Semua" />
+                                            <String fx:value="Tersedia" />
+                                            <String fx:value="Terisi" />
+                                            <String fx:value="Maintenance" />
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                                <TextField prefWidth="200.0" promptText="Cari nomor kamar..." />
+                                <Button style="-fx-background-color: #E2E8F0;" text="🔍 Cari" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button text="↻ Reset" />
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox spacing="5.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Total Kamar" textFill="#64748b" />
+                                        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="45" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="5.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Kamar Terisi" textFill="#10b981" />
+                                        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="28" textFill="#10b981" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Daftar Kamar" />
+                        <GridPane hgap="15.0" vgap="15.0">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="25.0" />
+                                <ColumnConstraints percentWidth="25.0" />
+                                <ColumnConstraints percentWidth="25.0" />
+                                <ColumnConstraints percentWidth="25.0" />
+                            </columnConstraints>
+                            <children>
+                                <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <children>
+                                        <Label style="-fx-background-color: #D9E1F1; -fx-padding: 2 8; -fx-font-size: 10px;" text="Tersedia" />
+                                        <Label style="-fx-font-weight: bold;" text="🛏️ Kamar 101" />
+                                        <Separator />
+                                        <HBox spacing="10.0">
+                                            <children>
+                                                <Button style="-fx-font-size: 10px;" text="Edit" />
+                                                <Button style="-fx-font-size: 10px; -fx-text-fill: red;" text="Hapus" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </GridPane>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);">
+            <left>
+                <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="📋 Laporan Booking" BorderPane.alignment="CENTER">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                </Label>
+            </left>
+            <right>
+                <Button style="-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 5;" text="← Kembali" BorderPane.alignment="CENTER">
+                    <padding>
+                        <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                    </padding>
+                    <BorderPane.margin>
+                        <Insets right="20.0" />
+                    </BorderPane.margin>
+                </Button>
+            </right>
+        </BorderPane>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: #F8FAFC;">
+            <content>
+                <VBox spacing="20.0" style="-fx-padding: 25;">
+                    <children>
+                        <VBox spacing="10.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <children>
+                                        <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Laporan Booking Sistem" />
+                                                <Label style="-fx-text-fill: #64748B; -fx-font-size: 12px;" text="Lihat semua booking dari penyewa ke kos di sistem" />
+                                            </children>
+                                        </VBox>
+                                        <Button prefWidth="150.0" text="📥 Unduh Excel" />
+                                        <Button prefWidth="130.0" text="📄 Export PDF" />
+                                    </children>
+                                </HBox>
+                                <Separator />
+                            </children>
+                        </VBox>
+
+                        <HBox spacing="10.0">
+                            <children>
+                                <DatePicker prefWidth="140.0" promptText="Dari Tanggal" />
+                                <DatePicker prefWidth="140.0" promptText="Sampai Tanggal" />
+                                <ComboBox prefWidth="150.0" promptText="Status Booking">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Semua" />
+                                            <String fx:value="Pending" />
+                                            <String fx:value="Confirmed" />
+                                            <String fx:value="Active" />
+                                            <String fx:value="Completed" />
+                                            <String fx:value="Cancelled" />
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                                <TextField prefWidth="250.0" promptText="Cari nama atau ID..." />
+                                <Button prefWidth="100.0" text="🔍 Filter" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button prefWidth="80.0" text="↻ Reset" />
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Total Booking" textFill="#64748b" />
+                                        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="1,205" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Booking Aktif" textFill="#10b981" />
+                                        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="847" textFill="#10b981" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Booking Pending" textFill="#f59e0b" />
+                                        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="28" textFill="#f59e0b" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-weight: bold;" text="Distribusi Status" />
+                                        <VBox spacing="10.0">
+                                            <children>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                    <children>
+                                                        <Label prefWidth="80.0" style="-fx-font-size: 11px;" text="Confirmed" />
+                                                        <ProgressBar maxWidth="Infinity" progress="0.7" HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                    <children>
+                                                        <Label prefWidth="80.0" style="-fx-font-size: 11px;" text="Pending" />
+                                                        <ProgressBar maxWidth="Infinity" progress="0.1" HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                                <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label style="-fx-font-weight: bold;" text="Durasi Booking" />
+                                        <VBox spacing="10.0">
+                                            <children>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                    <children>
+                                                        <Label prefWidth="80.0" style="-fx-font-size: 11px;" text="3 Bulan" />
+                                                        <ProgressBar maxWidth="Infinity" progress="0.4" HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                    <children>
+                                                        <Label prefWidth="80.0" style="-fx-font-size: 11px;" text="6 Bulan" />
+                                                        <ProgressBar maxWidth="Infinity" progress="0.3" HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;">
+                            <children>
+                                <Label style="-fx-font-weight: bold;" text="Detail Booking" />
+                                <TableView prefHeight="300.0" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn prefWidth="100.0" text="ID Booking" />
+                                        <TableColumn prefWidth="150.0" text="Penyewa" />
+                                        <TableColumn prefWidth="120.0" text="Status" />
+                                        <TableColumn prefWidth="120.0" text="Total" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+
+                        <HBox alignment="CENTER" spacing="10.0">
+                            <children>
+                                <Button prefWidth="120.0" text="← Sebelumnya" />
+                                <Label style="-fx-font-weight: bold;" text="Halaman 1 dari 30" />
+                                <Button prefWidth="120.0" text="Selanjutnya →" />
+                                <Separator orientation="VERTICAL" />
+                                <ComboBox prefWidth="80.0" promptText="10">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="10" />
+                                            <String fx:value="25" />
+                                            <String fx:value="50" />
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
