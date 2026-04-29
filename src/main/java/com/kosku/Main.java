@@ -39,10 +39,10 @@ public class Main extends Application {
         // Inisialisasi koneksi database (opsional, app tetap jalan tanpa DB)
         try {
             HibernateUtil.getSessionFactory();
-            System.out.println("✅ Database Connected Successfully!");
+            System.out.println("Database Connected Successfully!");
         } catch (Throwable e) {
-            System.err.println("⚠️ Database belum tersedia - aplikasi berjalan tanpa database.");
-            System.err.println("   Untuk mengaktifkan database, jalankan: docker compose up -d");
+            System.err.println("Database belum tersedia - aplikasi berjalan tanpa database.");
+            System.err.println("Untuk mengaktifkan database, jalankan: docker compose up -d");
         }
 
         // Muat halaman pertama: Login
@@ -80,7 +80,7 @@ public class Main extends Application {
             primaryStage.setScene(scene);
 
         } catch (IOException e) {
-            System.err.println("❌ Gagal memuat halaman: " + fxmlPath);
+            System.err.println("Gagal memuat halaman: " + fxmlPath);
             e.printStackTrace();
         }
     }

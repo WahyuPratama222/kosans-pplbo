@@ -10,18 +10,22 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory() {
         try {
             Dotenv dotenv = Dotenv.load();
+            Configuration configuration = new Configuration().configure(); // Baca XML dulu
 
-            String dbUrl = dotenv.get("DB_URL", "jdbc:mysql://localhost:3306/db_kosku");
-            String dbUser = dotenv.get("DB_USER", "root");
-            String dbPassword = dotenv.get("DB_PASSWORD", "");
 
-            Configuration configuration = new Configuration();
-            
+            String dbUrl = dotenv.get("DB_URL");
+            String dbUser = dotenv.get("DB_USER");
+            String dbPassword = dotenv.get("DB_PASSWORD");
+
             configuration.setProperty("hibernate.connection.url", dbUrl);
             configuration.setProperty("hibernate.connection.username", dbUser);
             configuration.setProperty("hibernate.connection.password", dbPassword);
-            
-            configuration.configure(); 
+
+            configuration.addAnnotatedClass(com.kosku.model.User.class);
+            configuration.addAnnotatedClass(com.kosku.model.Kos.class);
+            configuration.addAnnotatedClass(com.kosku.model.Kamar.class);
+            configuration.addAnnotatedClass(com.kosku.model.Booking.class);
+            configuration.addAnnotatedClass(com.kosku.model.Pembayaran.class);
 
             return configuration.buildSessionFactory();
 
