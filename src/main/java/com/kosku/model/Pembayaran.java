@@ -2,9 +2,13 @@ package com.kosku.model;
 
 import lombok.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
+@Getter // Gunakan Getter & Setter secara terpisah agar lebih aman untuk JPA
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -15,39 +19,39 @@ public class Pembayaran {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pembayaran")
-    private int idPembayaran;
+    private Integer idPembayaran;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_booking", nullable = false)
-    private Booking booking; // Sekarang dia pegang satu objek Booking utuh
+    private Booking booking;
 
-    @Column(name = "jumlah_bayar", nullable = false)
-    private java.math.BigDecimal jumlahBayar;
+    @Column(name = "jumlah_bayar", nullable = false, precision = 15, scale = 2)
+    private BigDecimal jumlahBayar;
 
-    @Column(name = "bukti_bayar")
-    private String buktiBayar; // Path file gambar (misal: "uploads/bukti-01.jpg")
+    @Column(name = "bukti_bayar", length = 255)
+    private String buktiBayar;
 
-    @Column(name = "status_verifikasi", length = 20)
-    private String statusVerifikasi; // "WAITING", "VERIFIED", "REJECTED"
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_verifikasi", nullable = false, length = 20)
+    @Builder.Default // Agar nilai default WAITING tidak hilang saat pakai builder
+    private StatusVerifikasi statusVerifikasi = StatusVerifikasi.WAITING;
 
+    @CreationTimestamp // Menggantikan manual set di @PrePersist
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp // Menggantikan manual set di @PreUpdate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // --- Callback Otomatisasi Waktu ---
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        if (this.statusVerifikasi == null) {
-            this.statusVerifikasi = "WAITING"; // Default status
-        }
+    public enum StatusVerifikasi {
+        WAITING, VERIFIED, REJECTED
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+    @PrePersist
+    protected void onCreate() {
+        if (this.statusVerifikasi == null) {
+            this.statusVerifikasi = StatusVerifikasi.WAITING;
+        }
     }
 }

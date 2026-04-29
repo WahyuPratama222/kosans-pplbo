@@ -2,9 +2,13 @@ package com.kosku.model;
 
 import lombok.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
+@Getter 
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -15,42 +19,40 @@ public class Kos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_kos")
-    private int idKos;
+    private Integer idKos;
 
-    // --- RELASI: Banyak Kos dimiliki oleh satu Pemilik ---
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pemilik", nullable = false)
-    private User pemilik; 
+    private User pemilik;
 
-    @Column(name = "nama_kos", nullable = false)
+    @Column(name = "nama_kos", nullable = false, length = 100)
     private String namaKos;
 
-    @Column(columnDefinition = "TEXT") // Pakai TEXT biar deskripsi bisa panjang
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String alamat;
 
     @Column(columnDefinition = "TEXT")
     private String deskripsi;
 
+    @Builder.Default
     @Column(name = "is_verified")
-    private boolean isVerified; 
+    private Boolean isVerified = false;
 
+    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // --- Callback Otomatisasi Waktu ---
+    @OneToMany(mappedBy = "kos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Kamar> kamarList;
+
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        // Logika default: Kos baru biasanya belum diverifikasi admin
-        this.isVerified = false; 
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        if (isVerified == null) {
+            isVerified = false;
+        }
     }
 }

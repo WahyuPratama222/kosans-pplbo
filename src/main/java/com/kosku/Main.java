@@ -27,27 +27,23 @@ public class Main extends Application {
 
     private static Stage primaryStage;
 
-    // Ukuran default window
-    private static final double WINDOW_WIDTH = 600;
-    private static final double WINDOW_HEIGHT = 400;
-
     @Override
     public void start(Stage stage) {
         primaryStage = stage;
         primaryStage.setTitle("KosKu - Aplikasi Pencarian Kos");
 
-        // Inisialisasi koneksi database (opsional, app tetap jalan tanpa DB)
         try {
             HibernateUtil.getSessionFactory();
-            System.out.println("✅ Database Connected Successfully!");
+            System.out.println("Database Connected Successfully!");
         } catch (Throwable e) {
-            System.err.println("⚠️ Database belum tersedia - aplikasi berjalan tanpa database.");
-            System.err.println("   Untuk mengaktifkan database, jalankan: docker compose up -d");
+            System.err.println("Database belum tersedia...");
         }
 
-        // Muat halaman pertama: Login
         navigateTo("view/login.fxml", "KosKu - Login");
-
+        primaryStage.setFullScreen(true); 
+        // Opsional: Biar nggak muncul tulisan "Press ESC to exit full screen"
+        primaryStage.setFullScreenExitHint(""); 
+        
         primaryStage.show();
     }
 
@@ -66,21 +62,31 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/" + fxmlPath));
             Parent root = loader.load();
 
-            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            // Ambil scene yang sudah ada di stage
+            Scene scene = primaryStage.getScene();
 
-            // Muat stylesheet jika ada
-            String cssPath = Main.class.getResource("/css/style.css") != null
-                    ? Main.class.getResource("/css/style.css").toExternalForm()
-                    : null;
-            if (cssPath != null) {
-                scene.getStylesheets().add(cssPath);
+            if (scene == null) {
+                // Kalau pertama kali jalan (saat start), baru buat scene baru
+                scene = new Scene(root);
+                primaryStage.setScene(scene);
+            } else {
+                // Kalau sudah ada scene, cukup ganti root-nya saja (GAK ADA JEDA)
+                scene.setRoot(root);
+            }
+
+            // Muat CSS (Hanya perlu sekali, tapi kalau mau aman tiap ganti root gak apa-apa)
+            String cssPath = "/css/style.css";
+            var cssResource = Main.class.getResource(cssPath);
+            if (cssResource != null) {
+                scene.getStylesheets().clear(); // Bersihkan biar gak numpuk
+                scene.getStylesheets().add(cssResource.toExternalForm());
             }
 
             primaryStage.setTitle(title);
-            primaryStage.setScene(scene);
+            // Hapus primaryStage.show() atau maximized di sini kalau sudah diatur di start()
 
         } catch (IOException e) {
-            System.err.println("❌ Gagal memuat halaman: " + fxmlPath);
+            System.err.println("Gagal memuat halaman: " + fxmlPath);
             e.printStackTrace();
         }
     }
