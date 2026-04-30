@@ -1,43 +1,303 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <fx:include source="NavbarPenyewa.fxml" />
-   </top>
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <ScrollBar layoutX="576.0" layoutY="13.0" orientation="VERTICAL" prefWidth="16.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <TabPane layoutX="165.0" layoutY="14.0" prefHeight="200.0" prefWidth="584.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="100.0" tabMaxWidth="100.0" tabMinWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <tabs>
-                <Tab text="Favorit">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Label layoutX="240.0" layoutY="153.0" text="Belum ada Favorit" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab text="Pernah DIlihat">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Label layoutX="236.0" layoutY="151.0" text="Belum ada riwayat" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-              </tabs>
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.RiwayatPenyewaController">
+
+    <top>
+        <fx:include source="NavbarPenyewa.fxml" />
+    </top>
+
+    <center>
+        <VBox prefHeight="1010.0" spacing="0.0" style="-fx-background-color: #F0F4FF;">
+
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-padding: 36 48 24 48; -fx-background-color: white; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0;">
+                <VBox spacing="4.0">
+                    <Label style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="📋 Riwayat &amp; Favorit" />
+                    <Label style="-fx-font-size: 14px; -fx-text-fill: #888;" text="Kelola kos yang pernah Anda lihat dan simpan sebagai favorit" />
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <!-- Search -->
+                <HBox alignment="CENTER_LEFT" prefWidth="380.0" spacing="8.0" style="-fx-background-color: #F0F4FF; -fx-background-radius: 10; -fx-padding: 10 16 10 16;">
+                    <Label style="-fx-font-size: 14px;" text="🔍" />
+                    <TextField fx:id="tfCariRiwayat" promptText="Cari kos di riwayat..." style="-fx-background-color: transparent; -fx-font-size: 13px; -fx-border-color: transparent;" HBox.hgrow="ALWAYS" />
+                </HBox>
+            </HBox>
+
+            <!-- Tab Content -->
+            <TabPane fx:id="tabPaneRiwayat" style="-fx-background-color: #F0F4FF; -fx-tab-min-height: 52; -fx-tab-max-height: 52; -fx-font-size: 14px; -fx-padding: 0 40 0 40;" tabClosingPolicy="ALL_TABS" tabMinWidth="897.0" VBox.vgrow="ALWAYS">
+                <tabs>
+
+                    <!-- TAB: FAVORIT -->
+                    <Tab text="❤  Favorit">
+                        <content>
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #F0F4FF; -fx-background: #F0F4FF;">
+                                <content>
+                                    <VBox spacing="20.0" style="-fx-padding: 32 0 40 0;">
+
+                                        <!-- Info bar -->
+                                        <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                            <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="2 kos tersimpan sebagai favorit" />
+                                            <Region HBox.hgrow="ALWAYS" />
+                                            <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-text-fill: #CC3333; -fx-font-size: 12px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 8 16 8 16; -fx-border-color: #FFCCCC; -fx-border-radius: 8;" text="🗑  Hapus Semua Favorit" />
+                                        </HBox>
+
+                                        <!-- Favorit Card 1 -->
+                                        <HBox spacing="0.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+                                            <AnchorPane prefHeight="200.0" prefWidth="300.0">
+                                                <ImageView fitHeight="235.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                    <image><Image url="@../../images/tesKos1.png" /></image>
+                                                </ImageView>
+                                                <Label style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 4 10; -fx-background-radius: 20;" text="🚹 Putra" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                                            </AnchorPane>
+                                            <VBox spacing="12.0" style="-fx-padding: 24 32 24 32;" HBox.hgrow="ALWAYS">
+                                                <HBox alignment="CENTER_LEFT">
+                                                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos Deluxe Kamar AC" />
+                                                    <Region HBox.hgrow="ALWAYS" />
+                                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="⭐ 4.9  (128 ulasan)" />
+                                                </HBox>
+                                                <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="📍 Jl. Sudirman No.12, Jakarta Selatan" />
+                                                <HBox spacing="8.0">
+                                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="❄️ AC" />
+                                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="📶 WiFi" />
+                                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🛁 KM Dalam" />
+                                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🅿️ Parkir" />
+                                                </HBox>
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #BBB;" text="Disimpan pada 20 April 2024" />
+                                                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                                    <VBox spacing="2.0">
+                                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Mulai dari" />
+                                                        <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;" text="Rp 1.200.000 / bulan" />
+                                                    </VBox>
+                                                    <Region HBox.hgrow="ALWAYS" />
+                                                    <Button mnemonicParsing="false" style="-fx-background-color: #FFF0F0; -fx-text-fill: #CC3333; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 20; -fx-border-color: #FFCCCC; -fx-border-radius: 10;" text="🗑️ Hapus Favorit" />
+                                                    <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-text-fill: #2D6BE4; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 20; -fx-border-color: #C5D8FF; -fx-border-radius: 10;" text="💬 Chat Admin" />
+                                                    <Button mnemonicParsing="false" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;" text="Lihat Detail" />
+                                                </HBox>
+                                            </VBox>
+                                        </HBox>
+
+                                        <!-- Favorit Card 2 -->
+                                        <HBox spacing="0.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+                                            <AnchorPane prefHeight="200.0" prefWidth="300.0">
+                                                <ImageView fitHeight="235.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                    <image><Image url="@../../images/tesKos2.png" /></image>
+                                                </ImageView>
+                                                <Label style="-fx-background-color: #D6336C; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 4 10; -fx-background-radius: 20;" text="🚺 Putri" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                                            </AnchorPane>
+                                            <VBox spacing="12.0" style="-fx-padding: 24 32 24 32;" HBox.hgrow="ALWAYS">
+                                                <HBox alignment="CENTER_LEFT">
+                                                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos Premium Putri" />
+                                                    <Region HBox.hgrow="ALWAYS" />
+                                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="⭐ 4.7  (84 ulasan)" />
+                                                </HBox>
+                                                <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="📍 Jl. Gatot Subroto No.45, Jakarta Pusat" />
+                                                <HBox spacing="8.0">
+                                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="❄️ AC" />
+                                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🅿️ Parkir" />
+                                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🍳 Dapur" />
+                                                </HBox>
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #BBB;" text="Disimpan pada 18 April 2024" />
+                                                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                                    <VBox spacing="2.0">
+                                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Mulai dari" />
+                                                        <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;" text="Rp 950.000 / bulan" />
+                                                    </VBox>
+                                                    <Region HBox.hgrow="ALWAYS" />
+                                                    <Button mnemonicParsing="false" style="-fx-background-color: #FFF0F0; -fx-text-fill: #CC3333; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 20; -fx-border-color: #FFCCCC; -fx-border-radius: 10;" text="🗑️ Hapus Favorit" />
+                                                    <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-text-fill: #2D6BE4; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 20; -fx-border-color: #C5D8FF; -fx-border-radius: 10;" text="💬 Chat Admin" />
+                                                    <Button mnemonicParsing="false" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;" text="Lihat Detail" />
+                                                </HBox>
+                                            </VBox>
+                                        </HBox>
+
+                                    </VBox>
+                                </content>
+                            </ScrollPane>
+                        </content>
+                    </Tab>
+
+                    <!-- TAB: PERNAH DILIHAT -->
+                    <Tab text="👁 Pernah Dilihat">
+                        <content>
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #F0F4FF; -fx-background: #F0F4FF;">
+                                <content>
+                                    <VBox spacing="20.0" style="-fx-padding: 32 0 40 0;">
+
+                                        <!-- Info bar -->
+                                        <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                            <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="3 kos pernah dilihat" />
+                                            <Region HBox.hgrow="ALWAYS" />
+                                            <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-text-fill: #CC3333; -fx-font-size: 12px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 8 16 8 16; -fx-border-color: #FFCCCC; -fx-border-radius: 8;" text="🗑️  Hapus Semua Riwayat" />
+                                        </HBox>
+                                        <HBox spacing="0.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+                                            <children>
+                                                <AnchorPane prefHeight="200.0" prefWidth="300.0">
+                                                <children>
+                                                    <ImageView fitHeight="235.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <image>
+                                                            <Image url="@../../images/tesKos1.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 4 10; -fx-background-radius: 20;" text="🚹 Putra" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                                                </children>
+                                                </AnchorPane>
+                                                <VBox spacing="12.0" style="-fx-padding: 24 32 24 32;" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <HBox alignment="CENTER_LEFT">
+                                                        <children>
+                                                            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos Deluxe Kamar AC" />
+                                                            <Region HBox.hgrow="ALWAYS" />
+                                                            <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="⭐ 4.9  (128 ulasan)" />
+                                                        </children>
+                                                    </HBox>
+                                                    <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="📍 Jl. Sudirman No.12, Jakarta Selatan" />
+                                                    <HBox spacing="8.0">
+                                                        <children>
+                                                            <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="❄️ AC" />
+                                                            <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="📶 WiFi" />
+                                                            <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🛁 KM Dalam" />
+                                                            <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🅿️ Parkir" />
+                                                        </children>
+                                                    </HBox>
+                                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #BBB;" text="Disimpan pada 20 April 2024" />
+                                                    <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                                        <children>
+                                                            <VBox spacing="2.0">
+                                                            <children>
+                                                                <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Mulai dari" />
+                                                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;" text="Rp 1.200.000 / bulan" />
+                                                            </children>
+                                                            </VBox>
+                                                            <Region HBox.hgrow="ALWAYS" />
+                                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #FFF0F5; -fx-text-fill: #D6336C; -fx-font-size: 12px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9 18; -fx-border-color: #FFCCDD; -fx-border-radius: 10;" text="🤍 Tambah Favorit" />
+                                                            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;" text="Lihat Detail" />
+                                                        </children>
+                                                    </HBox>
+                                                </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                              <HBox layoutX="10.0" layoutY="97.0" spacing="0.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+                                 <children>
+                                    <AnchorPane prefHeight="200.0" prefWidth="300.0">
+                                       <children>
+                                          <ImageView fitHeight="235.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <image>
+                                                <Image url="@../../images/tesKos1.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 4 10; -fx-background-radius: 20;" text="🚹 Putra" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <VBox spacing="12.0" style="-fx-padding: 24 32 24 32;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT">
+                                             <children>
+                                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos Deluxe Kamar AC" />
+                                                <Region HBox.hgrow="ALWAYS" />
+                                                <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="⭐ 4.9  (128 ulasan)" />
+                                             </children>
+                                          </HBox>
+                                          <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="📍 Jl. Sudirman No.12, Jakarta Selatan" />
+                                          <HBox spacing="8.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="❄️ AC" />
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="📶 WiFi" />
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🛁 KM Dalam" />
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🅿️ Parkir" />
+                                             </children>
+                                          </HBox>
+                                          <Label style="-fx-font-size: 12px; -fx-text-fill: #BBB;" text="Disimpan pada 20 April 2024" />
+                                          <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                             <children>
+                                                <VBox spacing="2.0">
+                                                   <children>
+                                                      <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Mulai dari" />
+                                                      <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;" text="Rp 1.200.000 / bulan" />
+                                                   </children>
+                                                </VBox>
+                                                <Region HBox.hgrow="ALWAYS" />
+                                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #FFF0F5; -fx-text-fill: #D6336C; -fx-font-size: 12px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9 18; -fx-border-color: #FFCCDD; -fx-border-radius: 10;" text="🤍 Tambah Favorit" />
+                                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;" text="Lihat Detail" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="10.0" layoutY="352.0" spacing="0.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+                                 <children>
+                                    <AnchorPane prefHeight="200.0" prefWidth="300.0">
+                                       <children>
+                                          <ImageView fitHeight="235.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <image>
+                                                <Image url="@../../images/tesKos1.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 4 10; -fx-background-radius: 20;" text="🚹 Putra" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <VBox spacing="12.0" style="-fx-padding: 24 32 24 32;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT">
+                                             <children>
+                                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos Deluxe Kamar AC" />
+                                                <Region HBox.hgrow="ALWAYS" />
+                                                <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="⭐ 4.9  (128 ulasan)" />
+                                             </children>
+                                          </HBox>
+                                          <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="📍 Jl. Sudirman No.12, Jakarta Selatan" />
+                                          <HBox spacing="8.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="❄️ AC" />
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="📶 WiFi" />
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🛁 KM Dalam" />
+                                                <Label style="-fx-font-size: 12px; -fx-text-fill: #555; -fx-background-color: #F0F4FF; -fx-padding: 4 10; -fx-background-radius: 10;" text="🅿️ Parkir" />
+                                             </children>
+                                          </HBox>
+                                          <Label style="-fx-font-size: 12px; -fx-text-fill: #BBB;" text="Disimpan pada 20 April 2024" />
+                                          <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                             <children>
+                                                <VBox spacing="2.0">
+                                                   <children>
+                                                      <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Mulai dari" />
+                                                      <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;" text="Rp 1.200.000 / bulan" />
+                                                   </children>
+                                                </VBox>
+                                                <Region HBox.hgrow="ALWAYS" />
+                                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #FFF0F5; -fx-text-fill: #D6336C; -fx-font-size: 12px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9 18; -fx-border-color: #FFCCDD; -fx-border-radius: 10;" text="🤍 Tambah Favorit" />
+                                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;" text="Lihat Detail" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+
+                                    </VBox>
+                                </content>
+                            </ScrollPane>
+                        </content>
+                    </Tab>
+
+                </tabs>
             </TabPane>
-         </children>
-      </AnchorPane>
-   </center>
+
+        </VBox>
+    </center>
+
 </BorderPane>

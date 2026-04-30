@@ -1,27 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.ChatPenyewaController">
+
     <top>
         <fx:include source="NavbarPenyewa.fxml" />
     </top>
+
     <center>
-        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F8FAFC;" BorderPane.alignment="CENTER">
-         <children>
-            <TextField layoutX="61.0" layoutY="296.0" prefHeight="30.0" prefWidth="300.0" text="Masukkan text disini" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="100.0" />
-            <Button layoutX="370.0" layoutY="296.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" style="-fx-background-color: blue;" text="Kirim" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-         </children></AnchorPane>
+        <HBox prefHeight="1010.0" prefWidth="1920.0" style="-fx-background-color: #F0F4FF;">
+
+            <!-- LEFT: Daftar Kontak / Percakapan -->
+            <VBox prefWidth="380.0" spacing="0.0" style="-fx-background-color: white; -fx-border-color: #E8EDF5; -fx-border-width: 0 1 0 0;">
+
+                <!-- Search Kontak -->
+                <VBox spacing="12.0" style="-fx-padding: 24 20 16 20; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0;">
+                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="💬 Pesan" />
+                    <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-background-color: #F0F4FF; -fx-background-radius: 10; -fx-padding: 8 14 8 14;">
+                        <Label style="-fx-font-size: 14px;" text="🔍" />
+                        <TextField fx:id="tfCariKontak" promptText="Cari percakapan..." style="-fx-background-color: transparent; -fx-font-size: 13px; -fx-border-color: transparent;" HBox.hgrow="ALWAYS" />
+                    </HBox>
+                </VBox>
+
+                <!-- Daftar Percakapan -->
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white; -fx-background: white;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="0.0">
+
+                            <!-- Kontak Item 1 (Active) -->
+                            <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="14.0" style="-fx-padding: 14 20 14 20; -fx-background-color: #EEF3FF; -fx-cursor: hand; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0;">
+                                <AnchorPane prefHeight="46.0" prefWidth="46.0">
+                                    <ImageView fitHeight="46.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="false">
+                                        <image><Image url="@../../images/tesProfile.png" /></image>
+                                        <clip><Circle centerX="23" centerY="23" radius="23" /></clip>
+                                    </ImageView>
+                                    <AnchorPane prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: #22C55E; -fx-background-radius: 10;" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="1.0" />
+                                </AnchorPane>
+                                <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos WahyuSentosa" HBox.hgrow="ALWAYS" />
+                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #999;" text="10:34" />
+                                    </HBox>
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #888; -fx-max-width: 240;" text="Kamar sudah siap untuk ditempati..." />
+                                </VBox>
+                                <Label style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 2 7 2 7; -fx-min-width: 20;" text="2" />
+                            </HBox>
+
+                            <!-- Kontak Item 2 -->
+                            <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="14.0" style="-fx-padding: 14 20 14 20; -fx-background-color: white; -fx-cursor: hand; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0;">
+                                <AnchorPane prefHeight="46.0" prefWidth="46.0">
+                                    <ImageView fitHeight="46.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="false">
+                                        <image><Image url="@../../images/tesProfile.png" /></image>
+                                        <clip><Circle centerX="23" centerY="23" radius="23" /></clip>
+                                    </ImageView>
+                                    <AnchorPane prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: #D1D5DB; -fx-background-radius: 10;" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="1.0" />
+                                </AnchorPane>
+                                <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos Wahyu Jaya" HBox.hgrow="ALWAYS" />
+                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #999;" text="Kemarin" />
+                                    </HBox>
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #888; -fx-max-width: 240;" text="Terima kasih sudah menghubungi..." />
+                                </VBox>
+                            </HBox>
+
+                            <!-- Kontak Item 3 -->
+                            <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="14.0" style="-fx-padding: 14 20 14 20; -fx-background-color: white; -fx-cursor: hand; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0;">
+                                <AnchorPane prefHeight="46.0" prefWidth="46.0">
+                                    <ImageView fitHeight="46.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="false">
+                                        <image><Image url="@../../images/tesProfile.png" /></image>
+                                        <clip><Circle centerX="23" centerY="23" radius="23" /></clip>
+                                    </ImageView>
+                                </AnchorPane>
+                                <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos Wahyu Sejahtera" HBox.hgrow="ALWAYS" />
+                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #999;" text="Sen" />
+                                    </HBox>
+                                    <Label style="-fx-font-size: 12px; -fx-text-fill: #888; -fx-max-width: 240;" text="Ada yang bisa kami bantu? 😊" />
+                                </VBox>
+                            </HBox>
+
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </VBox>
+
+            <!-- RIGHT: Area Chat Aktif -->
+            <VBox spacing="0.0" HBox.hgrow="ALWAYS">
+
+                <!-- Chat Header -->
+                <HBox alignment="CENTER" prefHeight="72.0" spacing="16.0" style="-fx-background-color: white; -fx-padding: 0 28 0 28; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 8, 0, 0, 3);">
+                    <AnchorPane prefHeight="44.0" prefWidth="44.0">
+                  <children>
+                           <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="-7.0" layoutY="11.0" pickOnBounds="true" preserveRatio="false">
+                               <image>
+                           <Image url="@../../images/tesProfile.png" />
+                        </image>
+                               <clip>
+                           <Circle centerX="25" centerY="25" radius="25" />
+                        </clip>
+                           </ImageView>
+                  </children>
+                    </AnchorPane>
+                    <VBox alignment="CENTER_LEFT" spacing="2.0">
+                        <Label alignment="CENTER" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Kos Wahyu Sentosa" VBox.vgrow="ALWAYS" />
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #22C55E;" text="🟢 Online" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button mnemonicParsing="false" style="-fx-background-color: #F0F4FF; -fx-font-size: 18px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 14 8 14;" text="📞" />
+                    <Button mnemonicParsing="false" style="-fx-background-color: #F0F4FF; -fx-font-size: 18px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 14 8 14;" text="ℹ" />
+                </HBox>
+
+                <!-- Messages Area -->
+                <ScrollPane fx:id="scrollPaneChat" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #F0F4FF; -fx-background: #F0F4FF;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox fx:id="vboxMessages" spacing="16.0" style="-fx-padding: 32 60 32 60; -fx-background-color: #F0F4FF;">
+
+                            <!-- Tanggal -->
+                            <HBox alignment="CENTER">
+                                <Label style="-fx-background-color: rgba(0,0,0,0.1); -fx-text-fill: #555; -fx-font-size: 12px; -fx-background-radius: 14; -fx-padding: 4 14 4 14;" text="Hari ini, 27 April 2024" />
+                            </HBox>
+
+                            <!-- Pesan dari Admin (kiri) -->
+                            <HBox alignment="BOTTOM_LEFT" maxWidth="900.0" spacing="12.0">
+                                <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="false">
+                                    <image><Image url="@../../images/tesProfile.png" /></image>
+                                    <clip><Circle centerX="18" centerY="18" radius="18" /></clip>
+                                </ImageView>
+                                <VBox spacing="4.0">
+                                    <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Kos Wahyu Sentosa" />
+                                    <HBox>
+                                        <Label maxWidth="600.0" style="-fx-background-color: white; -fx-text-fill: #1A2744; -fx-font-size: 14px; -fx-padding: 12 16 12 16; -fx-background-radius: 0 16 16 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 6, 0, 0, 2);" text="Halo! Selamat datang di Kos Kurniawan. Ada yang bisa saya bantu?" wrapText="true" />
+                                    </HBox>
+                                    <Label style="-fx-font-size: 11px; -fx-text-fill: #bbb;" text="10:20" />
+                                </VBox>
+                            </HBox>
+
+                            <!-- Pesan dari Penyewa (kanan) -->
+                            <HBox alignment="BOTTOM_RIGHT" spacing="12.0">
+                                <VBox alignment="TOP_RIGHT" spacing="4.0">
+                                    <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Saya" />
+                                    <HBox alignment="CENTER_RIGHT">
+                                        <Label maxWidth="600.0" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 12 16 12 16; -fx-background-radius: 16 0 16 16;" text="Halo, saya ingin tanya mengenai ketersediaan kamar untuk bulan depan?" wrapText="true" />
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" spacing="4.0">
+                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #bbb;" text="10:22" />
+                                        <Label style="-fx-font-size: 11px; -fx-text-fill: #2D6BE4;" text="✓✓" />
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+
+                            <!-- Pesan dari Admin -->
+                            <HBox alignment="BOTTOM_LEFT" maxWidth="900.0" spacing="12.0">
+                                <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="false">
+                                    <image><Image url="@../../images/tesProfile.png" /></image>
+                                    <clip><Circle centerX="18" centerY="18" radius="18" /></clip>
+                                </ImageView>
+                                <VBox spacing="4.0">
+                                    <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Kos Wahyu Sentosa" />
+                                    <HBox>
+                                        <Label maxWidth="600.0" style="-fx-background-color: white; -fx-text-fill: #1A2744; -fx-font-size: 14px; -fx-padding: 12 16 12 16; -fx-background-radius: 0 16 16 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 6, 0, 0, 2);" text="Kamar sudah siap untuk ditempati mulai bulan depan. Ada 3 unit tersedia dengan fasilitas AC dan WiFi. Mau yang tipe mana? 😊" wrapText="true" />
+                                    </HBox>
+                                    <Label style="-fx-font-size: 11px; -fx-text-fill: #bbb;" text="10:34" />
+                                </VBox>
+                            </HBox>
+
+                            <!-- Typing Indicator -->
+                            <HBox alignment="BOTTOM_LEFT" spacing="12.0">
+                                <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="false">
+                                    <image><Image url="@../../images/tesProfile.png" /></image>
+                                    <clip><Circle centerX="18" centerY="18" radius="18" /></clip>
+                                </ImageView>
+                                <Label style="-fx-background-color: white; -fx-text-fill: #888; -fx-font-size: 13px; -fx-font-style: italic; -fx-padding: 10 16 10 16; -fx-background-radius: 0 16 16 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 6, 0, 0, 2);" text="Kos Wahyu Sentosa sedang mengetik..." />
+                            </HBox>
+
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- Quick Reply Chips -->
+                <HBox spacing="10.0" style="-fx-padding: 12 28 8 28; -fx-background-color: white;">
+                    <Label style="-fx-font-size: 12px; -fx-text-fill: #888; -fx-padding: 5 0 5 0;" text="Balasan cepat:" />
+                    <Button mnemonicParsing="false" style="-fx-background-color: #F0F4FF; -fx-text-fill: #2D6BE4; -fx-font-size: 12px; -fx-background-radius: 20; -fx-cursor: hand; -fx-padding: 6 14 6 14; -fx-border-color: #C5D8FF; -fx-border-radius: 20;" text="Berapa harganya?" />
+                    <Button mnemonicParsing="false" style="-fx-background-color: #F0F4FF; -fx-text-fill: #2D6BE4; -fx-font-size: 12px; -fx-background-radius: 20; -fx-cursor: hand; -fx-padding: 6 14 6 14; -fx-border-color: #C5D8FF; -fx-border-radius: 20;" text="Apakah ada AC?" />
+                    <Button mnemonicParsing="false" style="-fx-background-color: #F0F4FF; -fx-text-fill: #2D6BE4; -fx-font-size: 12px; -fx-background-radius: 20; -fx-cursor: hand; -fx-padding: 6 14 6 14; -fx-border-color: #C5D8FF; -fx-border-radius: 20;" text="Saya tertarik!" />
+                    <Button mnemonicParsing="false" style="-fx-background-color: #F0F4FF; -fx-text-fill: #2D6BE4; -fx-font-size: 12px; -fx-background-radius: 20; -fx-cursor: hand; -fx-padding: 6 14 6 14; -fx-border-color: #C5D8FF; -fx-border-radius: 20;" text="Kapan bisa survei?" />
+                </HBox>
+
+                <!-- Input Bar -->
+                <HBox alignment="CENTER" prefHeight="72.0" spacing="12.0" style="-fx-background-color: white; -fx-padding: 10 28 10 28; -fx-border-color: #E8EDF5 transparent transparent transparent; -fx-border-width: 1 0 0 0;">
+                    <Button mnemonicParsing="false" style="-fx-background-color: #F0F4FF; -fx-font-size: 18px; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 8 12 8 12;" text="📎" />
+                    <HBox alignment="CENTER" style="-fx-background-color: #F0F4FF; -fx-background-radius: 25; -fx-padding: 4 16 4 16;" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="tfPesan" promptText="Ketik pesan..." style="-fx-background-color: transparent; -fx-font-size: 14px; -fx-border-color: transparent; -fx-padding: 8 0 8 0;" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-font-size: 18px; -fx-cursor: hand; -fx-padding: 0;" text="😊" />
+                    </HBox>
+                    <Button mnemonicParsing="false" onAction="#kirimPesan" prefHeight="48.0" prefWidth="110.0" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand;" text="➤  Kirim" />
+                </HBox>
+            </VBox>
+
+        </HBox>
     </center>
-   <left>
-      <AnchorPane prefHeight="200.0" prefWidth="150.0" style="-fx-background-color: #bbdff0;" BorderPane.alignment="CENTER" />
-   </left>
+
 </BorderPane>
