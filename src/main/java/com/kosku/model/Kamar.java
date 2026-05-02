@@ -37,6 +37,9 @@ public class Kamar {
     @Column(name = "status_tersedia")
     private boolean statusTersedia; // true = kosong, false = terisi
 
+    @Column(name = "gambar_kamar")
+    private String gambarKamar;
+
     @Column(name = "catatan_tambahan", columnDefinition = "TEXT")
     private String catatanTambahan;
 

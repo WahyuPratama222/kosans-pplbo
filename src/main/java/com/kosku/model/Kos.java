@@ -31,6 +31,9 @@ public class Kos {
     @Column(columnDefinition = "TEXT")
     private String deskripsi;
 
+    @Column(name = "gambar_kos")
+    private String gambarKos;
+
     @Column(name = "is_verified")
     private boolean isVerified; 
 

@@ -49,6 +49,10 @@ public class Booking {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    // Relasi ke Review (Satu booking hanya bisa satu ulasan)
+    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Review review;
+
     // --- Callback Otomatisasi ---
     @PrePersist
     protected void onCreate() {

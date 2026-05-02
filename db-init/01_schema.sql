@@ -1,11 +1,11 @@
 -- Kosans Database Schema
 -- Sistem Manajemen Kos
 
--- Tabel: users
--- Menyimpan data pengguna (Admin, Pemilik, Penyewa)
 CREATE DATABASE IF NOT EXISTS kosan_db;
 USE kosan_db;
 
+-- Tabel: users
+-- Menyimpan data pengguna (Admin, Pemilik, Penyewa)
 CREATE TABLE IF NOT EXISTS users (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -24,13 +24,13 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Tabel: kos
 -- Menyimpan data properti kos
-
 CREATE TABLE IF NOT EXISTS kos (
     id_kos INT AUTO_INCREMENT PRIMARY KEY,
     id_pemilik INT NOT NULL,
     nama_kos VARCHAR(100) NOT NULL,
     alamat TEXT NOT NULL,
     deskripsi TEXT,
+    gambar_kos VARCHAR(255), -- Fitur #3: Upload Foto Kos
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -42,7 +42,6 @@ CREATE TABLE IF NOT EXISTS kos (
 
 -- Tabel: kamar
 -- Menyimpan data kamar-kamar di kos
-
 CREATE TABLE IF NOT EXISTS kamar (
     id_kamar INT AUTO_INCREMENT PRIMARY KEY,
     id_kos INT NOT NULL,
@@ -51,6 +50,7 @@ CREATE TABLE IF NOT EXISTS kamar (
     harga DECIMAL(15, 2) NOT NULL,
     durasi_sewa ENUM('HARIAN', 'MINGGUAN', 'BULANAN', 'TAHUNAN') NOT NULL,
     status_tersedia BOOLEAN DEFAULT TRUE,
+    gambar_kamar VARCHAR(255), -- Fitur #3: Upload Foto Kamar
     catatan_tambahan TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -64,7 +64,6 @@ CREATE TABLE IF NOT EXISTS kamar (
 
 -- Tabel: booking
 -- Menyimpan data pemesanan kamar
-
 CREATE TABLE IF NOT EXISTS booking (
     id_booking INT AUTO_INCREMENT PRIMARY KEY,
     id_penyewa INT NOT NULL,
@@ -88,7 +87,6 @@ CREATE TABLE IF NOT EXISTS booking (
 
 -- Tabel: pembayaran
 -- Menyimpan data pembayaran booking
-
 CREATE TABLE IF NOT EXISTS pembayaran (
     id_pembayaran INT AUTO_INCREMENT PRIMARY KEY,
     id_booking INT NOT NULL,
@@ -101,4 +99,21 @@ CREATE TABLE IF NOT EXISTS pembayaran (
     FOREIGN KEY (id_booking) REFERENCES booking(id_booking) ON DELETE CASCADE,
     INDEX idx_booking (id_booking),
     INDEX idx_status (status_verifikasi)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabel: reviews (Fitur #4: Rating dan Ulasan)
+-- Menyimpan ulasan dari penyewa setelah sewa selesai
+CREATE TABLE IF NOT EXISTS reviews (
+    id_review INT AUTO_INCREMENT PRIMARY KEY,
+    id_booking INT NOT NULL UNIQUE, -- Satu booking hanya bisa satu ulasan
+    id_penyewa INT NOT NULL,
+    rating TINYINT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    komentar TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (id_booking) REFERENCES booking(id_booking) ON DELETE CASCADE,
+    FOREIGN KEY (id_penyewa) REFERENCES users(id_user) ON DELETE CASCADE,
+    INDEX idx_booking (id_booking),
+    INDEX idx_penyewa (id_penyewa),
+    INDEX idx_rating (rating)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

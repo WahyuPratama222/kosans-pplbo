@@ -715,6 +715,37 @@
     -fx-font-size: 12px;
 }
 
+/* ============== RATING & IMAGE HELPER CLASSES ============== */
+.rating-star {
+    -fx-text-fill: -color-warning;
+    -fx-font-size: 14px;
+}
+
+.rating-value {
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-space-cadet;
+    -fx-font-size: 13px;
+}
+
+.image-placeholder {
+    -fx-background-color: -color-lavender;
+    -fx-alignment: center;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.kos-card-image {
+    -fx-background-radius: 8 8 0 0;
+    /* Ratio 16:9 atau 4:3 biasanya bagus untuk kartu */
+}
+
+.review-card {
+    -fx-background-color: -color-light-gray;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-border-color: -color-gray;
+    -fx-border-width: 0 0 0 3;
+}
+
 /* ============== UTILITY CLASSES ============== */
 .text-center {
     -fx-text-alignment: center;
