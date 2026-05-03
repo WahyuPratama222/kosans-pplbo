@@ -2,10 +2,14 @@ package com.kosku.model;
 
 import lombok.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
+@Getter 
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,55 +20,55 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_booking")
-    private int idBooking;
+    private Integer idBooking;
 
-    // --- RELASI PRO: Banyak Booking dilakukan oleh satu Penyewa ---
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_penyewa", nullable = false)
-    private User penyewa; 
+    private User penyewa;
 
-    // --- RELASI PRO: Banyak Booking merujuk ke satu Kamar ---
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_kamar", nullable = false)
-    private Kamar kamar; 
+    private Kamar kamar;
 
-    @Column(name = "tanggal_mulai")
+    @Column(name = "tanggal_mulai", nullable = false)
     private LocalDate tanggalMulai;
 
-    @Column(name = "tanggal_selesai")
+    @Column(name = "tanggal_selesai", nullable = false)
     private LocalDate tanggalSelesai;
 
     @Column(name = "tanggal_booking")
     private LocalDateTime tanggalBooking;
 
-    @Column(name = "status_booking", length = 20)
-    private String statusBooking; // "PENDING", "DITERIMA", "DITOLAK"
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_booking", nullable = false)
+    @Builder.Default
+    private StatusBooking statusBooking = StatusBooking.PENDING;
 
-    @Column(name = "total_harga")
-    private double totalHarga;
+    @Column(name = "total_harga", nullable = false)
+    private Double totalHarga;
 
+    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Relasi ke Review (Satu booking hanya bisa satu ulasan)
     @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Review review;
 
-    // --- Callback Otomatisasi ---
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Pembayaran> pembayaranList;
+
+    public enum StatusBooking {
+        PENDING, DITERIMA, DITOLAK, SELESAI, DIBATALKAN
+    }
+
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
         if (this.tanggalBooking == null) {
             this.tanggalBooking = LocalDateTime.now();
         }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
     }
 }

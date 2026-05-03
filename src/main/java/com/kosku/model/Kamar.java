@@ -2,40 +2,49 @@ package com.kosku.model;
 
 import lombok.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
+@Getter 
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "kamar")
+@Table(name = "kamar", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id_kos", "nomor_kamar"})
+})
 public class Kamar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_kamar")
-    private int idKamar;
+    private Integer idKamar;
 
-    // --- RELASI PRO: Banyak Kamar dimiliki oleh satu Kos ---
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_kos", nullable = false)
-    private Kos kos; 
+    private Kos kos;
 
     @Column(name = "nomor_kamar", nullable = false, length = 20)
     private String nomorKamar;
 
-    @Column(name = "tipe_kamar", length = 30)
-    private String tipeKamar; // "REGULER", "EXCLUSIVE"
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipe_kamar", nullable = false, length = 30)
+    private TipeKamar tipeKamar;
 
-    @Column(nullable = false)
-    private java.math.BigDecimal harga;
+    @Column(nullable = false, precision = 15, scale = 2)
+    private BigDecimal harga;
 
-    @Column(name = "durasi_sewa")
-    private String durasiSewa; // "HARIAN", "BULANAN"
+    @Enumerated(EnumType.STRING)
+    @Column(name = "durasi_sewa", nullable = false)
+    private DurasiSewa durasiSewa;
 
+    @Builder.Default // Agar nilai true tidak hilang saat pakai builder
     @Column(name = "status_tersedia")
-    private boolean statusTersedia; // true = kosong, false = terisi
+    private Boolean statusTersedia = true;
 
     @Column(name = "gambar_kamar")
     private String gambarKamar;
@@ -43,23 +52,29 @@ public class Kamar {
     @Column(name = "catatan_tambahan", columnDefinition = "TEXT")
     private String catatanTambahan;
 
+    @CreationTimestamp // Lebih ringkas dari @PrePersist
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp // Lebih ringkas dari @PreUpdate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // --- Callback Otomatisasi ---
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        // Default: Kamar baru biasanya tersedia
-        this.statusTersedia = true;
+    @OneToMany(mappedBy = "kamar", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Booking> bookingList;
+
+    public enum TipeKamar {
+        REGULER, EXCLUSIVE
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+    public enum DurasiSewa {
+        HARIAN, MINGGUAN, BULANAN, TAHUNAN
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (statusTersedia == null) {
+            statusTersedia = true;
+        }
     }
 }

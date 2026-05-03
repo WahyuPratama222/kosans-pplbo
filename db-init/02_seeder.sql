@@ -2,7 +2,7 @@
 -- Script untuk mengisi data sample ke database kosans_db
 
 
-
+use kosans_db;
 -- =====================================================
 -- SEEDER DATA USERS
 -- =====================================================
@@ -32,39 +32,39 @@ INSERT INTO users (username, password, email, role, nomor_hp, is_verified) VALUE
 
 INSERT INTO kos (id_pemilik, nama_kos, alamat, deskripsi, is_verified) VALUES
 (3, 'Kos Rizki Sentosa', 'Jl. Merdeka No. 123, Jakarta Pusat', 'Kos nyaman dekat kampus dengan fasilitas lengkap', TRUE),
-(4, 'Kos Nadya Sejahtera', 'Jl. Ahmad Yani No. 456, Bandung', 'Kos eksklusif untuk mahasiswa perempuan', TRUE),
-(5, 'Kos Algie Residence', 'Jl. Sudirman No. 789, Surabaya', 'Kos modern dengan WiFi dan AC', TRUE),
-(3, 'Kos Amir Indah', 'Jl. Gatot Subroto No. 321, Jakarta Selatan', 'Kos terjangkau untuk semua kalangan', TRUE);
+(4, 'Kos Iqbal Sejahtera', 'Jl. Ahmad Yani No. 456, Bandung', 'Kos eksklusif untuk mahasiswa perempuan', TRUE),
+(5, 'Kos Irpan Residence', 'Jl. Sudirman No. 789, Surabaya', 'Kos modern dengan WiFi dan AC', TRUE),
+(3, 'Kos Rizki Indah', 'Jl. Gatot Subroto No. 321, Jakarta Selatan', 'Kos terjangkau untuk semua kalangan', TRUE);
 
 -- =====================================================
 -- SEEDER DATA KAMAR (Rooms)
 -- =====================================================
 
--- Kamar di Kos Budi Sentosa (id_kos = 1)
+-- Kamar di Kos Rizki Sentosa (id_kos = 1)
 INSERT INTO kamar (id_kos, nomor_kamar, tipe_kamar, harga, durasi_sewa, status_tersedia, catatan_tambahan) VALUES
-(1, 'A01', 'REGULER', 500000, 'BULANAN', 'Tersedia', 'Kamar dengan jendela besar'),
-(1, 'A02', 'REGULER', 500000, 'BULANAN', 'Penuh', 'Sedang dihuni'),
-(1, 'A03', 'EXCLUSIVE', 750000, 'BULANAN', 'Tersedia', 'Kamar premium dengan kamar mandi pribadi'),
-(1, 'B01', 'REGULER', 500000, 'BULANAN', 'Tersedia', 'Kamar standard dengan ventilasi baik');
+(1, 'A01', 'REGULER', 500000, 'BULANAN', TRUE, 'Kamar dengan jendela besar'),
+(1, 'A02', 'REGULER', 500000, 'BULANAN', FALSE, 'Sedang dihuni'),
+(1, 'A03', 'EXCLUSIVE', 750000, 'BULANAN', TRUE, 'Kamar premium dengan kamar mandi pribadi'),
+(1, 'B01', 'REGULER', 500000, 'BULANAN', TRUE, 'Kamar standard dengan ventilasi baik');
 
--- Kamar di Kos Siti Sejahtera (id_kos = 2)
+-- Kamar di Kos Iqbal Sejahtera (id_kos = 2)
 INSERT INTO kamar (id_kos, nomor_kamar, tipe_kamar, harga, durasi_sewa, status_tersedia, catatan_tambahan) VALUES
-(2, 'R01', 'REGULER', 450000, 'BULANAN', 'Tersedia', 'Kamar rapi dan bersih'),
-(2, 'R02', 'EXCLUSIVE', 650000, 'BULANAN', 'Tersedia', 'Kamar dengan kulkas dan TV'),
-(2, 'R03', 'REGULER', 450000, 'BULANAN', 'Penuh', 'Sudah terisi');
+(2, 'R01', 'REGULER', 450000, 'BULANAN', TRUE, 'Kamar rapi dan bersih'),
+(2, 'R02', 'EXCLUSIVE', 650000, 'BULANAN', TRUE, 'Kamar dengan kulkas dan TV'),
+(2, 'R03', 'REGULER', 450000, 'BULANAN', FALSE, 'Sudah terisi');
 
--- Kamar di Kos Agus Residence (id_kos = 3)
+-- Kamar di Kos Irpan Residence (id_kos = 3)
 INSERT INTO kamar (id_kos, nomor_kamar, tipe_kamar, harga, durasi_sewa, status_tersedia, catatan_tambahan) VALUES
-(3, '101', 'REGULER', 600000, 'BULANAN', 'Tersedia', 'Kamar dengan AC'),
-(3, '102', 'EXCLUSIVE', 900000, 'BULANAN', 'Tersedia', 'Suite dengan ruang tamu'),
-(3, '103', 'REGULER', 600000, 'BULANAN', 'Tersedia', 'Kamar tersedia'),
-(3, '201', 'REGULER', 600000, 'BULANAN', 'Penuh', 'Terisi penuh');
+(3, '101', 'REGULER', 600000, 'BULANAN', TRUE, 'Kamar dengan AC'),
+(3, '102', 'EXCLUSIVE', 900000, 'BULANAN', TRUE, 'Suite dengan ruang tamu'),
+(3, '103', 'REGULER', 600000, 'BULANAN', TRUE, 'Kamar tersedia'),
+(3, '201', 'REGULER', 600000, 'BULANAN', FALSE, 'Terisi penuh');
 
--- Kamar di Kos Budi Indah (id_kos = 4)
+-- Kamar di Kos Rizki Indah (id_kos = 4)
 INSERT INTO kamar (id_kos, nomor_kamar, tipe_kamar, harga, durasi_sewa, status_tersedia, catatan_tambahan) VALUES
-(4, 'D01', 'REGULER', 400000, 'BULANAN', 'Tersedia', 'Kamar ekonomis'),
-(4, 'D02', 'REGULER', 400000, 'BULANAN', 'Tersedia', 'Dekat dapur bersama'),
-(4, 'D03', 'EXCLUSIVE', 600000, 'BULANAN', 'Tersedia', 'Kamar plus dengan TV kabel');
+(4, 'D01', 'REGULER', 400000, 'BULANAN', TRUE, 'Kamar ekonomis'),
+(4, 'D02', 'REGULER', 400000, 'BULANAN', TRUE, 'Dekat dapur bersama'),
+(4, 'D03', 'EXCLUSIVE', 600000, 'BULANAN', TRUE, 'Kamar plus dengan TV kabel');
 
 -- =====================================================
 -- SEEDER DATA BOOKING
