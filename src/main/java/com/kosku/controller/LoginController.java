@@ -2,6 +2,7 @@ package com.kosku.controller;
 
 import com.kosku.Main;
 import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -24,11 +25,17 @@ public class LoginController {
     }
 
     @FXML
-    public void handleLogin() {
+    public void handleLogin(ActionEvent event) {
         // Sementara kita langsung navigasi ke MainMenuPenyewa tanpa cek database
         // Nanti tambahkan logika login menggunakan UserDAO di sini
-        System.out.println("Login button clicked! Navigating to Dashboard...");
-        Main.navigateTo("view/penyewa/MainMenuPenyewa.fxml", "KosKu - Dashboard");
+        try {
+            System.out.println("Login button clicked! Navigating to Dashboard...");
+            // Tambahkan "/" di depan agar path membaca dari root direktori resources
+            Main.navigateTo("/view/penyewa/MainMenuPenyewa.fxml", "KosKu - Dashboard");
+        } catch (Exception e) {
+            System.err.println("Gagal navigasi ke Dashboard: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML

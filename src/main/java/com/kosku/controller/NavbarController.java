@@ -3,6 +3,7 @@ package com.kosku.controller;
 import com.kosku.Main;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
+import javafx.event.Event;
 
 public class NavbarController {
 
@@ -27,8 +28,13 @@ public class NavbarController {
     }
 
     @FXML
-    public void handleLogout(MouseEvent event) {
+    public void handleLogout(Event event) {
         System.out.println("Logout diklik! Kembali ke Login...");
         Main.navigateTo("view/login.fxml", "KosKu - Login");
+    }
+
+    @FXML
+    public void goToProfil(Event event) {
+        Main.navigateTo("view/penyewa/ProfilPenyewa.fxml", "KosKu - Profil");
     }
 }

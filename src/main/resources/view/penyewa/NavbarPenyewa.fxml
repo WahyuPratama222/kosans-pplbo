@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #1A3A6B, #2D6BE4);" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.NavbarController">
+<BorderPane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #1A3A6B, #2D6BE4);" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.NavbarController">
     <center>
         <AnchorPane prefHeight="70.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
             <children>
@@ -34,8 +34,8 @@
                 <!-- Profile + Logout -->
                 <HBox alignment="CENTER_RIGHT" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <Label fx:id="lblNamaPengguna" style="-fx-text-fill: #D0E4FF; -fx-font-size: 15px;" text="Halo, User!" />
-                        <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#handleLogout" pickOnBounds="true" preserveRatio="false" style="-fx-cursor: hand;">
+                        <Label fx:id="lblNamaPengguna" onMouseClicked="#goToProfil" style="-fx-text-fill: #D0E4FF; -fx-font-size: 15px; -fx-cursor: hand;" text="Halo, User!" />
+                        <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#goToProfil" pickOnBounds="true" preserveRatio="false" style="-fx-cursor: hand;">
                             <image>
                                 <Image url="@../../images/tesProfile.png" />
                             </image>

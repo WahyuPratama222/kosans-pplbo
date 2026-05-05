@@ -12,13 +12,14 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.MainMenuPenyewaController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.MainMenuController">
 
     <top>
         <fx:include source="NavbarPenyewa.fxml" />
     </top>
-   <bottom>
+    <center>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #F0F4FF; -fx-background: #F0F4FF;" vvalue="1.0" BorderPane.alignment="CENTER">
             <content>
                 <VBox spacing="0.0" style="-fx-background-color: #F0F4FF;">
@@ -241,6 +242,6 @@
                 </VBox>
             </content>
         </ScrollPane>
-   </bottom>
+    </center>
 
 </BorderPane>
