@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <top>
-        <BorderPane prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);">
+        <BorderPane prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);">
             <left>
                 <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="📋 Laporan Booking" BorderPane.alignment="CENTER">
                     <padding>

@@ -1,96 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
-<BorderPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #4382FF, #E6EFFF);" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.NavbarController">
-=======
-<BorderPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #E6EFFF, #4382FF);" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
->>>>>>> ced338598f51a0a44c8be3906b2238a52fc25893
-   <top>
-      <AnchorPane prefHeight="50.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+<BorderPane prefHeight="70.0" prefWidth="1920.0" styleClass="navbar-pemilik" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.NavbarPenyewaController">
+   <left>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane alignment="CENTER" hgap="50.0" layoutX="272.0" layoutY="21.0" prefHeight="16.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="17.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="91.19999999999999" minHeight="10.0" prefHeight="91.19999999999999" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label alignment="CENTER" text="Notifikasi" GridPane.columnIndex="3" onMouseClicked="#goToNotif" style="-fx-cursor: hand;">
-                     <font>
-                        <Font name="SansSerif Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" text="Riwayat" textAlignment="CENTER" GridPane.columnIndex="1" onMouseClicked="#goToRiwayat" style="-fx-cursor: hand;">
-                     <font>
-                        <Font name="SansSerif Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" text="Kos" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" onMouseClicked="#goToMainMenu" style="-fx-cursor: hand;">
-                     <font>
-                        <Font name="SansSerif Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" text="Chat" textAlignment="CENTER" GridPane.columnIndex="2" onMouseClicked="#goToChat" style="-fx-cursor: hand;">
-                     <font>
-                        <Font name="SansSerif Bold" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </GridPane>
-<<<<<<< HEAD
-            <Label layoutX="40.0" layoutY="20.0" style="-fx-text-fill: white; -fx-cursor: hand;" text="KosKurniawan" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="17.0" onMouseClicked="#goToMainMenu">
-=======
-            <Label layoutX="124.0" layoutY="29.0" style="-fx-text-fill: white;" AnchorPane.leftAnchor="124.0" AnchorPane.topAnchor="29.0">
->>>>>>> ced338598f51a0a44c8be3906b2238a52fc25893
+            <Label styleClass="navbar-brand" text="🏠 KosKurniawan">
                <font>
-                  <Font name="SansSerif Bold Italic" size="14.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="538.0" layoutY="7.0" pickOnBounds="true" preserveRatio="false" AnchorPane.rightAnchor="20.0" onMouseClicked="#handleLogout" style="-fx-cursor: hand;">
-               <image>
-                  <Image url="@../../images/tesProfile.png" />
-               </image>
-               <clip>
-                  <Circle centerX="18" centerY="18" radius="18" />
-               </clip>
-            </ImageView>
-            <GridPane layoutX="1.0" layoutY="12.0" prefHeight="50.0" AnchorPane.topAnchor="0.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+         </children>
+      </HBox>
+   </left>
+   <center>
+      <HBox fx:id="navMenuContainer" alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="containerBeranda" alignment="CENTER" onMouseClicked="#goToBeranda" styleClass="nav-item-container">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <Label styleClass="nav-item-label" text="🏠 Beranda" />
+               </children>
+            </VBox>
+            <VBox fx:id="containerCariKos" alignment="CENTER" onMouseClicked="#goToCariKos" styleClass="nav-item-container">
+               <children>
+                  <Label styleClass="nav-item-label" text="🔍 Cari Kos" />
+               </children>
+            </VBox>
+            <VBox fx:id="containerRiwayat" alignment="CENTER" onMouseClicked="#goToRiwayat" styleClass="nav-item-container">
+               <children>
+                  <Label styleClass="nav-item-label" text="📋 Riwayat" />
+               </children>
+            </VBox>
+            <VBox fx:id="containerChat" alignment="CENTER" onMouseClicked="#goToChat" styleClass="nav-item-container">
+               <children>
+                  <Label styleClass="nav-item-label" text="💬 Chat" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+   <right>
+      <HBox alignment="CENTER_RIGHT" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" spacing="12.0" styleClass="profile-section">
+               <children>
+                  <VBox alignment="CENTER_RIGHT" spacing="2.0">
+                     <children>
+                        <Label style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px;" text="Penyewa" />
+                        <Label style="-fx-text-fill: white; -fx-opacity: 0.6; -fx-font-size: 10px;" text="Basic Member" />
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="false">
                      <image>
-                        <Image url="@../../images/nama%20kos.png" />
+                        <Image url="@../../images/tesProfile.png" />
                      </image>
-                  </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                     <image>
-                        <Image url="@../../images/logo%20kos.png" />
-                     </image>
+                     <clip>
+                        <Circle centerX="19.0" centerY="19.0" radius="19.0" />
+                     </clip>
                   </ImageView>
                </children>
-            </GridPane>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#handleLogout" styleClass="btn-danger" style="-fx-background-radius: 20; -fx-padding: 8 20;" text="Logout" />
          </children>
-      </AnchorPane>
-   </top>
+      </HBox>
+   </right>
 </BorderPane>

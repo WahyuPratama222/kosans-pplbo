@@ -34,6 +34,9 @@ public class Kos {
     @Column(columnDefinition = "TEXT")
     private String deskripsi;
 
+    @Column(name = "gambar_kos")
+    private String gambarKos;
+
     @Builder.Default
     @Column(name = "is_verified")
     private Boolean isVerified = false;

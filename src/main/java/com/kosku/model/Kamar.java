@@ -46,6 +46,9 @@ public class Kamar {
     @Column(name = "status_tersedia")
     private Boolean statusTersedia = true;
 
+    @Column(name = "gambar_kamar")
+    private String gambarKamar;
+
     @Column(name = "catatan_tambahan", columnDefinition = "TEXT")
     private String catatanTambahan;
 

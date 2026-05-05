@@ -4,12 +4,11 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
+@Getter 
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,20 +40,23 @@ public class Booking {
     private LocalDateTime tanggalBooking;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status_booking", nullable = false, length = 20)
-    @Builder.Default // Agar nilai default tidak hilang saat pakai builder
+    @Column(name = "status_booking", nullable = false)
+    @Builder.Default
     private StatusBooking statusBooking = StatusBooking.PENDING;
 
-    @Column(name = "total_harga", nullable = false, precision = 15, scale = 2)
-    private BigDecimal totalHarga;
+    @Column(name = "total_harga", nullable = false)
+    private Double totalHarga;
 
-    @CreationTimestamp // Otomatis diisi oleh Hibernate saat insert
+    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp // Otomatis diupdate oleh Hibernate saat update
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Review review;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Pembayaran> pembayaranList;
@@ -68,6 +70,5 @@ public class Booking {
         if (this.tanggalBooking == null) {
             this.tanggalBooking = LocalDateTime.now();
         }
-        // CreatedAt dan UpdatedAt sudah dihandle @CreationTimestamp/@UpdateTimestamp
     }
 }
