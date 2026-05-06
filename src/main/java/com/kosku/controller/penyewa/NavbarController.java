@@ -116,23 +116,7 @@ public class NavbarController implements Initializable {
      * Switch scene dengan FXMLLoader
      */
     private void switchScene(Event event, String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
-            
-            // Ambil stage (window) saat ini dari komponen yang diklik
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            
-            // Pertahankan resolusi window saat berpindah scene
-            Scene currentScene = stage.getScene();
-            stage.setScene(new Scene(root, currentScene.getWidth(), currentScene.getHeight()));
-            stage.show();
-        } catch (Exception e) {
-            System.err.println("Gagal memuat halaman: " + fxmlPath);
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", 
-                "Gagal memuat halaman: " + e.getMessage());
-        }
+        Main.navigateTo(fxmlPath);
     }
 
     @FXML
@@ -174,14 +158,7 @@ public class NavbarController implements Initializable {
                 // TODO: Clear session/login data
                 
                 // Navigate ke login page
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
-                Parent root = loader.load();
-                
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Scene currentScene = stage.getScene();
-                stage.setScene(new Scene(root, currentScene.getWidth(), currentScene.getHeight()));
-                stage.setTitle("KosKu - Login");
-                stage.show();
+                Main.navigateTo("/view/login.fxml", "KosKu - Login");
                 
                 System.out.println("Logout berhasil!");
             } catch (Exception e) {

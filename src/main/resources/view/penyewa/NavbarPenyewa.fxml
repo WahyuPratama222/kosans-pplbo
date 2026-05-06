@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #1A3A6B, #2D6BE4);" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.NavbarController">
+<BorderPane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #1A3A6B, #2D6BE4);" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.NavbarController" stylesheets="@../../css/style.css">
     <center>
         <AnchorPane prefHeight="70.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
             <children>

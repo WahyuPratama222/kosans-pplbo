@@ -47,7 +47,7 @@
             <Separator />
             <Label text="v1.0 © 2026" style="-fx-text-fill: #8FB3E2; -fx-font-size: 10px;" />
             <padding>
-                <Insets all="15.0" />
+                <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
             </padding>
         </VBox>
     </left>
