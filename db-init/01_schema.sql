@@ -1,9 +1,7 @@
 -- Kosans Database Schema
 -- Sistem Manajemen Kos
-
-CREATE DATABASE IF NOT EXISTS kosan_db;
-USE kosan_db;
-
+create DATABASE IF NOT EXISTS kosans_db;
+USE kosans_db;
 -- Tabel: users
 -- Menyimpan data pengguna (Admin, Pemilik, Penyewa)
 CREATE TABLE IF NOT EXISTS users (
@@ -30,7 +28,10 @@ CREATE TABLE IF NOT EXISTS kos (
     nama_kos VARCHAR(100) NOT NULL,
     alamat TEXT NOT NULL,
     deskripsi TEXT,
-    gambar_kos VARCHAR(255), -- Fitur #3: Upload Foto Kos
+    tipe_kos ENUM('PUTRA', 'PUTRI', 'CAMPUR') NOT NULL,
+    foto_kos VARCHAR(255),
+    harga DECIMAL(15, 2) NOT NULL,
+    durasi_sewa ENUM('HARIAN', 'MINGGUAN', 'BULANAN', 'TAHUNAN') NOT NULL,
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -46,9 +47,6 @@ CREATE TABLE IF NOT EXISTS kamar (
     id_kamar INT AUTO_INCREMENT PRIMARY KEY,
     id_kos INT NOT NULL,
     nomor_kamar VARCHAR(20) NOT NULL,
-    tipe_kamar ENUM('REGULER', 'EXCLUSIVE') NOT NULL,
-    harga DECIMAL(15, 2) NOT NULL,
-    durasi_sewa ENUM('HARIAN', 'MINGGUAN', 'BULANAN', 'TAHUNAN') NOT NULL,
     status_tersedia BOOLEAN DEFAULT TRUE,
     gambar_kamar VARCHAR(255), -- Fitur #3: Upload Foto Kamar
     catatan_tambahan TEXT,
@@ -58,8 +56,7 @@ CREATE TABLE IF NOT EXISTS kamar (
     FOREIGN KEY (id_kos) REFERENCES kos(id_kos) ON DELETE CASCADE,
     UNIQUE KEY unique_nomor_kamar_per_kos (id_kos, nomor_kamar),
     INDEX idx_kos (id_kos),
-    INDEX idx_status (status_tersedia),
-    INDEX idx_tipe (tipe_kamar)
+    INDEX idx_status (status_tersedia)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabel: booking

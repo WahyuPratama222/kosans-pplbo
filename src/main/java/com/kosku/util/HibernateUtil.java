@@ -26,6 +26,8 @@ public class HibernateUtil {
             configuration.addAnnotatedClass(com.kosku.model.Kamar.class);
             configuration.addAnnotatedClass(com.kosku.model.Booking.class);
             configuration.addAnnotatedClass(com.kosku.model.Pembayaran.class);
+            configuration.addAnnotatedClass(com.kosku.model.Chat.class);
+            configuration.addAnnotatedClass(com.kosku.model.Notifikasi.class);
 
             return configuration.buildSessionFactory();
 
