@@ -11,42 +11,44 @@ import java.util.Map;
 public class BookingDAO extends BaseDAO<Booking> {
 
     /**
-     * Menggunakan JOIN FETCH sangat penting agar saat session ditutup, 
+     * Menggunakan JOIN FETCH sangat penting agar saat session ditutup,
      * kamu tetap bisa akses data Kamar dan Penyewa di Frontend/UI.
      */
     public List<Booking> getBookingByKos(Kos kos) {
         String hql = "SELECT b FROM Booking b " +
-                     "JOIN FETCH b.kamar k " +
-                     "JOIN FETCH b.penyewa p " +
-                     "WHERE k.kos = :kos ORDER BY b.tanggalBooking DESC";
+                "JOIN FETCH b.kamar k " +
+                "JOIN FETCH b.penyewa p " +
+                "WHERE k.kos = :kos ORDER BY b.tanggalBooking DESC";
         return listByQuery(hql, Map.of("kos", kos), Booking.class);
     }
 
     public List<Booking> getBookingPendingByKos(Kos kos) {
         String hql = "SELECT b FROM Booking b " +
-                     "JOIN FETCH b.kamar k " +
-                     "WHERE k.kos = :kos AND b.statusBooking = :status " +
-                     "ORDER BY b.tanggalBooking ASC";
-        return listByQuery(hql, 
-            Map.of("kos", kos, "status", Booking.StatusBooking.PENDING), 
-            Booking.class);
+                "JOIN FETCH b.kamar k " +
+                "WHERE k.kos = :kos AND b.statusBooking = :status " +
+                "ORDER BY b.tanggalBooking ASC";
+        return listByQuery(hql,
+                Map.of("kos", kos, "status", Booking.StatusBooking.PENDING),
+                Booking.class);
     }
 
     public List<Booking> getBookingByPenyewa(int idPenyewa) {
         String hql = "SELECT b FROM Booking b " +
-                     "JOIN FETCH b.kamar " + 
-                     "WHERE b.penyewa.idUser = :idPenyewa ORDER BY b.tanggalBooking DESC";
+                "JOIN FETCH b.kamar k " +
+                "JOIN FETCH k.kos " + // Ambil info kosnya juga
+                "WHERE b.penyewa.idUser = :idPenyewa ORDER BY b.tanggalBooking DESC";
         return listByQuery(hql, Map.of("idPenyewa", idPenyewa), Booking.class);
     }
 
     public long countBookingAktifByKamar(Kamar kamar) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "SELECT COUNT(b) FROM Booking b " +
-                         "WHERE b.kamar = :kamar AND b.statusBooking = :status";
-            return session.createQuery(hql, Long.class)
+                    "WHERE b.kamar = :kamar AND b.statusBooking = :status";
+            Long count = session.createQuery(hql, Long.class)
                     .setParameter("kamar", kamar)
                     .setParameter("status", Booking.StatusBooking.DITERIMA)
                     .uniqueResult();
+            return count != null ? count : 0L;
         }
     }
 }
