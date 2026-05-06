@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 
 <HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.kosku.controller.LoginController"
+      fx:controller="com.kosku.controller.auth.LoginController"
       styleClass="auth-root" prefWidth="1100.0" prefHeight="700.0" stylesheets="@../css/style.css">
 
     <!-- ===== LEFT PANEL: BRANDING ===== -->
