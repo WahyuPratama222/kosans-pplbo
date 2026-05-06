@@ -10,28 +10,27 @@
             fx:controller="com.kosku.controller.RegisterController">
    
    <center>
-      <VBox alignment="CENTER" spacing="12.0" maxWidth="400.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" spacing="15.0" maxWidth="450.0" BorderPane.alignment="CENTER">
          <children>
-            <Label styleClass="label-title" text="DAFTAR AKUN BARU">
+            <Label styleClass="label-title" text="REGISTRASI">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
             
-            <Label styleClass="label-subtitle" text="Silakan isi data diri Anda" />
+            <Label styleClass="label-subtitle" text="Buat Akun Baru Anda" />
 
-            <VBox spacing="8.0">
+            <VBox spacing="10.0">
                <children>
-                  <TextField fx:id="namaLengkapField" prefHeight="35.0" promptText="Nama Lengkap" styleClass="text-field" />
-                  <TextField fx:id="emailField" prefHeight="35.0" promptText="Email" styleClass="text-field" />
-                  <ComboBox fx:id="jenisKelaminBox" prefHeight="35.0" prefWidth="400.0" promptText="Jenis Kelamin" styleClass="combo-box" />
-                  <PasswordField fx:id="passwordField" prefHeight="35.0" promptText="Password" styleClass="text-field" />
-                  <PasswordField fx:id="confirmPasswordField" prefHeight="35.0" promptText="Confirm Password" styleClass="text-field" />
+                  <TextField fx:id="usernameField" prefHeight="40.0" promptText="Username" styleClass="text-field" />
+                  <TextField fx:id="emailField" prefHeight="40.0" promptText="Email" styleClass="text-field" />
+                  <PasswordField fx:id="passwordField" prefHeight="40.0" promptText="Password" styleClass="text-field" />
+                  <ComboBox fx:id="roleComboBox" prefHeight="40.0" prefWidth="450.0" promptText="Pilih Role" styleClass="combo-box" />
                </children>
             </VBox>
 
             <Button fx:id="registerButton" mnemonicParsing="false" onAction="#handleRegister" 
-                    prefHeight="40.0" prefWidth="400.0" styleClass="btn-primary" text="Register" />
+                    prefHeight="40.0" prefWidth="450.0" styleClass="btn-primary" text="Register" />
 
             <HBox alignment="CENTER" spacing="5.0">
                <children>

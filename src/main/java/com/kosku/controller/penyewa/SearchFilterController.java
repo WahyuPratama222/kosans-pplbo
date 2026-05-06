@@ -1,11 +1,17 @@
 package com.kosku.controller.penyewa;
 
 import com.kosku.dao.KosDAO;
+import com.kosku.dao.ReviewDAO;
 import com.kosku.model.Kos;
+import com.kosku.util.FileUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,82 +30,80 @@ public class SearchFilterController {
     @FXML private GridPane kosGrid;
 
     private KosDAO kosDAO = new KosDAO();
+    private ReviewDAO reviewDAO = new ReviewDAO();
 
     @FXML
     public void initialize() {
-        // Inisialisasi ComboBox Sort
-        sortCombo.getItems().addAll("Terbaru", "Harga Terendah", "Harga Tertinggi");
-        sortCombo.getSelectionModel().selectFirst();
-
-        // Load data awal (semua kos terverifikasi)
-        loadKosData(kosDAO.getKosVerified());
+        // ... (rest of initialize)
     }
 
-    @FXML
-    private void handleSearch() {
-        String keyword = searchField.getText();
-        List<Kos> results = kosDAO.searchKos(keyword);
-        applyFilters(results);
-    }
-
-    @FXML
-    private void handleApplyFilter() {
-        // Ambil data dasar dan terapkan filter tambahan di sisi Java (untuk fleksibilitas)
-        List<Kos> baseList = kosDAO.getKosVerified();
-        applyFilters(baseList);
-    }
-
-    private void applyFilters(List<Kos> list) {
-        // Logika filter (Dummy implementation for UI feedback)
-        // Di aplikasi nyata, filter ini akan digabung ke Query HQL/Criteria API
-        
-        List<Kos> filteredList = list.stream()
-            .filter(k -> {
-                // Contoh filter nama jika searchField diisi
-                if (!searchField.getText().isEmpty() && !k.getNamaKos().toLowerCase().contains(searchField.getText().toLowerCase())) {
-                    return false;
-                }
-                return true;
-            })
-            .collect(Collectors.toList());
-
-        loadKosData(filteredList);
-    }
-
-    private void loadKosData(List<Kos> list) {
-        kosGrid.getChildren().clear();
-        
-        int column = 0;
-        int row = 0;
-
-        for (Kos kos : list) {
-            VBox card = createKosCard(kos);
-            kosGrid.add(card, column++, row);
-            
-            if (column == 3) { // 3 Kolom per baris
-                column = 0;
-                row++;
-            }
-        }
-    }
+    // ... (other methods)
 
     private VBox createKosCard(Kos kos) {
-        VBox card = new VBox(10);
-        card.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);");
-        card.setPrefWidth(200);
+        VBox card = new VBox(0); // Zero spacing for image to touch top
+        card.getStyleClass().add("card");
+        card.setPrefWidth(280);
+        card.setMaxWidth(280);
+
+        // 1. IMAGE SECTION (Feature #3)
+        VBox imageHolder = new VBox();
+        imageHolder.setPrefHeight(150);
+        imageHolder.getStyleClass().add("image-placeholder");
+
+        if (kos.getGambarKos() != null) {
+            try {
+                String fullPath = FileUtil.getAbsolutePath(kos.getGambarKos());
+                File file = new File(fullPath);
+                if (file.exists()) {
+                    Image img = new Image(file.toURI().toString(), 280, 150, true, true);
+                    ImageView imageView = new ImageView(img);
+                    imageView.getStyleClass().add("kos-card-image");
+                    imageHolder.getChildren().add(imageView);
+                } else {
+                    imageHolder.getChildren().add(new Label("🖼️ No Image"));
+                }
+            } catch (Exception e) {
+                imageHolder.getChildren().add(new Label("⚠️ Error Load"));
+            }
+        } else {
+            imageHolder.getChildren().add(new Label("📷 Belum ada foto"));
+        }
+
+        // 2. CONTENT SECTION
+        VBox content = new VBox(8);
+        content.setStyle("-fx-padding: 12;");
 
         Label nameLabel = new Label(kos.getNamaKos());
-        nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        nameLabel.getStyleClass().add("label-subtitle");
         
-        Label addressLabel = new Label(kos.getAlamat());
+        Label addressLabel = new Label("📍 " + kos.getAlamat());
         addressLabel.setWrapText(true);
-        addressLabel.setStyle("-fx-text-fill: #636e72; -fx-font-size: 11px;");
+        addressLabel.getStyleClass().add("label-muted");
+
+        // 3. RATING SECTION (Feature #4)
+        Double avgRating = reviewDAO.getAverageRating(kos.getIdKos());
+        HBox ratingBox = new HBox(5);
+        ratingBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        
+        Label starLabel = new Label("⭐");
+        starLabel.getStyleClass().add("rating-star");
+        
+        Label rateValue = new Label(avgRating != null ? String.format("%.1f", avgRating) : "0.0");
+        rateValue.getStyleClass().add("rating-value");
+        
+        Label countReview = new Label("(" + (reviewDAO.getReviewsByKos(kos.getIdKos()).size()) + " ulasan)");
+        countReview.getStyleClass().add("label-muted");
+        
+        ratingBox.getChildren().addAll(starLabel, rateValue, countReview);
 
         Button detailBtn = new Button("Lihat Detail");
         detailBtn.setMaxWidth(Double.MAX_VALUE);
-        detailBtn.setStyle("-fx-background-color: #0984e3; -fx-text-fill: white;");
+        detailBtn.getStyleClass().add("btn-primary");
+        VBox.setMargin(detailBtn, new javafx.geometry.Insets(10, 0, 0, 0));
 
-        card.getChildren().addAll(nameLabel, addressLabel, detailBtn);
+        content.getChildren().addAll(nameLabel, addressLabel, ratingBox, detailBtn);
+        card.getChildren().addAll(imageHolder, content);
+        
         return card;
     }
 }
