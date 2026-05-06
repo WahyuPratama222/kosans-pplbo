@@ -20,11 +20,25 @@ public class UserDAO extends BaseDAO<User> {
 
 	public User findByEmail(String email) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			Query<User> query = session.createQuery("from User where email = :email", User.class);
-			query.setParameter("email", email);
+			Query<User> query = session.createQuery("from User where LOWER(email) = LOWER(:email)", User.class);
+			query.setParameter("email", email.trim());
 			return query.uniqueResult();
 		} catch (Exception e) {
 			throw new RuntimeException("Gagal mencari user by email: " + e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Mencari user berdasarkan Email ATAU Username (Case-Insensitive)
+	 */
+	public User findByIdentifier(String identifier) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "from User where LOWER(email) = LOWER(:id) OR LOWER(username) = LOWER(:id)";
+			Query<User> query = session.createQuery(hql, User.class);
+			query.setParameter("id", identifier.trim());
+			return query.uniqueResult();
+		} catch (Exception e) {
+			throw new RuntimeException("Gagal mencari user by identifier: " + e.getMessage(), e);
 		}
 	}
 }
