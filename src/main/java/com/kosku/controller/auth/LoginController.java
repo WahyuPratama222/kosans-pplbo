@@ -47,11 +47,11 @@ public class LoginController {
 
         switch (user.getRole()) {
             case ADMIN:
-                viewPath = "/view/Admin/DashboardAdmin.fxml";
+                viewPath = "/view/admin/DashboardAdmin.fxml";
                 title = "KosKu - Dashboard Admin";
                 break;
             case PEMILIK:
-                viewPath = "/view/Pemilik/DashboardPemilik.fxml";
+                viewPath = "/view/pemilik/DashboardPemilik.fxml";
                 title = "KosKu - Dashboard Pemilik";
                 break;
             default: // PENYEWA
@@ -73,6 +73,6 @@ public class LoginController {
 
     @FXML
     public void handleGoToRegister(MouseEvent event) {
-        Main.navigateTo("/view/register.fxml", "KosKu - Register");
+        Main.navigateTo("/view/auth/register.fxml", "KosKu - Register");
     }
 }

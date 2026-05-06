@@ -43,7 +43,7 @@ public class Main extends Application {
             System.err.println("Critical error connecting to database: " + e.getMessage());
         }
 
-        navigateTo("view/login.fxml", "KosKu - Login");
+        navigateTo("view/auth/login.fxml", "KosKu - Login");
         primaryStage.setFullScreen(true);
         // Opsional: Biar nggak muncul tulisan "Press ESC to exit full screen"
         primaryStage.setFullScreenExitHint("");

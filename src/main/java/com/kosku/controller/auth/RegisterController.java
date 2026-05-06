@@ -64,7 +64,7 @@ public class RegisterController {
             // 5. Berhasil
             showAlert(Alert.AlertType.INFORMATION, "Registrasi Berhasil!", 
                 "Akun " + (selectedRole == User.Role.PEMILIK ? "Pemilik" : "Penyewa") + " berhasil dibuat.");
-            Main.navigateTo("/view/login.fxml", "KosKu - Login");
+            Main.navigateTo("/view/auth/login.fxml", "KosKu - Login");
 
         } catch (Exception e) {
             // Error dari service (misal: "Username sudah digunakan") tampil di sini
@@ -119,6 +119,6 @@ public class RegisterController {
 
     @FXML
     public void handleGoToLogin(MouseEvent event) {
-        Main.navigateTo("/view/login.fxml", "KosKu - Login");
+        Main.navigateTo("/view/auth/login.fxml", "KosKu - Login");
     }
 }

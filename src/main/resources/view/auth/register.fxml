@@ -7,7 +7,7 @@
 
 <HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.kosku.controller.auth.RegisterController"
-      styleClass="auth-root" prefWidth="1100.0" prefHeight="700.0" stylesheets="@../css/style.css">
+      styleClass="auth-root" prefWidth="1100.0" prefHeight="700.0" stylesheets="@../../css/style.css">
 
     <!-- ===== LEFT PANEL: BRANDING ===== -->
     <VBox styleClass="auth-left-panel" HBox.hgrow="ALWAYS" maxWidth="520.0" minWidth="420.0"
