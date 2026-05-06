@@ -41,4 +41,24 @@ public class UserDAO extends BaseDAO<User> {
 			throw new RuntimeException("Gagal mencari user by identifier: " + e.getMessage(), e);
 		}
 	}
+
+	public java.util.List<User> getUnverifiedUsers() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "from User where role = 'PEMILIK' and isVerified = false";
+			Query<User> query = session.createQuery(hql, User.class);
+			return query.list();
+		} catch (Exception e) {
+			throw new RuntimeException("Gagal mencari unverified users: " + e.getMessage(), e);
+		}
+	}
+
+	public long getTotalUsers() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "select count(u) from User u";
+			Query<Long> query = session.createQuery(hql, Long.class);
+			return query.uniqueResult();
+		} catch (Exception e) {
+			throw new RuntimeException("Gagal menghitung total user: " + e.getMessage(), e);
+		}
+	}
 }

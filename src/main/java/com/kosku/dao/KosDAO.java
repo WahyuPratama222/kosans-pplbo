@@ -49,4 +49,19 @@ public class KosDAO extends BaseDAO<Kos> {
         String hql = "FROM Kos k WHERE k.isVerified = true AND k.harga <= :maxHarga AND k.tipeKos = :tipe";
         return listByQuery(hql, Map.of("maxHarga", maxHarga, "tipe", tipe), Kos.class);
     } 
+
+    public List<Kos> getUnverifiedKos() {
+        String hql = "FROM Kos k WHERE k.isVerified = false";
+        return listByQuery(hql, null, Kos.class);
+    }
+
+    public long getTotalVerifiedKos() {
+        try (org.hibernate.Session session = com.kosku.util.HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "select count(k) from Kos k where k.isVerified = true";
+            org.hibernate.query.Query<Long> query = session.createQuery(hql, Long.class);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal menghitung total kos: " + e.getMessage(), e);
+        }
+    }
 }

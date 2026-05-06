@@ -51,4 +51,16 @@ public class BookingDAO extends BaseDAO<Booking> {
             return count != null ? count : 0L;
         }
     }
+
+    public long getTotalActiveBookings() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT COUNT(b) FROM Booking b WHERE b.statusBooking = :status";
+            Long count = session.createQuery(hql, Long.class)
+                    .setParameter("status", Booking.StatusBooking.DITERIMA)
+                    .uniqueResult();
+            return count != null ? count : 0L;
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal menghitung total booking aktif: " + e.getMessage(), e);
+        }
+    }
 }
