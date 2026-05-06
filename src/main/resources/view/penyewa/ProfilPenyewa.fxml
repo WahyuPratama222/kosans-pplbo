@@ -62,7 +62,7 @@
                                     </VBox>
                                     <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                         <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Email" />
-                                        <TextField fx:id="tfPekerjaan" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
+                                        <TextField fx:id="tfEmail" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
                                     </VBox>
                                 </HBox>
 
@@ -81,6 +81,10 @@
                                     <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                                         <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Password Baru" />
                                         <PasswordField fx:id="pfPasswordBaru" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
+                                    </VBox>
+                                    <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Konfirmasi Password" />
+                                        <PasswordField fx:id="pfKonfirmasiPassword" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
                                     </VBox>
                                 </HBox>
 

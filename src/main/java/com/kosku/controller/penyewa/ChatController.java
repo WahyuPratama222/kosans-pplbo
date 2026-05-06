@@ -116,23 +116,20 @@ public class ChatController implements Initializable {
         try {
             Integer userId = SessionManager.getCurrentUserId();
             String penerimaStr = cbPenerima.getValue();
-            
             if (userId == null || penerimaStr == null) {
                 return;
             }
-            
             // Extract nama pengguna dari penerimaStr
             String penerimaNama = penerimaStr.split(" \\(")[0];
-            
-            // Cari user berdasarkan username
-            // TODO: Tambahkan method findByUsername di UserDAO
-            // Untuk sekarang gunakan dummy data
-            
+            // Cari user penerima dari database
+            User penerima = userDAO.findByUsername(penerimaNama);
+            if (penerima == null) {
+                taChat.setText("Penerima tidak ditemukan di database.");
+                return;
+            }
             taChat.clear();
-            
-            // Ambil message history dari database
+            // Ambil message history dari database (bisa filter by pengirim & penerima jika perlu)
             List<Chat> messages = chatDAO.getReceivedMessages(userId);
-            
             if (messages != null && !messages.isEmpty()) {
                 for (Chat chat : messages) {
                     String sender = chat.getPengirim().getUsername() != null ? 
@@ -155,43 +152,37 @@ public class ChatController implements Initializable {
             String pesan = tfPesanBaru.getText().trim();
             String penerimaNama = cbPenerima.getValue();
             Integer userId = SessionManager.getCurrentUserId();
-            
             if (pesan.isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Peringatan", "Pesan tidak boleh kosong");
                 return;
             }
-            
             if (penerimaNama == null || penerimaNama.isEmpty() || userId == null) {
                 showAlert(Alert.AlertType.WARNING, "Peringatan", "Pilih penerima terlebih dahulu");
                 return;
             }
-            
             // Extract username dari penerimaNama (format: "username (role)")
             String penerimaUsername = penerimaNama.split(" \\(")[0];
-            
-            // TODO: Cari user penerima berdasarkan username dari database
-            // Untuk sekarang gunakan dummy
-            Integer penerimaId = 2; // Placeholder - sebaiknya cari dari database
-            
+            // Cari user penerima dari database
+            User penerima = userDAO.findByUsername(penerimaUsername);
+            if (penerima == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Penerima tidak ditemukan di database");
+                return;
+            }
             // Create chat object
             Chat chat = Chat.builder()
                 .pengirim(User.builder().idUser(userId).build())
-                .penerima(User.builder().idUser(penerimaId).build())
+                .penerima(User.builder().idUser(penerima.getIdUser()).build())
                 .isiPesan(pesan)
                 .sudahDibaca(false)
                 .build();
-            
             // Simpan ke database
             chatDAO.saveOrUpdate(chat);
-            
             // Tambahkan ke tampilan chat
             String timestamp = LocalTime.now().format(timeFormatter);
             taChat.appendText("[" + timestamp + "] Anda: " + pesan + "\n");
-            
             // Bersihkan input
             tfPesanBaru.clear();
             tfPesanBaru.requestFocus();
-            
             System.out.println("Pesan terkirim ke " + penerimaUsername);
         } catch (Exception e) {
             System.err.println("Error mengirim pesan: " + e.getMessage());

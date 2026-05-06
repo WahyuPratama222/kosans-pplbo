@@ -122,7 +122,6 @@ public class ProfilController implements Initializable {
                 "Klik tombol Edit terlebih dahulu");
             return;
         }
-        
         try {
             // Validasi input
             if (tfNama.getText().trim().isEmpty()) {
@@ -130,18 +129,15 @@ public class ProfilController implements Initializable {
                     "Nama tidak boleh kosong");
                 return;
             }
-            
             if (tfEmail.getText().trim().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Validasi", 
                     "Email tidak boleh kosong");
                 return;
             }
-            
             // Update user data
             userCurrent.setUsername(tfNama.getText());
             userCurrent.setEmail(tfEmail.getText());
             userCurrent.setNomorHp(tfNoHp.getText());
-            
             // Update password jika ada
             if (!pfPasswordBaru.getText().isEmpty()) {
                 // Validasi password lama
@@ -150,30 +146,29 @@ public class ProfilController implements Initializable {
                         "Masukkan password lama terlebih dahulu");
                     return;
                 }
-                
                 // Validasi password baru dan konfirmasi
                 if (!pfPasswordBaru.getText().equals(pfKonfirmasiPassword.getText())) {
                     showAlert(Alert.AlertType.WARNING, "Validasi", 
                         "Password baru dan konfirmasi tidak cocok");
                     return;
                 }
-                
-                // TODO: Validasi password lama dari database
-                // userCurrent.setPassword(pfPasswordBaru.getText());
+                // Validasi password lama dari database
+                boolean valid = org.mindrot.jbcrypt.BCrypt.checkpw(pfPasswordLama.getText(), userCurrent.getPassword());
+                if (!valid) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Password lama salah!");
+                    return;
+                }
+                userCurrent.setPassword(org.mindrot.jbcrypt.BCrypt.hashpw(pfPasswordBaru.getText(), org.mindrot.jbcrypt.BCrypt.gensalt()));
             }
-            
             // Simpan ke database
             userDAO.saveOrUpdate(userCurrent);
-            
             // Reset form
             pfPasswordLama.clear();
             pfPasswordBaru.clear();
             pfKonfirmasiPassword.clear();
-            
             setEditMode(false);
             showAlert(Alert.AlertType.INFORMATION, "Sukses", 
                 "Profil berhasil diperbarui!");
-            
         } catch (Exception e) {
             System.err.println("Error simpan profil: " + e.getMessage());
             e.printStackTrace();
@@ -201,28 +196,34 @@ public class ProfilController implements Initializable {
                 "Masukkan password lama");
             return;
         }
-        
         if (pfPasswordBaru.getText().isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Validasi", 
                 "Masukkan password baru");
             return;
         }
-        
         if (!pfPasswordBaru.getText().equals(pfKonfirmasiPassword.getText())) {
             showAlert(Alert.AlertType.WARNING, "Validasi", 
                 "Password baru dan konfirmasi tidak cocok");
             return;
         }
-        
         // Validasi panjang password
         if (pfPasswordBaru.getText().length() < 6) {
             showAlert(Alert.AlertType.WARNING, "Validasi", 
                 "Password minimal 6 karakter");
             return;
         }
-        
         try {
-            // TODO: Validasi password lama dan update di database
+            // Validasi password lama dari database
+            Integer userId = SessionManager.getCurrentUserId();
+            User user = userDAO.getById(User.class, userId);
+            boolean valid = org.mindrot.jbcrypt.BCrypt.checkpw(pfPasswordLama.getText(), user.getPassword());
+            if (!valid) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Password lama salah!");
+                return;
+            }
+            // Update password
+            user.setPassword(org.mindrot.jbcrypt.BCrypt.hashpw(pfPasswordBaru.getText(), org.mindrot.jbcrypt.BCrypt.gensalt()));
+            userDAO.saveOrUpdate(user);
             showAlert(Alert.AlertType.INFORMATION, "Sukses", 
                 "Password berhasil diubah!");
             pfPasswordLama.clear();

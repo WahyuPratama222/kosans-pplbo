@@ -32,4 +32,13 @@ public class KosDAO extends BaseDAO<Kos> {
         String likeKeyword = "%" + keyword.toLowerCase() + "%";
         return listByQuery(hql, Map.of("kw", likeKeyword), Kos.class);
     }
+
+    /**
+     * Ambil semua kos beserta kamarList-nya (eager fetch) agar harga kamar
+     * dapat diakses setelah session Hibernate ditutup.
+     */
+    public List<Kos> getAllWithKamar() {
+        String hql = "SELECT DISTINCT k FROM Kos k LEFT JOIN FETCH k.kamarList";
+        return listByQuery(hql, null, Kos.class);
+    }
 }

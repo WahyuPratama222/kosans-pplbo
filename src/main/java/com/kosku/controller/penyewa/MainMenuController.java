@@ -2,6 +2,7 @@ package com.kosku.controller.penyewa;
 
 import java.util.ResourceBundle;
 import java.util.List;
+import java.math.BigDecimal;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,11 +14,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.net.URL;
 import com.kosku.dao.KosDAO;
 import com.kosku.model.Kos;
+import com.kosku.model.Kamar;
 
 public class MainMenuController implements Initializable {
 
@@ -46,6 +53,18 @@ public class MainMenuController implements Initializable {
     private Button btnTipeCampur;
 
     @FXML
+    private Button btnDurasiHarian;
+
+    @FXML
+    private Button btnDurasiMingguan;
+
+    @FXML
+    private Button btnDurasiBulanan;
+
+    @FXML
+    private Button btnDurasiTahunan;
+
+    @FXML
     private Label lblJumlahKos;
 
     @FXML
@@ -54,6 +73,8 @@ public class MainMenuController implements Initializable {
     private KosDAO kosDAO;
     private List<Kos> allKosList;
     private List<Kos> filteredKosList;
+    private Kos.TipeKos activeTipeFilter = null;
+    private Kos.DurasiSewa activeDurasiFilter = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,8 +112,8 @@ public class MainMenuController implements Initializable {
 
     private void loadAllKos() {
         try {
-            // Load semua kos dari database
-            allKosList = kosDAO.getAll(Kos.class);
+            // Load semua kos dari database beserta kamarList (JOIN FETCH)
+            allKosList = kosDAO.getAllWithKamar();
             filteredKosList = allKosList;
             
             if (allKosList != null && !allKosList.isEmpty()) {
@@ -128,49 +149,124 @@ public class MainMenuController implements Initializable {
     }
 
     private VBox createKosCard(Kos kos) {
-        VBox card = new VBox(10);
-        card.setStyle("-fx-border-color: #E0E0E0; -fx-border-radius: 10; " +
-                     "-fx-background-color: white; -fx-padding: 15; " +
-                     "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);");
-        card.setPrefWidth(280);
-        card.setPrefHeight(320);
-        
-        // Nama Kos
+        VBox card = new VBox();
+        card.setPrefWidth(460.0);
+        card.setSpacing(0.0);
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.09), 12, 0, 0, 4);");
+
+        // Top Image (AnchorPane)
+        AnchorPane topPane = new AnchorPane();
+        topPane.setPrefHeight(220.0);
+
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(220.0);
+        imageView.setFitWidth(460.0);
+        imageView.setPreserveRatio(false);
+
+        // Load image
+        String imagePath = kos.getFotoKos() != null ? "/" + kos.getFotoKos() + ".png" : "/images/tesKos.png";
+        try {
+            URL imageUrl = getClass().getResource(imagePath);
+            if(imageUrl != null) {
+                imageView.setImage(new Image(imageUrl.toExternalForm()));
+            } else {
+                URL defaultUrl = getClass().getResource("/images/tesKos.png");
+                if (defaultUrl != null) {
+                    imageView.setImage(new Image(defaultUrl.toExternalForm()));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Could not load image: " + e.getMessage());
+        }
+
+        AnchorPane.setLeftAnchor(imageView, 0.0);
+        AnchorPane.setRightAnchor(imageView, 0.0);
+        AnchorPane.setTopAnchor(imageView, 0.0);
+
+        Label lblRating = new Label("⭐ 4.9");
+        lblRating.setStyle("-fx-background-color: rgba(0,0,0,0.55); -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 4 10 4 10; -fx-background-radius: 20;");
+        AnchorPane.setRightAnchor(lblRating, 14.0);
+        AnchorPane.setTopAnchor(lblRating, 14.0);
+
+        topPane.getChildren().addAll(imageView, lblRating);
+
+        // Content (Bottom VBox)
+        VBox contentBox = new VBox();
+        contentBox.setSpacing(10.0);
+        contentBox.setStyle("-fx-padding: 18 20 20 20;");
+
+        HBox badgesBox = new HBox(8.0);
+        String tipeStr = "🚹 Putra";
+        String tipeBg = "#2D6BE4";
+        if (kos.getTipeKos() != null) {
+            if (kos.getTipeKos().name().equals("PUTRI")) {
+                tipeStr = "🚺 Putri";
+                tipeBg = "#D6336C";
+            } else if (kos.getTipeKos().name().equals("CAMPUR")) {
+                tipeStr = "👥 Campur";
+                tipeBg = "#16A34A";
+            }
+        }
+        Label lblTipe = new Label(tipeStr);
+        lblTipe.setStyle("-fx-background-color: " + tipeBg + "; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 4 10 4 10; -fx-background-radius: 20;");
+
+        String durasiStr = kos.getDurasiSewa() != null ? kos.getDurasiSewa().name() : "BULANAN";
+        // Capitalize first letter properly
+        durasiStr = durasiStr.substring(0, 1).toUpperCase() + durasiStr.substring(1).toLowerCase();
+        Label lblDurasi = new Label(durasiStr);
+        lblDurasi.setStyle("-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 4 10 4 10; -fx-background-radius: 20;");
+
+        badgesBox.getChildren().addAll(lblTipe, lblDurasi);
+
         Label lblNama = new Label(kos.getNamaKos() != null ? kos.getNamaKos() : "N/A");
-        lblNama.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;");
-        
-        // Alamat
-        Label lblAlamat = new Label(kos.getAlamat() != null ? kos.getAlamat() : "Alamat tidak tersedia");
-        lblAlamat.setStyle("-fx-font-size: 12px; -fx-text-fill: #666666; -fx-wrap-text: true;");
-        
-        // Harga
-        Label lblHarga = new Label("Mulai dari: Rp. " + 
-            (kos.getHargaMin() != null ? kos.getHargaMin().toString() : "0"));
-        lblHarga.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;");
-        
-        // Fasilitas (dummy)
-        Label lblFasilitas = new Label("✓ WiFi  ✓ AC  ✓ Parkir");
-        lblFasilitas.setStyle("-fx-font-size: 11px; -fx-text-fill: #4CAF50;");
-        
-        // Button Lihat Detail
+        lblNama.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1A2744;");
+
+        Label lblAlamat = new Label("📍 " + (kos.getAlamat() != null ? kos.getAlamat() : "Alamat tidak tersedia"));
+        lblAlamat.setStyle("-fx-font-size: 12px; -fx-text-fill: #888;");
+
+        HBox hargaBoxContainer = new HBox();
+        hargaBoxContainer.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
+        VBox hargaBox = new VBox();
+        Label lblMulaiDari = new Label("Mulai dari");
+        lblMulaiDari.setStyle("-fx-font-size: 11px; -fx-text-fill: #888;");
+
+        BigDecimal hargaMin = kos.getHarga();
+        String hargaStr = hargaMin != null ? "Rp " + String.format("%,.0f", hargaMin).replace(",", ".") : "Hubungi Pemilik";
+        Label lblHargaVal = new Label(hargaStr);
+        lblHargaVal.setStyle("-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;");
+        hargaBox.getChildren().addAll(lblMulaiDari, lblHargaVal);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        hargaBoxContainer.getChildren().addAll(hargaBox, spacer);
+
         Button btnDetail = new Button("Lihat Detail");
-        btnDetail.setStyle("-fx-background-color: #2D6BE4; -fx-text-fill: white; " +
-                          "-fx-font-size: 12px; -fx-padding: 8 20; -fx-cursor: hand;");
+        btnDetail.setStyle("-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 9 18 9 18;");
         btnDetail.setOnAction(e -> showKosDetail(kos));
-        btnDetail.setPrefWidth(Double.MAX_VALUE);
-        
-        card.getChildren().addAll(lblNama, lblAlamat, lblHarga, lblFasilitas, new Region(), btnDetail);
+
+        contentBox.getChildren().addAll(badgesBox, lblNama, lblAlamat, hargaBoxContainer, btnDetail);
+
+        card.getChildren().addAll(topPane, contentBox);
+
         return card;
     }
 
     private void showKosDetail(Kos kos) {
+        BigDecimal hargaMin = kos.getHarga();
+        int jumlahKamar = kos.getKamarList() != null ? kos.getKamarList().size() : 0;
+
         StringBuilder detail = new StringBuilder();
         detail.append("=== DETAIL KOS ===\n\n");
         detail.append("Nama: ").append(kos.getNamaKos()).append("\n");
         detail.append("Alamat: ").append(kos.getAlamat()).append("\n");
-        detail.append("Harga Min: Rp. ").append(kos.getHargaMin()).append("\n");
-        detail.append("Harga Max: Rp. ").append(kos.getHargaMax()).append("\n");
-        detail.append("Status: ").append(kos.getIsVerified() ? "Terverifikasi" : "Belum Terverifikasi");
+        if (hargaMin != null) {
+            detail.append("Harga Mulai: Rp. ").append(hargaMin.toPlainString()).append("\n");
+        } else {
+            detail.append("Harga: Hubungi Pemilik\n");
+        }
+        detail.append("Jumlah Kamar: ").append(jumlahKamar).append("\n");
+        detail.append("Status: ").append(Boolean.TRUE.equals(kos.getIsVerified()) ? "Terverifikasi" : "Belum Terverifikasi");
         
         showAlert(Alert.AlertType.INFORMATION, "Detail Kos", detail.toString());
     }
@@ -181,45 +277,94 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void handleCari(ActionEvent event) {
-        String keyword = tfCari.getText().trim();
-        
-        if (keyword.isEmpty()) {
-            loadAllKos();
-            return;
-        }
-        
-        try {
-            // Cari kos berdasarkan keyword
-            filteredKosList = allKosList.stream()
-                .filter(kos -> kos.getNamaKos().toLowerCase().contains(keyword.toLowerCase()) ||
-                              kos.getAlamat().toLowerCase().contains(keyword.toLowerCase()))
-                .toList();
-            
-            displayKos(filteredKosList);
-            lblJumlahKos.setText("Ditemukan " + filteredKosList.size() + " kos");
-        } catch (Exception e) {
-            System.err.println("Error searching: " + e.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Error", "Gagal mencari kos");
-        }
+        applyAllFilters();
     }
 
     @FXML
     void filterPutra(ActionEvent event) {
-        System.out.println("Filter cepat: Kos Putra");
-        // TODO: Filter berdasarkan tipe kos (jika ada field di model)
-        showAlert(Alert.AlertType.INFORMATION, "Info", "Filter Putra akan segera tersedia");
+        activeTipeFilter = (activeTipeFilter == Kos.TipeKos.PUTRA) ? null : Kos.TipeKos.PUTRA;
+        updateTipeButtonsStyles();
+        applyAllFilters();
     }
 
     @FXML
     void filterPutri(ActionEvent event) {
-        System.out.println("Filter cepat: Kos Putri");
-        showAlert(Alert.AlertType.INFORMATION, "Info", "Filter Putri akan segera tersedia");
+        activeTipeFilter = (activeTipeFilter == Kos.TipeKos.PUTRI) ? null : Kos.TipeKos.PUTRI;
+        updateTipeButtonsStyles();
+        applyAllFilters();
     }
 
     @FXML
     void filterCampur(ActionEvent event) {
-        System.out.println("Filter cepat: Kos Campur");
-        showAlert(Alert.AlertType.INFORMATION, "Info", "Filter Campur akan segera tersedia");
+        activeTipeFilter = (activeTipeFilter == Kos.TipeKos.CAMPUR) ? null : Kos.TipeKos.CAMPUR;
+        updateTipeButtonsStyles();
+        applyAllFilters();
+    }
+
+    @FXML
+    void filterHarian(ActionEvent event) {
+        activeDurasiFilter = (activeDurasiFilter == Kos.DurasiSewa.HARIAN) ? null : Kos.DurasiSewa.HARIAN;
+        updateDurasiButtonsStyles();
+        applyAllFilters();
+    }
+
+    @FXML
+    void filterMingguan(ActionEvent event) {
+        activeDurasiFilter = (activeDurasiFilter == Kos.DurasiSewa.MINGGUAN) ? null : Kos.DurasiSewa.MINGGUAN;
+        updateDurasiButtonsStyles();
+        applyAllFilters();
+    }
+
+    @FXML
+    void filterBulanan(ActionEvent event) {
+        activeDurasiFilter = (activeDurasiFilter == Kos.DurasiSewa.BULANAN) ? null : Kos.DurasiSewa.BULANAN;
+        updateDurasiButtonsStyles();
+        applyAllFilters();
+    }
+
+    @FXML
+    void filterTahunan(ActionEvent event) {
+        activeDurasiFilter = (activeDurasiFilter == Kos.DurasiSewa.TAHUNAN) ? null : Kos.DurasiSewa.TAHUNAN;
+        updateDurasiButtonsStyles();
+        applyAllFilters();
+    }
+
+    private void updateTipeButtonsStyles() {
+        String baseStyle = "-fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT; ";
+        String stylePutra = baseStyle + "-fx-background-color: #EEF3FF; -fx-text-fill: #2D6BE4; ";
+        String stylePutri = baseStyle + "-fx-background-color: #FFF0F5; -fx-text-fill: #D6336C; ";
+        String styleCampur = baseStyle + "-fx-background-color: #F0FDF4; -fx-text-fill: #16A34A; ";
+
+        btnTipePutra.setStyle(stylePutra);
+        btnTipePutri.setStyle(stylePutri);
+        btnTipeCampur.setStyle(styleCampur);
+
+        if (activeTipeFilter != null) {
+            switch (activeTipeFilter) {
+                case PUTRA: btnTipePutra.setStyle(stylePutra + "-fx-border-color: #2D6BE4; -fx-border-radius: 8; -fx-border-width: 2px; -fx-font-weight: bold;"); break;
+                case PUTRI: btnTipePutri.setStyle(stylePutri + "-fx-border-color: #D6336C; -fx-border-radius: 8; -fx-border-width: 2px; -fx-font-weight: bold;"); break;
+                case CAMPUR: btnTipeCampur.setStyle(styleCampur + "-fx-border-color: #16A34A; -fx-border-radius: 8; -fx-border-width: 2px; -fx-font-weight: bold;"); break;
+            }
+        }
+    }
+
+    private void updateDurasiButtonsStyles() {
+        String defaultStyle = "-fx-background-color: #F8F9FF; -fx-text-fill: #333; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT; -fx-border-color: #D0D9E8; -fx-border-radius: 8;";
+        String activeStyle = "-fx-background-color: #E2E8F0; -fx-text-fill: #1A3A6B; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT; -fx-border-color: #1A3A6B; -fx-border-radius: 8; -fx-font-weight: bold; -fx-border-width: 2px;";
+        
+        btnDurasiHarian.setStyle(defaultStyle);
+        btnDurasiMingguan.setStyle(defaultStyle);
+        btnDurasiBulanan.setStyle(defaultStyle);
+        btnDurasiTahunan.setStyle(defaultStyle);
+
+        if (activeDurasiFilter != null) {
+            switch (activeDurasiFilter) {
+                case HARIAN: btnDurasiHarian.setStyle(activeStyle); break;
+                case MINGGUAN: btnDurasiMingguan.setStyle(activeStyle); break;
+                case BULANAN: btnDurasiBulanan.setStyle(activeStyle); break;
+                case TAHUNAN: btnDurasiTahunan.setStyle(activeStyle); break;
+            }
+        }
     }
 
     @FXML
@@ -235,65 +380,79 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    void filterMurah(ActionEvent event) {
-        System.out.println("Filter cepat: Harga Termurah");
-        if (allKosList != null && !allKosList.isEmpty()) {
-            filteredKosList = allKosList.stream()
-                .sorted((a, b) -> a.getHargaMin().compareTo(b.getHargaMin()))
-                .toList();
-            displayKos(filteredKosList);
-            lblJumlahKos.setText("Filter: Harga Termurah (" + filteredKosList.size() + " kos)");
-        }
-    }
-
-    @FXML
     void applyFilter(ActionEvent event) {
         applyAllFilters();
     }
 
     private void applyAllFilters() {
+        if (allKosList == null) return;
+        
         try {
+            String keyword = tfCari.getText().trim().toLowerCase();
             String minHargaStr = tfHargaMin.getText().trim();
             String maxHargaStr = tfHargaMax.getText().trim();
             String urutan = cbUrutan.getValue();
-            
-            // Filter berdasarkan harga
+
             filteredKosList = allKosList.stream()
                 .filter(kos -> {
-                    if (!minHargaStr.isEmpty()) {
-                        try {
-                            if (kos.getHargaMin().doubleValue() < Double.parseDouble(minHargaStr)) {
-                                return false;
-                            }
-                        } catch (NumberFormatException e) {
-                            return true;
-                        }
+                    // Keyword Match
+                    if (!keyword.isEmpty()) {
+                        boolean matchNama = kos.getNamaKos() != null && kos.getNamaKos().toLowerCase().contains(keyword);
+                        boolean matchAlamat = kos.getAlamat() != null && kos.getAlamat().toLowerCase().contains(keyword);
+                        if (!matchNama && !matchAlamat) return false;
                     }
-                    if (!maxHargaStr.isEmpty()) {
+                    
+                    // Harga Match
+                    BigDecimal hMin = kos.getHarga();
+                    if (!minHargaStr.isEmpty() && hMin != null) {
                         try {
-                            if (kos.getHargaMax().doubleValue() > Double.parseDouble(maxHargaStr)) {
-                                return false;
-                            }
-                        } catch (NumberFormatException e) {
-                            return true;
-                        }
+                            if (hMin.doubleValue() < Double.parseDouble(minHargaStr)) return false;
+                        } catch (NumberFormatException ignored) {}
                     }
+                    if (!maxHargaStr.isEmpty() && hMin != null) {
+                        try {
+                            if (hMin.doubleValue() > Double.parseDouble(maxHargaStr)) return false;
+                        } catch (NumberFormatException ignored) {}
+                    }
+                    
+                    // Tipe Kos Match
+                    if (activeTipeFilter != null && kos.getTipeKos() != activeTipeFilter) {
+                        return false;
+                    }
+                    
+                    // Durasi Sewa Match
+                    if (activeDurasiFilter != null && kos.getDurasiSewa() != activeDurasiFilter) {
+                        return false;
+                    }
+
                     return true;
                 })
                 .toList();
-            
+
             // Sort berdasarkan pilihan
-            if (urutan != null) {
+            if (urutan != null && !filteredKosList.isEmpty()) {
                 switch (urutan) {
                     case "Harga Terendah":
                         filteredKosList = filteredKosList.stream()
-                            .sorted((a, b) -> a.getHargaMin().compareTo(b.getHargaMin()))
-                            .toList();
+                            .sorted((a, b) -> {
+                                BigDecimal hA = a.getHarga();
+                                BigDecimal hB = b.getHarga();
+                                if (hA == null && hB == null) return 0;
+                                if (hA == null) return 1;
+                                if (hB == null) return -1;
+                                return hA.compareTo(hB);
+                            }).toList();
                         break;
                     case "Harga Tertinggi":
                         filteredKosList = filteredKosList.stream()
-                            .sorted((a, b) -> b.getHargaMax().compareTo(a.getHargaMax()))
-                            .toList();
+                            .sorted((a, b) -> {
+                                BigDecimal hA = a.getHarga();
+                                BigDecimal hB = b.getHarga();
+                                if (hA == null && hB == null) return 0;
+                                if (hA == null) return 1;
+                                if (hB == null) return -1;
+                                return hB.compareTo(hA);
+                            }).toList();
                         break;
                 }
             }
@@ -312,7 +471,13 @@ public class MainMenuController implements Initializable {
         tfHargaMin.clear();
         tfHargaMax.clear();
         cbUrutan.getSelectionModel().selectFirst();
-        loadAllKos();
+        
+        activeTipeFilter = null;
+        activeDurasiFilter = null;
+        updateTipeButtonsStyles();
+        updateDurasiButtonsStyles();
+        
+        applyAllFilters();
         System.out.println("Filter telah direset.");
     }
 
