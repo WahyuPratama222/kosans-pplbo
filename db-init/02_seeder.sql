@@ -9,22 +9,22 @@ use kosans_db;
 -- password seluruh password123
 -- Admin Users
 INSERT INTO users (username, password, email, role, nomor_hp, is_verified) VALUES
-('admin_1', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'admin@kosans.com', 'ADMIN', '081234567890', TRUE),
-('admin_2', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'admin2@kosans.com', 'ADMIN', '081234567891', TRUE);
+('admin_1', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'admin@kosans.com', 'ADMIN', '081234567890', TRUE),
+('admin_2', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'admin2@kosans.com', 'ADMIN', '081234567891', TRUE);
 
 -- Pemilik (Owner) Users
 INSERT INTO users (username, password, email, role, nomor_hp, is_verified) VALUES
-('pemilik_Rizki', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'budi@gmail.com', 'PEMILIK', '082123456789', TRUE),
-('pemilik_Iqbal', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'siti@gmail.com', 'PEMILIK', '082987654321', TRUE),
-('pemilik_Irpan', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'agus@gmail.com', 'PEMILIK', '082111111111', TRUE);
+('pemilik_Rizki', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'budi@gmail.com', 'PEMILIK', '082123456789', TRUE),
+('pemilik_Iqbal', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'siti@gmail.com', 'PEMILIK', '082987654321', TRUE),
+('pemilik_Irpan', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'agus@gmail.com', 'PEMILIK', '082111111111', TRUE);
 
 -- Penyewa (Tenant) Users
 INSERT INTO users (username, password, email, role, nomor_hp, is_verified) VALUES
-('penyewa_helen', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'aldi@student.com', 'PENYEWA', '083123456789', TRUE),
-('penyewa_ropi', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'dina@student.com', 'PENYEWA', '083987654321', TRUE),
-('penyewa_adha', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'roni@student.com', 'PENYEWA', '083222222222', TRUE),
-('penyewa_bigmo', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'tina@student.com', 'PENYEWA', '083333333333', TRUE),
-('penyewa_rian', '$2a$10$slYQmyNdGzin7olVi9ou2OPST9/PgBkqquzi.Ss7KIUgO2t0jKMUe', 'rio@student.com', 'PENYEWA', '083444444444', TRUE);
+('penyewa_helen', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'aldi@student.com', 'PENYEWA', '083123456789', TRUE),
+('penyewa_ropi', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'dina@student.com', 'PENYEWA', '083987654321', TRUE),
+('penyewa_adha', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'roni@student.com', 'PENYEWA', '083222222222', TRUE),
+('penyewa_bigmo', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'tina@student.com', 'PENYEWA', '083333333333', TRUE),
+('penyewa_rian', '$2a$10$VE7gk0pdSV3uu6VYquDjHekoqZsd2K0vJt7gyJ3NJYz9ffBRoXoS6', 'rio@student.com', 'PENYEWA', '083444444444', TRUE);
 
 -- =====================================================
 -- SEEDER DATA KOS (Properties)
