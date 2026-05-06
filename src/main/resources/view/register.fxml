@@ -22,10 +22,11 @@
 
             <VBox spacing="10.0">
                <children>
-                  <TextField fx:id="usernameField" prefHeight="40.0" promptText="Username" styleClass="text-field" />
+                  <TextField fx:id="namaLengkapField" prefHeight="40.0" promptText="Nama Lengkap / Username" styleClass="text-field" />
                   <TextField fx:id="emailField" prefHeight="40.0" promptText="Email" styleClass="text-field" />
                   <PasswordField fx:id="passwordField" prefHeight="40.0" promptText="Password" styleClass="text-field" />
-                  <ComboBox fx:id="roleComboBox" prefHeight="40.0" prefWidth="450.0" promptText="Pilih Role" styleClass="combo-box" />
+                  <PasswordField fx:id="confirmPasswordField" prefHeight="40.0" promptText="Konfirmasi Password" styleClass="text-field" />
+                  <ComboBox fx:id="jenisKelaminBox" prefHeight="40.0" prefWidth="450.0" promptText="Jenis Kelamin (Opsional)" styleClass="combo-box" />
                </children>
             </VBox>
 

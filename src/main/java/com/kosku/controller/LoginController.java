@@ -30,34 +30,51 @@ public class LoginController {
 
     @FXML
     public void handleLogin(ActionEvent event) {
-        String email = emailField.getText();
+        String identifier = emailField.getText();
         String password = passwordField.getText();
 
-        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            showAlert("Error", "Email dan Password tidak boleh kosong!");
+        if (identifier == null || identifier.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            showAlert("Error", "Email/Username dan Password tidak boleh kosong!");
             return;
         }
 
         try {
-            User user = userDAO.findByEmail(email.trim());
-            if (user != null && org.mindrot.jbcrypt.BCrypt.checkpw(password, user.getPassword())) {
+            System.out.println("[LoginDebug] Mencoba login dengan ID: [" + identifier.trim() + "]");
+            
+            // Menggunakan method findByIdentifier (Username atau Email)
+            User user = userDAO.findByIdentifier(identifier.trim());
+            
+            if (user == null) {
+                System.out.println("[LoginDebug] User TIDAK DITEMUKAN di database.");
+                showAlert("Gagal Login", "Email atau Username tidak terdaftar!");
+                return;
+            }
+
+            System.out.println("[LoginDebug] User ditemukan: " + user.getUsername() + " (Role: " + user.getRole() + ")");
+
+            if (org.mindrot.jbcrypt.BCrypt.checkpw(password, user.getPassword())) {
+                System.out.println("[LoginDebug] Password COCOK! Melakukan login...");
                 com.kosku.util.SessionManager.login(user);
                 
                 // Routing berdasarkan Role
-                if (user.getRole() == User.Role.PENYEWA) {
-                    Main.navigateTo("/view/penyewa/MainMenuPenyewa.fxml", "KosKu - Dashboard Penyewa");
+                if (user.getRole() == User.Role.ADMIN) {
+                    System.out.println("[LoginDebug] Mengarahkan Admin ke Dashboard...");
+                    Main.navigateTo("/view/admin/DashboardAdmin.fxml", "KosKu - Dashboard Admin");
                 } else if (user.getRole() == User.Role.PEMILIK) {
+                    System.out.println("[LoginDebug] Mengarahkan Pemilik ke Dashboard...");
                     Main.navigateTo("/view/pemilik/DashboardPemilik.fxml", "KosKu - Dashboard Pemilik");
                 } else {
-                    Main.navigateTo("/view/admin/DashboardAdmin.fxml", "KosKu - Dashboard Admin");
+                    System.out.println("[LoginDebug] Mengarahkan Penyewa ke Main Menu...");
+                    Main.navigateTo("/view/penyewa/MainMenuPenyewa.fxml", "KosKu - Dashboard Penyewa");
                 }
             } else {
-                showAlert("Gagal Login", "Email atau Password salah!");
+                System.out.println("[LoginDebug] Password SALAH.");
+                showAlert("Gagal Login", "Password salah!");
             }
         } catch (Exception e) {
-            System.err.println("Gagal login: " + e.getMessage());
+            System.err.println("[LoginDebug] ERROR: " + e.getMessage());
             e.printStackTrace();
-            showAlert("Error Database", "Terjadi kesalahan pada sistem.");
+            showAlert("Error Sistem", "Terjadi kesalahan pada koneksi database.");
         }
     }
 

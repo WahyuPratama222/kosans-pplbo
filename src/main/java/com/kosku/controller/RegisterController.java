@@ -75,8 +75,10 @@ public class RegisterController {
             newUser.setRole(com.kosku.model.User.Role.PENYEWA); // Default sebagai penyewa
             newUser.setIsVerified(true);
 
+            System.out.println("[RegisterDebug] Menyimpan user baru: " + newUser.getUsername() + " (" + newUser.getEmail() + ")");
             userDAO.saveOrUpdate(newUser);
 
+            System.out.println("[RegisterDebug] Berhasil menyimpan user ke database.");
             showAlert(javafx.scene.control.Alert.AlertType.INFORMATION, "Sukses", "Registrasi berhasil! Silakan login.");
             Main.navigateTo("view/login.fxml", "KosKu - Login");
 

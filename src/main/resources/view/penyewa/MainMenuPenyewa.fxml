@@ -10,13 +10,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.MainMenuController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.MainMenuController">
 
     <top>
         <fx:include source="NavbarPenyewa.fxml" />
@@ -75,39 +76,50 @@
                     <HBox spacing="0.0" style="-fx-background-color: #F0F4FF;">
 
                         <!-- LEFT SIDEBAR: Filter Panel -->
-                        <VBox prefWidth="320.0" spacing="20.0" style="-fx-background-color: white; -fx-padding: 28 24 28 24; -fx-border-color: #E8EDF5; -fx-border-width: 0 1 0 0;">
-                            <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="🎛️ Filter &amp; Urut" />
-                            <Label style="-fx-font-size: 13px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Urutkan Berdasarkan" />
-                            <ComboBox fx:id="cbUrutan" editable="true" prefWidth="272.0" promptText="Pilih urutan..." style="-fx-font-size: 13px;" visibleRowCount="5" />
-
-                            <Label style="-fx-font-size: 13px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Rentang Harga (per bulan)" />
-                            <HBox alignment="CENTER_LEFT" spacing="8.0">
-                                <TextField fx:id="tfHargaMin" prefWidth="122.0" promptText="Min (Rp)" style="-fx-font-size: 12px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8; -fx-padding: 8;" />
-                                <Label style="-fx-text-fill: #999;" text="—" />
-                                <TextField fx:id="tfHargaMax" prefWidth="122.0" promptText="Max (Rp)" style="-fx-font-size: 12px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8; -fx-padding: 8;" />
-                            </HBox>
-
-                            <Label style="-fx-font-size: 13px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Tipe Kos" />
+                        <VBox minWidth="350.0" prefWidth="350.0" spacing="22.0" styleClass="filter-sidebar" style="-fx-border-color: #E8EDF5; -fx-border-width: 0 1 0 0;">
+                            <Label styleClass="filter-header" text="🎛️ Filter &amp; Urut" prefWidth="300.0" />
+                            
                             <VBox spacing="8.0">
-                                <Button fx:id="btnTipePutra" mnemonicParsing="false" onAction="#filterPutra" prefWidth="272.0" style="-fx-background-color: #EEF3FF; -fx-text-fill: #2D6BE4; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT;" text="🚹  Kos Putra" />
-                                <Button fx:id="btnTipePutri" mnemonicParsing="false" onAction="#filterPutri" prefWidth="272.0" style="-fx-background-color: #FFF0F5; -fx-text-fill: #D6336C; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT;" text="🚺  Kos Putri" />
-                                <Button fx:id="btnTipeCampur" mnemonicParsing="false" onAction="#filterCampur" prefWidth="272.0" style="-fx-background-color: #F0FDF4; -fx-text-fill: #16A34A; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT;" text="👥  Kos Campur" />
+                                <Label styleClass="filter-section-label" text="Urutkan Berdasarkan" />
+                                <ComboBox fx:id="cbUrutan" prefWidth="300.0" promptText="Pilih urutan..." styleClass="filter-combobox" />
                             </VBox>
 
-                            <Label style="-fx-font-size: 13px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Durasi" />
                             <VBox spacing="8.0">
-                                <Button fx:id="btnDurasiHarian" mnemonicParsing="false" onAction="#filterHarian" prefWidth="272.0" style="-fx-background-color: #F8F9FF; -fx-text-fill: #333; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" text="Harian" />
-                                <Button fx:id="btnDurasiMingguan" mnemonicParsing="false" onAction="#filterMingguan" prefWidth="272.0" style="-fx-background-color: #F8F9FF; -fx-text-fill: #333; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" text="Mingguan" />
-                                <Button fx:id="btnDurasiBulanan" mnemonicParsing="false" onAction="#filterBulanan" prefWidth="272.0" style="-fx-background-color: #F8F9FF; -fx-text-fill: #333; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" text="Bulanan" />
-                                <Button fx:id="btnDurasiTahunan" mnemonicParsing="false" onAction="#filterTahunan" prefWidth="272.0" style="-fx-background-color: #F8F9FF; -fx-text-fill: #333; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-alignment: CENTER_LEFT; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" text="Tahunan" />
+                                <Label styleClass="filter-section-label" text="Rentang Harga (per bulan)" />
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <TextField fx:id="tfHargaMin" prefWidth="140.0" promptText="Min (Rp)" styleClass="filter-textfield" />
+                                    <Label style="-fx-text-fill: #94A3B8; -fx-font-weight: bold;" text="—" />
+                                    <TextField fx:id="tfHargaMax" prefWidth="140.0" promptText="Max (Rp)" styleClass="filter-textfield" />
+                                </HBox>
                             </VBox>
 
-                            <Button mnemonicParsing="false" onAction="#resetFilter" prefWidth="272.0" style="-fx-background-color: #F8F9FF; -fx-text-fill: #666; -fx-font-size: 13px; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" text="🔄  Reset Filter" />
-                            <Button mnemonicParsing="false" onAction="#applyFilter" prefWidth="272.0" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 12;" text="✅  Terapkan Filter" />
+                            <VBox spacing="10.0">
+                                <Label styleClass="filter-section-label" text="Tipe Kos" />
+                                <VBox spacing="8.0">
+                                    <Button fx:id="btnTipePutra" mnemonicParsing="false" onAction="#filterPutra" prefWidth="300.0" styleClass="filter-button-type" style="-fx-background-color: #EEF3FF; -fx-text-fill: #2D6BE4;" text="🚹  Kos Putra" />
+                                    <Button fx:id="btnTipePutri" mnemonicParsing="false" onAction="#filterPutri" prefWidth="300.0" styleClass="filter-button-type" style="-fx-background-color: #FFF0F5; -fx-text-fill: #D6336C;" text="🚺  Kos Putri" />
+                                    <Button fx:id="btnTipeCampur" mnemonicParsing="false" onAction="#filterCampur" prefWidth="300.0" styleClass="filter-button-type" style="-fx-background-color: #F0FDF4; -fx-text-fill: #16A34A;" text="👥  Kos Campur" />
+                                </VBox>
+                            </VBox>
+
+                            <VBox spacing="10.0">
+                                <Label styleClass="filter-section-label" text="Durasi" />
+                                <FlowPane hgap="8.0" vgap="8.0" prefWidth="300.0">
+                                    <Button fx:id="btnDurasiHarian" mnemonicParsing="false" onAction="#filterHarian" prefWidth="145.0" styleClass="filter-button-duration" text="📅 Harian" />
+                                    <Button fx:id="btnDurasiMingguan" mnemonicParsing="false" onAction="#filterMingguan" prefWidth="145.0" styleClass="filter-button-duration" text="🗓️ Mingguan" />
+                                    <Button fx:id="btnDurasiBulanan" mnemonicParsing="false" onAction="#filterBulanan" prefWidth="145.0" styleClass="filter-button-duration" text="🏢 Bulanan" />
+                                    <Button fx:id="btnDurasiTahunan" mnemonicParsing="false" onAction="#filterTahunan" prefWidth="145.0" styleClass="filter-button-duration" text="🏦 Tahunan" />
+                                </FlowPane>
+                            </VBox>
+
+                            <VBox spacing="12.0" style="-fx-padding: 10 0 0 0;">
+                                <Button mnemonicParsing="false" onAction="#applyFilter" prefWidth="300.0" styleClass="btn-apply-filter" text="✅  Terapkan Filter" />
+                                <Button mnemonicParsing="false" onAction="#resetFilter" prefWidth="300.0" style="-fx-background-color: transparent; -fx-text-fill: #64748B; -fx-font-size: 13px; -fx-cursor: hand;" text="🔄  Reset Semua Filter" />
+                            </VBox>
                         </VBox>
 
                         <!-- RIGHT CONTENT: Kos Listings -->
-                        <VBox prefWidth="1600.0" spacing="24.0" style="-fx-padding: 32 40 32 40; -fx-background-color: #F0F4FF;">
+                        <VBox HBox.hgrow="ALWAYS" spacing="24.0" style="-fx-padding: 32 40 32 40; -fx-background-color: #F0F4FF;">
 
                             <!-- Section Header -->
                             <HBox alignment="CENTER_LEFT" spacing="16.0">

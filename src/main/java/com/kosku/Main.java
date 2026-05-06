@@ -34,10 +34,13 @@ public class Main extends Application {
         primaryStage.setTitle("KosKu - Aplikasi Pencarian Kos");
 
         try {
-            HibernateUtil.getSessionFactory();
-            System.out.println("Database Connected Successfully!");
+            if (HibernateUtil.getSessionFactory() != null) {
+                System.out.println("Database Connected Successfully!");
+            } else {
+                System.err.println("Database connection failed during initialization.");
+            }
         } catch (Throwable e) {
-            System.err.println("Database belum tersedia...");
+            System.err.println("Critical error connecting to database: " + e.getMessage());
         }
 
         navigateTo("view/login.fxml", "KosKu - Login");
