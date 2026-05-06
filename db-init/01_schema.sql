@@ -1,7 +1,6 @@
 -- Kosans Database Schema
 -- Sistem Manajemen Kos
-create DATABASE IF NOT EXISTS kosans_db;
-USE kosans_db;
+
 -- Tabel: users
 -- Menyimpan data pengguna (Admin, Pemilik, Penyewa)
 CREATE TABLE IF NOT EXISTS users (
@@ -98,6 +97,26 @@ CREATE TABLE IF NOT EXISTS pembayaran (
     INDEX idx_status (status_verifikasi)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Tabel: chat
+-- Menyimpan pesan antara penyewa, pemilik, dan admin
+CREATE TABLE IF NOT EXISTS chat (
+    id_chat INT AUTO_INCREMENT PRIMARY KEY,
+    id_pengirim INT NOT NULL,
+    id_penerima INT NOT NULL,
+    id_kos INT, -- Opsional, untuk konteks chat tentang kos tertentu
+    isi_pesan TEXT NOT NULL,
+    sudah_dibaca BOOLEAN DEFAULT FALSE,
+    tipe_chat ENUM('PENYEWA_PEMILIK', 'PENYEWA_ADMIN', 'PEMILIK_ADMIN') NOT NULL DEFAULT 'PENYEWA_PEMILIK',
+    waktu_pesan TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_pengirim) REFERENCES users(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_penerima) REFERENCES users(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_kos) REFERENCES kos(id_kos) ON DELETE SET NULL,
+    INDEX idx_pengirim (id_pengirim),
+    INDEX idx_penerima (id_penerima),
+    INDEX idx_waktu (waktu_pesan)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Tabel: reviews (Fitur #4: Rating dan Ulasan)
 -- Menyimpan ulasan dari penyewa setelah sewa selesai
 CREATE TABLE IF NOT EXISTS reviews (
@@ -113,4 +132,25 @@ CREATE TABLE IF NOT EXISTS reviews (
     INDEX idx_booking (id_booking),
     INDEX idx_penyewa (id_penyewa),
     INDEX idx_rating (rating)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabel: notifikasi
+CREATE TABLE IF NOT EXISTS notifikasi (
+    id_notifikasi INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT NOT NULL,
+    id_booking INT,
+    id_kos INT,
+    judul VARCHAR(255) NOT NULL,
+    isi TEXT NOT NULL,
+    tipe ENUM('BOOKING', 'PEMBAYARAN', 'PESAN', 'REMINDER', 'INFO', 'WARNING', 'ERROR') NOT NULL,
+    sudah_dibaca BOOLEAN DEFAULT FALSE,
+    waktu_notifikasi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    waktu_dibaca TIMESTAMP NULL,
+
+    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_booking) REFERENCES booking(id_booking) ON DELETE SET NULL,
+    FOREIGN KEY (id_kos) REFERENCES kos(id_kos) ON DELETE SET NULL,
+    INDEX idx_user (id_user),
+    INDEX idx_tipe (tipe),
+    INDEX idx_sudah_dibaca (sudah_dibaca)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

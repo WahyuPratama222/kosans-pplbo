@@ -1,8 +1,6 @@
 -- Kosans Database Seeder
 -- Script untuk mengisi data sample ke database kosans_db
 
-
-use kosans_db;
 -- =====================================================
 -- SEEDER DATA USERS
 -- =====================================================
