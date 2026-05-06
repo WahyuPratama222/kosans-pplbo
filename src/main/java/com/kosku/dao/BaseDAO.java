@@ -70,4 +70,17 @@ public class BaseDAO<T> {
             throw new RuntimeException("Gagal menjalankan query: " + e.getMessage(), e);
         }
     }
+
+    protected <R> R singleByQuery(String hql, java.util.Map<String, Object> params, Class<R> resultType) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<R> query = session.createQuery(hql, resultType);
+            if (params != null) {
+                params.forEach(query::setParameter);
+            }
+            return query.uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal mengambil data tunggal: " + e.getMessage(), e);
+        }
+    }
+
 }

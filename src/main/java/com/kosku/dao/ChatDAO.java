@@ -6,7 +6,7 @@ import com.kosku.util.HibernateUtil;
 import org.hibernate.Session;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 /**
  * DAO untuk operasi Chat
  */
@@ -21,12 +21,12 @@ public class ChatDAO extends BaseDAO<Chat> {
      */
     public List<Chat> getMessagesBetweenUsers(Integer pengirimId, Integer penerimaId) {
         String hql = "SELECT c FROM Chat c " +
+                "JOIN FETCH c.pengirim " + // Ambil info pengirim sekalian
+                "JOIN FETCH c.penerima " + // Ambil info penerima sekalian
                 "WHERE (c.pengirim.idUser = :pengirimId AND c.penerima.idUser = :penerimaId) " +
                 "OR (c.pengirim.idUser = :penerimaId AND c.penerima.idUser = :pengirimId) " +
-                "ORDER BY c.waktuPesan DESC";
-        return listByQuery(hql,
-                Map.of("pengirimId", pengirimId, "penerimaId", penerimaId),
-                Chat.class);
+                "ORDER BY c.waktuPesan ASC"; // Biasanya chat diurutkan dari yang terlama ke terbaru (bawah)
+        return listByQuery(hql, Map.of("pengirimId", pengirimId, "penerimaId", penerimaId), Chat.class);
     }
 
     /**
@@ -127,26 +127,14 @@ public class ChatDAO extends BaseDAO<Chat> {
      */
     public List<User> getChatPartners(Integer userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // Ambil user yang pernah mengirim pesan ke userId
-            String hql1 = "SELECT DISTINCT c.pengirim FROM Chat c WHERE c.penerima.idUser = :userId";
-            List<User> senders = session.createQuery(hql1, User.class)
+            String hql = "SELECT DISTINCT u FROM User u WHERE u.idUser IN (" +
+                    "  SELECT c.pengirim.idUser FROM Chat c WHERE c.penerima.idUser = :userId " +
+                    "  UNION " +
+                    "  SELECT c.penerima.idUser FROM Chat c WHERE c.pengirim.idUser = :userId" +
+                    ")";
+            return session.createQuery(hql, User.class)
                     .setParameter("userId", userId)
                     .list();
-
-            // Ambil user yang pernah menerima pesan dari userId
-            String hql2 = "SELECT DISTINCT c.penerima FROM Chat c WHERE c.pengirim.idUser = :userId";
-            List<User> receivers = session.createQuery(hql2, User.class)
-                    .setParameter("userId", userId)
-                    .list();
-
-            // Gabungkan dan hilangkan duplikat
-            Set<User> partners = new java.util.HashSet<>();
-            partners.addAll(senders);
-            partners.addAll(receivers);
-
-            return new java.util.ArrayList<>(partners);
-        } catch (Exception e) {
-            throw new RuntimeException("Gagal mengambil chat partners: " + e.getMessage(), e);
         }
     }
 

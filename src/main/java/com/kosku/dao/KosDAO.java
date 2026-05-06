@@ -2,6 +2,8 @@ package com.kosku.dao;
 
 import com.kosku.model.Kos;
 import com.kosku.model.User;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +11,8 @@ public class KosDAO extends BaseDAO<Kos> {
 
     /**
      * Ambil semua kos milik seorang pemilik.
-     * Gunakan JOIN FETCH jika ingin data pemilik langsung terbawa tanpa query tambahan.
+     * Gunakan JOIN FETCH jika ingin data pemilik langsung terbawa tanpa query
+     * tambahan.
      */
     public List<Kos> getByPemilik(User pemilik) {
         String hql = "SELECT k FROM Kos k JOIN FETCH k.pemilik WHERE k.pemilik = :pemilik";
@@ -41,4 +44,9 @@ public class KosDAO extends BaseDAO<Kos> {
         String hql = "SELECT DISTINCT k FROM Kos k LEFT JOIN FETCH k.kamarList";
         return listByQuery(hql, null, Kos.class);
     }
+
+    public List<Kos> filterKos(BigDecimal maxHarga, Kos.TipeKos tipe) {
+        String hql = "FROM Kos k WHERE k.isVerified = true AND k.harga <= :maxHarga AND k.tipeKos = :tipe";
+        return listByQuery(hql, Map.of("maxHarga", maxHarga, "tipe", tipe), Kos.class);
+    } 
 }
