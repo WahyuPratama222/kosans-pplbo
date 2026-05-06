@@ -854,6 +854,298 @@
     -fx-spacing: 15px;
 }
 
+/* ============================================================
+   AUTH PAGES — Modern Split Panel Design
+   ============================================================ */
+
+/* Root container */
+.auth-root {
+    -fx-background-color: #F8FAFC;
+}
+
+/* ---- Left Branding Panel ---- */
+.auth-left-panel {
+    -fx-background-color: linear-gradient(to bottom, #192338, #1E2E4F, #31487A);
+    -fx-min-width: 420;
+    -fx-max-width: 520;
+    -fx-padding: 60 40 60 40;
+}
+
+.auth-brand-icon {
+    -fx-font-size: 56px;
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.2), 20, 0, 0, 0);
+}
+
+.auth-brand-name {
+    -fx-font-size: 42px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);
+}
+
+.auth-brand-tagline {
+    -fx-font-size: 14px;
+    -fx-text-fill: rgba(217, 225, 241, 0.85);
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+    -fx-max-width: 280;
+}
+
+.auth-feature-pill {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 20;
+    -fx-text-fill: #D9E1F1;
+    -fx-font-size: 13px;
+    -fx-padding: 10 22;
+    -fx-border-color: rgba(255, 255, 255, 0.18);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.auth-left-decor {
+    -fx-text-fill: rgba(255, 255, 255, 0.3);
+    -fx-font-size: 22px;
+    -fx-letter-spacing: 6;
+}
+
+/* Benefit box for register page */
+.auth-benefit-box {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 16;
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-border-radius: 16;
+    -fx-border-width: 1;
+}
+
+.auth-benefit-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-padding: 0 0 8 0;
+    -fx-border-color: rgba(255,255,255,0.15);
+    -fx-border-width: 0 0 1 0;
+}
+
+.auth-benefit-icon {
+    -fx-font-size: 24px;
+    -fx-min-width: 36;
+}
+
+.auth-benefit-item-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #D9E1F1;
+}
+
+.auth-benefit-item-desc {
+    -fx-font-size: 11px;
+    -fx-text-fill: rgba(217, 225, 241, 0.7);
+    -fx-wrap-text: true;
+    -fx-max-width: 220;
+}
+
+/* ---- Vertical Divider ---- */
+.auth-divider {
+    -fx-background-color: #E2E8F0;
+    -fx-padding: 0;
+    -fx-opacity: 0.6;
+}
+
+/* ---- Right Form Panel ---- */
+.auth-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+
+.auth-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.auth-form-container {
+    -fx-background-color: transparent;
+}
+
+.auth-form-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.auth-form-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748B;
+}
+
+.auth-field-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #374151;
+}
+
+.auth-field {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #CBD5E1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-border-width: 1.5;
+    -fx-padding: 0 14;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1E293B;
+    -fx-prompt-text-fill: #94A3B8;
+}
+
+.auth-field:focused {
+    -fx-border-color: #3B82F6;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.18), 8, 0, 0, 2);
+    -fx-border-width: 2;
+}
+
+.auth-checkbox {
+    -fx-font-size: 12px;
+    -fx-text-fill: #475569;
+}
+
+.auth-link-small {
+    -fx-font-size: 12px;
+    -fx-text-fill: #3B82F6;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.auth-btn-submit {
+    -fx-background-color: linear-gradient(to right, #1E4DB7, #2D6BE4);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(45, 107, 228, 0.35), 16, 0, 0, 6);
+}
+
+.auth-btn-submit:hover {
+    -fx-background-color: linear-gradient(to right, #1740A0, #2560D0);
+    -fx-effect: dropshadow(gaussian, rgba(45, 107, 228, 0.5), 20, 0, 0, 8);
+}
+
+.auth-btn-submit:pressed {
+    -fx-background-color: #1E4DB7;
+    -fx-effect: dropshadow(gaussian, rgba(45, 107, 228, 0.2), 8, 0, 0, 3);
+}
+
+.auth-divider-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #94A3B8;
+    -fx-padding: 0 6;
+}
+
+.auth-link {
+    -fx-text-fill: #2D6BE4;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+}
+
+.auth-link:hover {
+    -fx-text-fill: #1E4DB7;
+}
+
+.auth-muted-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748B;
+}
+
+.auth-footer-note {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94A3B8;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+/* ---- Role Toggle (Register) ---- */
+.role-toggle-container {
+    -fx-background-color: #EEF2FF;
+    -fx-background-radius: 14;
+    -fx-padding: 5;
+    -fx-border-color: #C7D2FE;
+    -fx-border-radius: 14;
+    -fx-border-width: 1.5;
+}
+
+.role-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+}
+
+.role-btn:hover {
+    -fx-background-color: rgba(45, 107, 228, 0.08);
+    -fx-text-fill: #2D6BE4;
+}
+
+.role-btn-active {
+    -fx-background-color: #2D6BE4;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(45, 107, 228, 0.3), 10, 0, 0, 3);
+}
+
+.role-btn-active:hover {
+    -fx-background-color: #1E4DB7;
+    -fx-text-fill: white;
+}
+
+.role-btn-inactive {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748B;
+}
+
+/* Role Info Banner */
+.role-info-banner {
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 10;
+    -fx-border-color: #BFDBFE;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+}
+
+.role-info-banner-pemilik {
+    -fx-background-color: #FFF7ED;
+    -fx-background-radius: 10;
+    -fx-border-color: #FED7AA;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+}
+
+.role-info-banner-penyewa {
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 10;
+    -fx-border-color: #BFDBFE;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+}
+
+.role-banner-icon {
+    -fx-font-size: 20px;
+}
+
+.role-banner-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #374151;
+    -fx-wrap-text: true;
+}
+
+
 /* ============== SIDEBAR FILTER STYLES ============== */
 .filter-sidebar {
     -fx-background-color: white;

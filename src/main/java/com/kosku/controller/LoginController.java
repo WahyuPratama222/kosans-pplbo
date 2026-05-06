@@ -59,10 +59,10 @@ public class LoginController {
                 // Routing berdasarkan Role
                 if (user.getRole() == User.Role.ADMIN) {
                     System.out.println("[LoginDebug] Mengarahkan Admin ke Dashboard...");
-                    Main.navigateTo("/view/admin/DashboardAdmin.fxml", "KosKu - Dashboard Admin");
+                    Main.navigateTo("/view/Admin/DashboardAdmin.fxml", "KosKu - Dashboard Admin");
                 } else if (user.getRole() == User.Role.PEMILIK) {
                     System.out.println("[LoginDebug] Mengarahkan Pemilik ke Dashboard...");
-                    Main.navigateTo("/view/pemilik/DashboardPemilik.fxml", "KosKu - Dashboard Pemilik");
+                    Main.navigateTo("/view/Pemilik/DashboardPemilik.fxml", "KosKu - Dashboard Pemilik");
                 } else {
                     System.out.println("[LoginDebug] Mengarahkan Penyewa ke Main Menu...");
                     Main.navigateTo("/view/penyewa/MainMenuPenyewa.fxml", "KosKu - Dashboard Penyewa");
@@ -88,6 +88,6 @@ public class LoginController {
 
     @FXML
     public void handleGoToRegister(MouseEvent event) {
-        Main.navigateTo("view/register.fxml", "KosKu - Register");
+        Main.navigateTo("/view/register.fxml", "KosKu - Register");
     }
 }
