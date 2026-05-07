@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
+<ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: #F8FAFC;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.admin.MainMenuAdminController" stylesheets="@../../css/style.css">
+    <VBox spacing="20" styleClass="page-content">
+        <!-- HEADER -->
+        <VBox spacing="5">
+            <Label text="Selamat Datang, Administrator" styleClass="label-title" />
+            <Label text="Kelola semua aspek sistem Kos Kurniawan dari sini" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+        </VBox>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-        <fx:include source="NavbarAdmin.fxml" />
-    </top>
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
-</BorderPane>
+        <!-- STATISTICS SECTION -->
+        <Label text="Statistik Keseluruhan" styleClass="label-subtitle" />
+        <HBox spacing="15">
+            <!-- Total Pengguna -->
+            <VBox styleClass="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Total Pengguna" styleClass="stat-label" />
+                <Label fx:id="lblTotalUsers" text="0" styleClass="stat-value" />
+                <Label text="Data Terkini" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+            </VBox>
+
+            <!-- Total Kos -->
+            <VBox styleClass="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Total Kos Verified" styleClass="stat-label" />
+                <Label fx:id="lblTotalKos" text="0" styleClass="stat-value" />
+                <Label text="Data Terkini" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+            </VBox>
+
+            <!-- Total Booking -->
+            <VBox styleClass="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Total Booking Aktif" styleClass="stat-label" />
+                <Label fx:id="lblTotalBooking" text="0" styleClass="stat-value" />
+                <Label text="Status DITERIMA" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+            </VBox>
+
+            <!-- Total Pembayaran -->
+            <VBox styleClass="stat-card" spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Total Pembayaran Verified" styleClass="stat-label" />
+                <Label fx:id="lblTotalPembayaran" text="Rp 0" styleClass="stat-value" />
+                <Label text="Data Terkini" style="-fx-text-fill: #10B981; -fx-font-size: 11px;" />
+            </VBox>
+        </HBox>
+
+        <!-- QUICK ACTIONS -->
+        <Label text="Aksi Cepat" styleClass="label-subtitle" />
+        <HBox spacing="10">
+            <Button text="Lihat Pengguna Baru" styleClass="btn-primary" prefWidth="150" />
+            <Button text="Lihat Kos Baru" styleClass="btn-primary" prefWidth="150" />
+        </HBox>
+
+        <!-- RECENT ACTIVITIES (MOCK) -->
+        <Label text="Aktivitas Sistem" styleClass="label-subtitle" />
+        <VBox styleClass="card" spacing="10">
+            <HBox spacing="15" style="-fx-padding: 10 0; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0;">
+                <Label text="🔔" style="-fx-font-size: 16px;" />
+                <VBox spacing="3" HBox.hgrow="ALWAYS">
+                    <Label text="Sistem berjalan normal" style="-fx-font-weight: bold; -fx-font-size: 12px;" />
+                    <Label text="Data sinkron dengan database" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
+                </VBox>
+            </HBox>
+        </VBox>
+    </VBox>
+</ScrollPane>
