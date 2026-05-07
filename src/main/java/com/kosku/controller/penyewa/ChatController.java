@@ -3,210 +3,244 @@ package com.kosku.controller.penyewa;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.event.ActionEvent;
+import javafx.scene.layout.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.scene.shape.Circle;
+import javafx.event.ActionEvent;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 import com.kosku.dao.ChatDAO;
-import com.kosku.dao.UserDAO;
 import com.kosku.model.Chat;
 import com.kosku.model.User;
 import com.kosku.util.SessionManager;
-import java.net.URL;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.ResourceBundle;
 
-/**
- * Controller untuk halaman Chat Penyewa
- * Menampilkan interface untuk chat dengan pemilik kos atau admin
- */
 public class ChatController implements Initializable {
 
-    @FXML
-    private ComboBox<String> cbPenerima;
+    @FXML private NavbarController navbarController;
+    @FXML private TextField tfCariKontak;
+    @FXML private VBox vboxKontak;
     
-    @FXML
-    private TextArea taChat;
+    @FXML private ImageView ivHeaderProfile;
+    @FXML private Label lblHeaderName;
+    @FXML private Label lblHeaderStatus;
     
-    @FXML
-    private TextArea tfPesanBaru;
-    
-    @FXML
-    private VBox vboxChat;
-    
-    @FXML
-    private ScrollPane scrollPane;
+    @FXML private ScrollPane scrollPaneChat;
+    @FXML private VBox vboxMessages;
+    @FXML private TextField tfPesan;
 
-    @FXML
-    private NavbarController navbarController;
-
-    private ObservableList<String> daftarPenerima;
-    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    
     private ChatDAO chatDAO;
-    private UserDAO userDAO;
+    private User activePartner;
+    private Integer currentUserId;
+    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Chat Penyewa berhasil dimuat!");
-        
         chatDAO = new ChatDAO();
-        userDAO = new UserDAO();
+        currentUserId = SessionManager.getCurrentUserId();
         
-        // Set highlight navbar
         if (navbarController != null) {
             navbarController.setHighlight("chat");
         }
         
-        // Inisialisasi data penerima dari database
-        initializePenerima();
+        loadContacts();
+    }
+
+    private void loadContacts() {
+        if (vboxKontak == null) return;
+        vboxKontak.getChildren().clear();
         
-        // Setup TextArea untuk chat
-        taChat.setWrapText(true);
-        taChat.setEditable(false);
-        
-        // Setup TextArea untuk pesan baru
-        tfPesanBaru.setWrapText(true);
-        
-        // Listener untuk perubahan penerima
-        cbPenerima.setOnAction(e -> loadChatHistory());
-        
-        // Load data awal
-        if (!daftarPenerima.isEmpty()) {
-            cbPenerima.setValue(daftarPenerima.get(0));
-            loadChatHistory();
+        if (currentUserId == null) return;
+
+        try {
+            List<User> partners = chatDAO.getChatPartners(currentUserId);
+            if (partners.isEmpty()) {
+                Label lblEmpty = new Label("Belum ada percakapan.");
+                lblEmpty.setStyle("-fx-padding: 20; -fx-text-fill: #888;");
+                vboxKontak.getChildren().add(lblEmpty);
+                return;
+            }
+
+            for (User partner : partners) {
+                HBox contactItem = createContactItem(partner);
+                vboxKontak.getChildren().add(contactItem);
+            }
+            
+            // Select first by default
+            if (!partners.isEmpty()) {
+                selectPartner(partners.get(0));
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading contacts: " + e.getMessage());
         }
     }
 
-    private void initializePenerima() {
+    private HBox createContactItem(User partner) {
+        HBox hbox = new HBox();
+        hbox.setPrefHeight(80);
+        hbox.setSpacing(14);
+        hbox.setStyle("-fx-padding: 14 20; -fx-background-color: white; -fx-cursor: hand; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0;");
+        
+        // Profile Image
+        AnchorPane imagePane = new AnchorPane();
+        imagePane.setPrefSize(46, 46);
+        ImageView imageView = new ImageView();
         try {
-            Integer userId = SessionManager.getCurrentUserId();
-            
-            if (userId == null) {
-                showAlert(Alert.AlertType.WARNING, "Peringatan", 
-                    "Anda harus login terlebih dahulu");
-                return;
+            imageView.setImage(new Image(getClass().getResourceAsStream("/images/tesProfile.png")));
+        } catch (Exception e) {}
+        imageView.setFitWidth(46);
+        imageView.setFitHeight(46);
+        Circle clip = new Circle(23, 23, 23);
+        imageView.setClip(clip);
+        imagePane.getChildren().add(imageView);
+
+        // Details
+        VBox detailBox = new VBox();
+        detailBox.setSpacing(3);
+        HBox.setHgrow(detailBox, Priority.ALWAYS);
+        
+        HBox nameTimeBox = new HBox();
+        Label lblName = new Label(partner.getUsername() != null ? partner.getUsername() : "User " + partner.getIdUser());
+        lblName.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1A2744;");
+        HBox.setHgrow(lblName, Priority.ALWAYS);
+        nameTimeBox.getChildren().add(lblName);
+        
+        detailBox.getChildren().addAll(nameTimeBox);
+        
+        hbox.getChildren().addAll(imagePane, detailBox);
+        
+        hbox.setOnMouseClicked(e -> {
+            // Reset background for all contacts
+            for(var child : vboxKontak.getChildren()){
+                child.setStyle("-fx-padding: 14 20; -fx-background-color: white; -fx-cursor: hand; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0;");
+            }
+            hbox.setStyle("-fx-padding: 14 20; -fx-background-color: #EEF3FF; -fx-cursor: hand; -fx-border-color: transparent transparent #E8EDF5 transparent; -fx-border-width: 0 0 1 0;");
+            selectPartner(partner);
+        });
+
+        return hbox;
+    }
+
+    private void selectPartner(User partner) {
+        this.activePartner = partner;
+        lblHeaderName.setText(partner.getUsername() != null ? partner.getUsername() : "User " + partner.getIdUser());
+        lblHeaderStatus.setText("🟢 Online");
+        loadMessages();
+    }
+
+    private void loadMessages() {
+        if (vboxMessages == null || activePartner == null || currentUserId == null) return;
+        vboxMessages.getChildren().clear();
+
+        try {
+            List<Chat> messages = chatDAO.getMessagesBetweenUsers(currentUserId, activePartner.getIdUser());
+            for (Chat chat : messages) {
+                boolean isMine = chat.getPengirim().getIdUser().equals(currentUserId);
+                HBox bubble = createMessageBubble(chat, isMine);
+                vboxMessages.getChildren().add(bubble);
             }
             
-            daftarPenerima = FXCollections.observableArrayList();
+            // Scroll to bottom
+            scrollPaneChat.applyCss();
+            scrollPaneChat.layout();
+            scrollPaneChat.setVvalue(1.0);
             
-            // Ambil daftar chat partner dari database
-            List<User> chatPartners = chatDAO.getChatPartners(userId);
-            
-            if (chatPartners != null && !chatPartners.isEmpty()) {
-                for (User user : chatPartners) {
-                    if (user.getUsername() != null) {
-                        daftarPenerima.add(user.getUsername() + " (" + user.getRole() + ")");
-                    }
-                }
-            }
-            
-            cbPenerima.setItems(daftarPenerima);
         } catch (Exception e) {
-            System.err.println("Error loading penerima: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error loading messages: " + e.getMessage());
         }
     }
 
-    private void loadChatHistory() {
-        try {
-            Integer userId = SessionManager.getCurrentUserId();
-            String penerimaStr = cbPenerima.getValue();
-            if (userId == null || penerimaStr == null) {
-                return;
-            }
-            // Extract nama pengguna dari penerimaStr
-            String penerimaNama = penerimaStr.split(" \\(")[0];
-            // Cari user penerima dari database
-            User penerima = userDAO.findByUsername(penerimaNama);
-            if (penerima == null) {
-                taChat.setText("Penerima tidak ditemukan di database.");
-                return;
-            }
-            taChat.clear();
-            // Ambil message history dari database (bisa filter by pengirim & penerima jika perlu)
-            List<Chat> messages = chatDAO.getReceivedMessages(userId);
-            if (messages != null && !messages.isEmpty()) {
-                for (Chat chat : messages) {
-                    String sender = chat.getPengirim().getUsername() != null ? 
-                        chat.getPengirim().getUsername() : "User";
-                    String timestamp = chat.getWaktuPesan().format(timeFormatter);
-                    taChat.appendText("[" + timestamp + "] " + sender + ": " + chat.getIsiPesan() + "\n");
-                }
-            } else {
-                taChat.setText("Belum ada pesan. Mulai percakapan sekarang!");
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading chat history: " + e.getMessage());
-            e.printStackTrace();
+    private HBox createMessageBubble(Chat chat, boolean isMine) {
+        HBox hbox = new HBox();
+        hbox.setSpacing(12);
+        
+        VBox vbox = new VBox();
+        vbox.setSpacing(4);
+        
+        String timeStr = chat.getWaktuPesan() != null ? chat.getWaktuPesan().format(timeFormatter) : "";
+        Label lblTime = new Label(timeStr);
+        lblTime.setStyle("-fx-font-size: 11px; -fx-text-fill: #bbb;");
+        
+        HBox contentBox = new HBox();
+        Label lblMsg = new Label(chat.getIsiPesan());
+        lblMsg.setWrapText(true);
+        lblMsg.setMaxWidth(600);
+        
+        if (isMine) {
+            hbox.setAlignment(Pos.BOTTOM_RIGHT);
+            vbox.setAlignment(Pos.TOP_RIGHT);
+            
+            Label lblSender = new Label("Saya");
+            lblSender.setStyle("-fx-font-size: 11px; -fx-text-fill: #888;");
+            
+            lblMsg.setStyle("-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 12 16; -fx-background-radius: 16 0 16 16;");
+            
+            HBox timeStatusBox = new HBox(4);
+            timeStatusBox.setAlignment(Pos.CENTER_RIGHT);
+            Label lblStatus = new Label("✓✓");
+            lblStatus.setStyle("-fx-font-size: 11px; -fx-text-fill: #2D6BE4;");
+            timeStatusBox.getChildren().addAll(lblTime, lblStatus);
+            
+            contentBox.setAlignment(Pos.CENTER_RIGHT);
+            contentBox.getChildren().add(lblMsg);
+            
+            vbox.getChildren().addAll(lblSender, contentBox, timeStatusBox);
+            hbox.getChildren().add(vbox);
+        } else {
+            hbox.setAlignment(Pos.BOTTOM_LEFT);
+            vbox.setAlignment(Pos.TOP_LEFT);
+            
+            ImageView imgProfile = new ImageView();
+            try {
+                imgProfile.setImage(new Image(getClass().getResourceAsStream("/images/tesProfile.png")));
+            } catch (Exception e) {}
+            imgProfile.setFitWidth(36); imgProfile.setFitHeight(36);
+            imgProfile.setClip(new Circle(18, 18, 18));
+            
+            Label lblSender = new Label(chat.getPengirim().getUsername());
+            lblSender.setStyle("-fx-font-size: 11px; -fx-text-fill: #888;");
+            
+            lblMsg.setStyle("-fx-background-color: white; -fx-text-fill: #1A2744; -fx-font-size: 14px; -fx-padding: 12 16; -fx-background-radius: 0 16 16 16; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 6, 0, 0, 2);");
+            
+            contentBox.getChildren().add(lblMsg);
+            
+            vbox.getChildren().addAll(lblSender, contentBox, lblTime);
+            hbox.getChildren().addAll(imgProfile, vbox);
         }
+        
+        return hbox;
     }
 
     @FXML
     void kirimPesan(ActionEvent event) {
-        try {
-            String pesan = tfPesanBaru.getText().trim();
-            String penerimaNama = cbPenerima.getValue();
-            Integer userId = SessionManager.getCurrentUserId();
-            if (pesan.isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Peringatan", "Pesan tidak boleh kosong");
-                return;
-            }
-            if (penerimaNama == null || penerimaNama.isEmpty() || userId == null) {
-                showAlert(Alert.AlertType.WARNING, "Peringatan", "Pilih penerima terlebih dahulu");
-                return;
-            }
-            // Extract username dari penerimaNama (format: "username (role)")
-            String penerimaUsername = penerimaNama.split(" \\(")[0];
-            // Cari user penerima dari database
-            User penerima = userDAO.findByUsername(penerimaUsername);
-            if (penerima == null) {
-                showAlert(Alert.AlertType.ERROR, "Error", "Penerima tidak ditemukan di database");
-                return;
-            }
-            // Create chat object
-            Chat chat = Chat.builder()
-                .pengirim(User.builder().idUser(userId).build())
-                .penerima(User.builder().idUser(penerima.getIdUser()).build())
-                .isiPesan(pesan)
-                .sudahDibaca(false)
-                .build();
-            // Simpan ke database
-            chatDAO.saveOrUpdate(chat);
-            // Tambahkan ke tampilan chat
-            String timestamp = LocalTime.now().format(timeFormatter);
-            taChat.appendText("[" + timestamp + "] Anda: " + pesan + "\n");
-            // Bersihkan input
-            tfPesanBaru.clear();
-            tfPesanBaru.requestFocus();
-            System.out.println("Pesan terkirim ke " + penerimaUsername);
-        } catch (Exception e) {
-            System.err.println("Error mengirim pesan: " + e.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Error", "Gagal mengirim pesan: " + e.getMessage());
+        if (tfPesan == null || tfPesan.getText().trim().isEmpty() || activePartner == null || currentUserId == null) {
+            return;
         }
-    }
-
-    @FXML
-    void refreshChat(ActionEvent event) {
-        loadChatHistory();
-    }
-
-    @FXML
-    void hapusChat(ActionEvent event) {
-        // TODO: Implementasi untuk menghapus chat
-        showAlert(Alert.AlertType.INFORMATION, "Info", 
-            "Fitur hapus chat akan segera tersedia");
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        
+        String text = tfPesan.getText().trim();
+        
+        try {
+            Chat newChat = Chat.builder()
+                .pengirim(User.builder().idUser(currentUserId).build())
+                .penerima(activePartner)
+                .isiPesan(text)
+                .sudahDibaca(false)
+                .waktuPesan(LocalDateTime.now())
+                .build();
+                
+            chatDAO.saveOrUpdate(newChat);
+            
+            tfPesan.clear();
+            loadMessages(); // Refresh UI
+            
+        } catch(Exception e) {
+            System.err.println("Gagal kirim pesan: " + e.getMessage());
+        }
     }
 }
