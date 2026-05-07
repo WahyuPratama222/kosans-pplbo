@@ -155,10 +155,11 @@ public class NavbarController implements Initializable {
         Optional<ButtonType> result = confirmAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                // TODO: Clear session/login data
+                // Clear session/login data
+                SessionManager.logout();
                 
                 // Navigate ke login page
-                Main.navigateTo("/view/login.fxml", "KosKu - Login");
+                Main.navigateTo("/view/auth/login.fxml", "KosKu - Login");
                 
                 System.out.println("Logout berhasil!");
             } catch (Exception e) {

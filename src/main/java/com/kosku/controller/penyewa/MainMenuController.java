@@ -253,22 +253,8 @@ public class MainMenuController implements Initializable {
     }
 
     private void showKosDetail(Kos kos) {
-        BigDecimal hargaMin = kos.getHarga();
-        int jumlahKamar = kos.getKamarList() != null ? kos.getKamarList().size() : 0;
-
-        StringBuilder detail = new StringBuilder();
-        detail.append("=== DETAIL KOS ===\n\n");
-        detail.append("Nama: ").append(kos.getNamaKos()).append("\n");
-        detail.append("Alamat: ").append(kos.getAlamat()).append("\n");
-        if (hargaMin != null) {
-            detail.append("Harga Mulai: Rp. ").append(hargaMin.toPlainString()).append("\n");
-        } else {
-            detail.append("Harga: Hubungi Pemilik\n");
-        }
-        detail.append("Jumlah Kamar: ").append(jumlahKamar).append("\n");
-        detail.append("Status: ").append(Boolean.TRUE.equals(kos.getIsVerified()) ? "Terverifikasi" : "Belum Terverifikasi");
-        
-        showAlert(Alert.AlertType.INFORMATION, "Detail Kos", detail.toString());
+        DetailKosPenyewaController.selectedKos = kos;
+        com.kosku.Main.navigateTo("view/penyewa/DetailKosPenyewa.fxml", "KosKu - Detail Kos");
     }
 
     // ==========================================
