@@ -16,6 +16,7 @@ package com.kosku;
  * Cara pakai:
  *   - Klik kanan file ini di IDE → Run 'Launcher.main()'
  *   - Atau jalankan via terminal: mvn javafx:run
+ *penyeq
  */
 public class Launcher {
     public static void main(String[] args) {

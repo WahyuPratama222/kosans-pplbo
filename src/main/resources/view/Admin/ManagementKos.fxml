@@ -5,25 +5,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.admin.ManagementKosController" stylesheets="@../../css/style.css">
     <!-- TOP NAVBAR -->
     <top>
-        <BorderPane prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);" styleClass="navbar-admin">
-            <left>
-                <Label text="🏠 Manajemen Kos" style="-fx-text-fill: white;" styleClass="navbar-title" BorderPane.alignment="CENTER">
-                    <padding>
-                        <Insets left="20.0" />
-                    </padding>
-                </Label>
-            </left>
-            <right>
-                <Button text="← Kembali" styleClass="btn-outline" style="-fx-text-fill: white; -fx-padding: 5 15; -fx-border-color: white;" BorderPane.alignment="CENTER">
-                    <padding>
-                        <Insets right="20.0" />
-                    </padding>
-                </Button>
-            </right>
-        </BorderPane>
+        <fx:include source="NavbarAdmin.fxml" />
+    </top>
+
     </top>
 
     <!-- CENTER CONTENT -->
@@ -32,9 +19,10 @@
             <VBox spacing="20" styleClass="page-content">
                 <!-- HEADER -->
                 <VBox spacing="10">
+                    <Button fx:id="btnKembali" text="← Kembali ke Dashboard" styleClass="btn-outline" style="-fx-padding: 5 10;" />
                     <HBox spacing="15" alignment="CENTER_LEFT">
                         <VBox spacing="3" HBox.hgrow="ALWAYS">
-                            <Label text="Pantau dan Kelola Semua Kos" styleClass="label-title" />
+                            <Label text="🏠 Manajemen Kos &amp; Verifikasi" styleClass="label-title" />
                             <Label text="Lihat status, kamar, dan pendapatan dari setiap kos" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
                         </VBox>
                         <Button text="➕ Tambah Kos" styleClass="btn-primary" prefWidth="140" />
@@ -78,81 +66,20 @@
                     </VBox>
                 </HBox>
 
-                <!-- KOS GRID -->
-                <VBox spacing="15">
+                <!-- KOS TABLE -->
+                <VBox spacing="15" VBox.vgrow="ALWAYS">
                     <Label text="Daftar Kos" styleClass="label-subtitle" />
-                    
-                    <VBox spacing="10">
-                        <!-- Kos Card 1 -->
-                        <HBox styleClass="card" spacing="15" style="-fx-padding: 15;">
-                            <Label text="🏢" style="-fx-font-size: 32px;" VBox.vgrow="ALWAYS" />
-                            <VBox spacing="8" HBox.hgrow="ALWAYS">
-                                <HBox spacing="15" alignment="CENTER_LEFT">
-                                    <VBox spacing="3" HBox.hgrow="ALWAYS">
-                                        <Label text="Kos Kurniawan - Utama" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                                        <Label text="Jl. Ahmad Yani No. 45, Bandung" style="-fx-font-size: 11px; -fx-text-fill: #64748B;" />
-                                        <Label text="Pemilik: Kurniawan" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
-                                    </VBox>
-                                    <VBox spacing="3" style="-fx-alignment: top-right;">
-                                        <HBox spacing="15">
-                                            <VBox spacing="2" style="-fx-alignment: center; -fx-padding: 8 12; -fx-background-color: #D9E1F1; -fx-border-radius: 4;">
-                                                <Label text="Kamar" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
-                                                <Label text="20/20" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                                            </VBox>
-                                            <VBox spacing="2" style="-fx-alignment: center; -fx-padding: 8 12; -fx-background-color: #D9E1F1; -fx-border-radius: 4;">
-                                                <Label text="Rating" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
-                                                <Label text="4.8/5" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                                            </VBox>
-                                            <VBox spacing="2" style="-fx-alignment: center; -fx-padding: 8 12; -fx-background-color: #D9E1F1; -fx-border-radius: 4;">
-                                                <Label text="Pendapatan" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
-                                                <Label text="Rp 12.5M" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                                            </VBox>
-                                        </HBox>
-                                    </VBox>
-                                </HBox>
-                            </VBox>
-                            <VBox spacing="5" style="-fx-alignment: center;">
-                                <Button text="👁️ Lihat" styleClass="btn-secondary" prefWidth="90" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
-                                <Button text="✏️ Edit" styleClass="btn-secondary" prefWidth="90" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
-                                <Button text="❌ Hapus" styleClass="btn-danger" prefWidth="90" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
-                            </VBox>
-                        </HBox>
-
-                        <!-- Kos Card 2 -->
-                        <HBox styleClass="card" spacing="15" style="-fx-padding: 15;">
-                            <Label text="🏘️" style="-fx-font-size: 32px;" VBox.vgrow="ALWAYS" />
-                            <VBox spacing="8" HBox.hgrow="ALWAYS">
-                                <HBox spacing="15" alignment="CENTER_LEFT">
-                                    <VBox spacing="3" HBox.hgrow="ALWAYS">
-                                        <Label text="Kos Kurniawan - Cabang 1" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                                        <Label text="Jl. Gatot Subroto No. 89, Bandung" style="-fx-font-size: 11px; -fx-text-fill: #64748B;" />
-                                        <Label text="Pemilik: Kurniawan" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
-                                    </VBox>
-                                    <VBox spacing="3" style="-fx-alignment: top-right;">
-                                        <HBox spacing="15">
-                                            <VBox spacing="2" style="-fx-alignment: center; -fx-padding: 8 12; -fx-background-color: #D9E1F1; -fx-border-radius: 4;">
-                                                <Label text="Kamar" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
-                                                <Label text="15/15" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                                            </VBox>
-                                            <VBox spacing="2" style="-fx-alignment: center; -fx-padding: 8 12; -fx-background-color: #D9E1F1; -fx-border-radius: 4;">
-                                                <Label text="Rating" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
-                                                <Label text="4.6/5" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                                            </VBox>
-                                            <VBox spacing="2" style="-fx-alignment: center; -fx-padding: 8 12; -fx-background-color: #D9E1F1; -fx-border-radius: 4;">
-                                                <Label text="Pendapatan" style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
-                                                <Label text="Rp 9.2M" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                                            </VBox>
-                                        </HBox>
-                                    </VBox>
-                                </HBox>
-                            </VBox>
-                            <VBox spacing="5" style="-fx-alignment: center;">
-                                <Button text="👁️ Lihat" styleClass="btn-secondary" prefWidth="90" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
-                                <Button text="✏️ Edit" styleClass="btn-secondary" prefWidth="90" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
-                                <Button text="❌ Hapus" styleClass="btn-danger" prefWidth="90" style="-fx-padding: 5 10; -fx-font-size: 10px;" />
-                            </VBox>
-                        </HBox>
-                    </VBox>
+                    <TableView fx:id="tableKos" prefHeight="500.0" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+                            <TableColumn fx:id="colNamaKos" text="Nama Kos" prefWidth="200" />
+                            <TableColumn fx:id="colPemilik" text="Pemilik" prefWidth="150" />
+                            <TableColumn fx:id="colTipeKos" text="Tipe" prefWidth="100" />
+                            <TableColumn fx:id="colHarga" text="Harga (Rp)" prefWidth="150" />
+                            <TableColumn fx:id="colStatus" text="Status" prefWidth="120" />
+                            <TableColumn fx:id="colAction" text="Aksi" prefWidth="250" />
+                        </columns>
+                    </TableView>
                 </VBox>
 
                 <!-- PAGINATION -->
