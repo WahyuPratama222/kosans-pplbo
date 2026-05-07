@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter 
+@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,10 +20,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     private Integer idUser;
-    
+
     @Column(unique = true, nullable = false, length = 50)
     private String username;
-    
+
     @Column(nullable = false, length = 255)
     private String password;
 
@@ -56,6 +56,18 @@ public class User {
     // Relasi ke Booking (untuk role PENYEWA)
     @OneToMany(mappedBy = "penyewa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookingList;
+
+    // Daftar chat yang dikirim oleh user ini
+    @OneToMany(mappedBy = "pengirim", cascade = CascadeType.ALL)
+    private List<Chat> chatTerkirim;
+
+    // Daftar chat yang diterima oleh user ini
+    @OneToMany(mappedBy = "penerima", cascade = CascadeType.ALL)
+    private List<Chat> chatDiterima;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("waktuNotifikasi DESC") // Agar notifikasi terbaru muncul di atas
+    private List<Notifikasi> notifikasiList;
 
     public enum Role {
         ADMIN, PEMILIK, PENYEWA

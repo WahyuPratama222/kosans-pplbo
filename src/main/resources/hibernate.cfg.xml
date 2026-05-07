@@ -6,7 +6,18 @@
     <session-factory>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hbm2ddl.auto">update</property> <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
         <property name="format_sql">true</property>
+
+        <!-- Mapping Entities -->
+        <mapping class="com.kosku.model.User"/>
+        <mapping class="com.kosku.model.Kos"/>
+        <mapping class="com.kosku.model.Kamar"/>
+        <mapping class="com.kosku.model.Booking"/>
+        <mapping class="com.kosku.model.Pembayaran"/>
+        <mapping class="com.kosku.model.Review"/>
+        <mapping class="com.kosku.model.Chat"/>
+        <mapping class="com.kosku.model.Notifikasi"/>
     </session-factory>
 </hibernate-configuration>

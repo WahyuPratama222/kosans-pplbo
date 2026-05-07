@@ -11,7 +11,8 @@ public class KamarDAO extends BaseDAO<Kamar> {
 
     /**
      * Mengambil semua kamar dalam satu kos.
-     * Menggunakan JOIN FETCH agar data Kos ikut terbawa dan tidak LazyInitializationException.
+     * Menggunakan JOIN FETCH agar data Kos ikut terbawa dan tidak
+     * LazyInitializationException.
      */
     public List<Kamar> getByKos(Kos kos) {
         String hql = "SELECT k FROM Kamar k JOIN FETCH k.kos WHERE k.kos = :kos";
@@ -27,15 +28,17 @@ public class KamarDAO extends BaseDAO<Kamar> {
     }
 
     /**
-     * Hitung jumlah kamar tersedia. 
-     * Untuk count, kita tetap buka session manual karena returnnya Long (bukan List).
+     * Hitung jumlah kamar tersedia.
+     * Untuk count, kita tetap buka session manual karena returnnya Long (bukan
+     * List).
      */
     public long countKamarTersedia(Kos kos) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery(
+            Long result = session.createQuery(
                     "SELECT COUNT(k) FROM Kamar k WHERE k.kos = :kos AND k.statusTersedia = true", Long.class)
                     .setParameter("kos", kos)
                     .uniqueResult();
+            return result != null ? result : 0L;
         }
     }
 

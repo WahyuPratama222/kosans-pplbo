@@ -13,15 +13,16 @@ import java.io.IOException;
  * Main - Entry point utama aplikasi KosKu.
  *
  * Class ini berfungsi sebagai pusat untuk menjalankan seluruh page (FXML).
- * Gunakan method navigateTo() dari controller mana saja untuk berpindah halaman.
+ * Gunakan method navigateTo() dari controller mana saja untuk berpindah
+ * halaman.
  *
  * Daftar FXML yang tersedia:
- *   - view/login.fxml              → Halaman Login
- *   - view/register.fxml           → Halaman Register
- *   - view/penyewa/MainMenuPenyewa.fxml  → Dashboard Penyewa
- *   - view/penyewa/ChatPenyewa.fxml      → Chat Penyewa
- *   - view/penyewa/NotifPenyewa.fxml     → Notifikasi Penyewa
- *   - view/penyewa/RiwayatPenyewa.fxml   → Riwayat Penyewa
+ * - view/login.fxml → Halaman Login
+ * - view/register.fxml → Halaman Register
+ * - view/penyewa/MainMenuPenyewa.fxml → Dashboard Penyewa
+ * - view/penyewa/ChatPenyewa.fxml → Chat Penyewa
+ * - view/penyewa/NotifPenyewa.fxml → Notifikasi Penyewa
+ * - view/penyewa/RiwayatPenyewa.fxml → Riwayat Penyewa
  */
 public class Main extends Application {
 
@@ -33,17 +34,20 @@ public class Main extends Application {
         primaryStage.setTitle("KosKu - Aplikasi Pencarian Kos");
 
         try {
-            HibernateUtil.getSessionFactory();
-            System.out.println("Database Connected Successfully!");
+            if (HibernateUtil.getSessionFactory() != null) {
+                System.out.println("Database Connected Successfully!");
+            } else {
+                System.err.println("Database connection failed during initialization.");
+            }
         } catch (Throwable e) {
-            System.err.println("Database belum tersedia...");
+            System.err.println("Critical error connecting to database: " + e.getMessage());
         }
 
-        navigateTo("view/login.fxml", "KosKu - Login");
-        primaryStage.setFullScreen(true); 
+        navigateTo("view/auth/login.fxml", "KosKu - Login");
+        primaryStage.setFullScreen(true);
         // Opsional: Biar nggak muncul tulisan "Press ESC to exit full screen"
-        primaryStage.setFullScreenExitHint(""); 
-        
+        primaryStage.setFullScreenExitHint("");
+
         primaryStage.show();
     }
 
@@ -51,15 +55,23 @@ public class Main extends Application {
      * Navigasi ke halaman FXML tertentu.
      *
      * Contoh penggunaan di Controller:
-     *   Main.navigateTo("view/register.fxml", "KosKu - Register");
-     *   Main.navigateTo("view/penyewa/MainMenuPenyewa.fxml", "KosKu - Dashboard");
+     * Main.navigateTo("view/register.fxml", "KosKu - Register");
+     * Main.navigateTo("view/penyewa/MainMenuPenyewa.fxml", "KosKu - Dashboard");
      *
-     * @param fxmlPath path relatif dari folder resources (contoh: "view/login.fxml")
+     * @param fxmlPath path relatif dari folder resources (contoh:
+     *                 "view/login.fxml")
      * @param title    judul window yang akan ditampilkan
      */
     public static void navigateTo(String fxmlPath, String title) {
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/" + fxmlPath));
+            String finalPath = fxmlPath.startsWith("/") ? fxmlPath : "/" + fxmlPath;
+
+            java.net.URL fxmlLocation = Main.class.getResource(finalPath);
+            if (fxmlLocation == null) {
+                throw new IllegalStateException("File FXML tidak ditemukan di folder resources: " + finalPath);
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
             Parent root = loader.load();
 
             // Ambil scene yang sudah ada di stage
@@ -74,7 +86,8 @@ public class Main extends Application {
                 scene.setRoot(root);
             }
 
-            // Muat CSS (Hanya perlu sekali, tapi kalau mau aman tiap ganti root gak apa-apa)
+            // Muat CSS (Hanya perlu sekali, tapi kalau mau aman tiap ganti root gak
+            // apa-apa)
             String cssPath = "/css/style.css";
             var cssResource = Main.class.getResource(cssPath);
             if (cssResource != null) {
@@ -83,7 +96,8 @@ public class Main extends Application {
             }
 
             primaryStage.setTitle(title);
-            // Hapus primaryStage.show() atau maximized di sini kalau sudah diatur di start()
+            // Hapus primaryStage.show() atau maximized di sini kalau sudah diatur di
+            // start()
 
         } catch (IOException e) {
             System.err.println("Gagal memuat halaman: " + fxmlPath);
@@ -102,7 +116,8 @@ public class Main extends Application {
 
     /**
      * Mendapatkan referensi ke primary stage.
-     * Berguna jika controller perlu akses langsung ke window (misal: resize, close).
+     * Berguna jika controller perlu akses langsung ke window (misal: resize,
+     * close).
      *
      * @return Stage utama aplikasi
      */

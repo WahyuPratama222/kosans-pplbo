@@ -1,12 +1,8 @@
 -- Kosans Database Schema
 -- Sistem Manajemen Kos
-create DATABASE IF NOT EXISTS kosans_db;
-USE kosans_db;
+
 -- Tabel: users
 -- Menyimpan data pengguna (Admin, Pemilik, Penyewa)
-CREATE DATABASE IF NOT EXISTS kosan_db;
-USE kosan_db;
-
 CREATE TABLE IF NOT EXISTS users (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -25,13 +21,16 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Tabel: kos
 -- Menyimpan data properti kos
-
 CREATE TABLE IF NOT EXISTS kos (
     id_kos INT AUTO_INCREMENT PRIMARY KEY,
     id_pemilik INT NOT NULL,
     nama_kos VARCHAR(100) NOT NULL,
     alamat TEXT NOT NULL,
     deskripsi TEXT,
+    tipe_kos ENUM('PUTRA', 'PUTRI', 'CAMPUR') NOT NULL,
+    foto_kos VARCHAR(255),
+    harga DECIMAL(15, 2) NOT NULL,
+    durasi_sewa ENUM('HARIAN', 'MINGGUAN', 'BULANAN', 'TAHUNAN') NOT NULL,
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -43,15 +42,12 @@ CREATE TABLE IF NOT EXISTS kos (
 
 -- Tabel: kamar
 -- Menyimpan data kamar-kamar di kos
-
 CREATE TABLE IF NOT EXISTS kamar (
     id_kamar INT AUTO_INCREMENT PRIMARY KEY,
     id_kos INT NOT NULL,
     nomor_kamar VARCHAR(20) NOT NULL,
-    tipe_kamar ENUM('REGULER', 'EXCLUSIVE') NOT NULL,
-    harga DECIMAL(15, 2) NOT NULL,
-    durasi_sewa ENUM('HARIAN', 'MINGGUAN', 'BULANAN', 'TAHUNAN') NOT NULL,
     status_tersedia BOOLEAN DEFAULT TRUE,
+    gambar_kamar VARCHAR(255), -- Fitur #3: Upload Foto Kamar
     catatan_tambahan TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -59,13 +55,11 @@ CREATE TABLE IF NOT EXISTS kamar (
     FOREIGN KEY (id_kos) REFERENCES kos(id_kos) ON DELETE CASCADE,
     UNIQUE KEY unique_nomor_kamar_per_kos (id_kos, nomor_kamar),
     INDEX idx_kos (id_kos),
-    INDEX idx_status (status_tersedia),
-    INDEX idx_tipe (tipe_kamar)
+    INDEX idx_status (status_tersedia)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabel: booking
 -- Menyimpan data pemesanan kamar
-
 CREATE TABLE IF NOT EXISTS booking (
     id_booking INT AUTO_INCREMENT PRIMARY KEY,
     id_penyewa INT NOT NULL,
@@ -89,7 +83,6 @@ CREATE TABLE IF NOT EXISTS booking (
 
 -- Tabel: pembayaran
 -- Menyimpan data pembayaran booking
-
 CREATE TABLE IF NOT EXISTS pembayaran (
     id_pembayaran INT AUTO_INCREMENT PRIMARY KEY,
     id_booking INT NOT NULL,
@@ -102,4 +95,62 @@ CREATE TABLE IF NOT EXISTS pembayaran (
     FOREIGN KEY (id_booking) REFERENCES booking(id_booking) ON DELETE CASCADE,
     INDEX idx_booking (id_booking),
     INDEX idx_status (status_verifikasi)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabel: chat
+-- Menyimpan pesan antara penyewa, pemilik, dan admin
+CREATE TABLE IF NOT EXISTS chat (
+    id_chat INT AUTO_INCREMENT PRIMARY KEY,
+    id_pengirim INT NOT NULL,
+    id_penerima INT NOT NULL,
+    id_kos INT, -- Opsional, untuk konteks chat tentang kos tertentu
+    isi_pesan TEXT NOT NULL,
+    sudah_dibaca BOOLEAN DEFAULT FALSE,
+    tipe_chat ENUM('PENYEWA_PEMILIK', 'PENYEWA_ADMIN', 'PEMILIK_ADMIN') NOT NULL DEFAULT 'PENYEWA_PEMILIK',
+    waktu_pesan TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_pengirim) REFERENCES users(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_penerima) REFERENCES users(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_kos) REFERENCES kos(id_kos) ON DELETE SET NULL,
+    INDEX idx_pengirim (id_pengirim),
+    INDEX idx_penerima (id_penerima),
+    INDEX idx_waktu (waktu_pesan)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabel: reviews (Fitur #4: Rating dan Ulasan)
+-- Menyimpan ulasan dari penyewa setelah sewa selesai
+CREATE TABLE IF NOT EXISTS reviews (
+    id_review INT AUTO_INCREMENT PRIMARY KEY,
+    id_booking INT NOT NULL UNIQUE, -- Satu booking hanya bisa satu ulasan
+    id_penyewa INT NOT NULL,
+    rating TINYINT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    komentar TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (id_booking) REFERENCES booking(id_booking) ON DELETE CASCADE,
+    FOREIGN KEY (id_penyewa) REFERENCES users(id_user) ON DELETE CASCADE,
+    INDEX idx_booking (id_booking),
+    INDEX idx_penyewa (id_penyewa),
+    INDEX idx_rating (rating)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabel: notifikasi
+CREATE TABLE IF NOT EXISTS notifikasi (
+    id_notifikasi INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT NOT NULL,
+    id_booking INT,
+    id_kos INT,
+    judul VARCHAR(255) NOT NULL,
+    isi TEXT NOT NULL,
+    tipe ENUM('BOOKING', 'PEMBAYARAN', 'PESAN', 'REMINDER', 'INFO', 'WARNING', 'ERROR') NOT NULL,
+    sudah_dibaca BOOLEAN DEFAULT FALSE,
+    waktu_notifikasi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    waktu_dibaca TIMESTAMP NULL,
+
+    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_booking) REFERENCES booking(id_booking) ON DELETE SET NULL,
+    FOREIGN KEY (id_kos) REFERENCES kos(id_kos) ON DELETE SET NULL,
+    INDEX idx_user (id_user),
+    INDEX idx_tipe (tipe),
+    INDEX idx_sudah_dibaca (sudah_dibaca)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
