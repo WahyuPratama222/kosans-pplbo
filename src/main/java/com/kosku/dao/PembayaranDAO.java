@@ -10,7 +10,13 @@ public class PembayaranDAO extends BaseDAO<Pembayaran> {
     }
 
     public java.util.List<Pembayaran> getAllPembayaran() {
-        return getAll(Pembayaran.class);
+        String hql = "SELECT p FROM Pembayaran p LEFT JOIN FETCH p.booking b LEFT JOIN FETCH b.penyewa";
+        try (org.hibernate.Session session = com.kosku.util.HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(hql, Pembayaran.class).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return java.util.Collections.emptyList();
+        }
     }
 
     public java.math.BigDecimal getTotalPembayaranBulanan() {

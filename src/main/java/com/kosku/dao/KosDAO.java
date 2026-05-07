@@ -41,7 +41,7 @@ public class KosDAO extends BaseDAO<Kos> {
      * dapat diakses setelah session Hibernate ditutup.
      */
     public List<Kos> getAllWithKamar() {
-        String hql = "SELECT DISTINCT k FROM Kos k LEFT JOIN FETCH k.kamarList";
+        String hql = "SELECT DISTINCT k FROM Kos k LEFT JOIN FETCH k.kamarList LEFT JOIN FETCH k.pemilik";
         return listByQuery(hql, null, Kos.class);
     }
 
