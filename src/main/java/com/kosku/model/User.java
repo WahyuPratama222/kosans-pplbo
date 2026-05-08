@@ -57,6 +57,13 @@ public class User {
     @OneToMany(mappedBy = "penyewa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookingList;
 
+    // Relasi Chat
+    @OneToMany(mappedBy = "pengirim", cascade = CascadeType.ALL)
+    private List<Chat> chatTerkirim;
+
+    @OneToMany(mappedBy = "penerima", cascade = CascadeType.ALL)
+    private List<Chat> chatDiterima;
+
     public enum Role {
         ADMIN, PEMILIK, PENYEWA
     }

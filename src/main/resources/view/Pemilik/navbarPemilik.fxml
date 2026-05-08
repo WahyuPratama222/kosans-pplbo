@@ -46,6 +46,11 @@
                   <Label fx:id="navLaporan" styleClass="nav-item-label" text="💰 Laporan" />
                </children>
             </VBox>
+            <VBox fx:id="containerChat" alignment="CENTER" onMouseClicked="#goToChat" styleClass="nav-item-container">
+               <children>
+                  <Label fx:id="navChat" styleClass="nav-item-label" text="💬 Chat" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </center>

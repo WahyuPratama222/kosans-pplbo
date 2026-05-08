@@ -15,9 +15,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="900.0" prefWidth="1300.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.ChatPenyewaController">
+<BorderPane prefHeight="900.0" prefWidth="1300.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.pemilik.ChatPemilikController">
     <top>
-        <fx:include fx:id="navbar" source="NavbarPenyewa.fxml" />
+        <fx:include fx:id="navbar" source="navbarPemilik.fxml" />
     </top>
 
     <left>
@@ -67,8 +67,8 @@
                         </ImageView>
                         <VBox alignment="CENTER_LEFT">
                             <children>
-                                <Label fx:id="activeContactName" styleClass="label-subtitle" text="Pilih Pemilik untuk bertanya" />
-                                <Label fx:id="activeContactStatus" styleClass="text-muted" text="Aktif" visible="false" />
+                                <Label fx:id="activeContactName" styleClass="label-subtitle" text="Pilih Kontak untuk memulai chat" />
+                                <Label fx:id="activeContactStatus" styleClass="text-muted" text="Online" visible="false" />
                             </children>
                         </VBox>
                         <Region HBox.hgrow="ALWAYS" />
@@ -96,7 +96,7 @@
                 <HBox alignment="CENTER" prefHeight="80.0" spacing="15.0" style="-fx-background-color: white; -fx-border-color: #E2E8F0; -fx-border-width: 1 0 0 0;">
                     <children>
                         <Button mnemonicParsing="false" styleClass="btn-outline" text="📎" />
-                        <TextField fx:id="messageField" onAction="#handleSendMessage" prefHeight="45.0" promptText="Ketik pesan Anda ke pemilik kos..." styleClass="text-field" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="messageField" onAction="#handleSendMessage" prefHeight="45.0" promptText="Ketik pesan Anda di sini..." styleClass="text-field" HBox.hgrow="ALWAYS">
                             <font>
                                 <Font size="14.0" />
                             </font>

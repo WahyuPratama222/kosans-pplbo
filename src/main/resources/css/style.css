@@ -746,6 +746,43 @@
     -fx-border-width: 0 0 0 3;
 }
 
+/* ============== CHAT SYSTEM STYLES ============== */
+.contact-item {
+    -fx-transition: all 0.2s;
+    -fx-background-color: transparent;
+}
+
+.contact-item:hover {
+    -fx-background-color: #F1F5F9;
+}
+
+.contact-item-active {
+    -fx-background-color: #E2E8F0;
+}
+
+.chat-bubble-mine {
+    -fx-background-color: #2D6BE4;
+    -fx-background-radius: 15 15 0 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.chat-bubble-other {
+    -fx-background-color: white;
+    -fx-background-radius: 15 15 15 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
+}
+
+.chat-scroll-pane {
+    -fx-background-color: #F8FAFC;
+    -fx-background: #F8FAFC;
+}
+
+.chat-input-area {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1 0 0 0;
+}
+
 /* ============== UTILITY CLASSES ============== */
 .text-center {
     -fx-text-alignment: center;
