@@ -1,4 +1,4 @@
-package com.kosku.controller;
+package com.kosku.controller.auth;
 
 import com.kosku.Main;
 import javafx.fxml.FXMLLoader;

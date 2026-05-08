@@ -1,4 +1,4 @@
-package com.kosku;
+    package com.kosku;
 
 /**
  * Launcher - Class pembantu untuk menjalankan aplikasi dari IDE.

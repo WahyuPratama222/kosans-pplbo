@@ -1,4 +1,4 @@
-package com.kosku.controller;
+package com.kosku.controller.auth;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -36,7 +36,7 @@ public class LoginControllerTest {
         // Parent root = FXMLLoader.load(Main.class.getResource("/view/login.fxml"));
         // stage.setScene(new Scene(root));
         // stage.show();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/auth/login.fxml"));
     
         if (root == null) {
             throw new IOException("Gagal memuat FXML: File tidak ditemukan!");
@@ -49,7 +49,7 @@ public class LoginControllerTest {
     @Test
     void testLoginFlow(FxRobot robot) {
         // 1. Simulasi mengetik email
-        robot.clickOn("#emailField").write("user@example.com");
+        robot.clickOn("#emailField").write("pemilik_Rizki");
 
         // 2. Simulasi mengetik password
         robot.clickOn("#passwordField").write("password123");
