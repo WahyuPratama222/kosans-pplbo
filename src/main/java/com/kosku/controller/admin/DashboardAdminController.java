@@ -12,8 +12,6 @@ public class DashboardAdminController {
     @FXML private Button btnManajemenKos;
     @FXML private Button btnLaporanPembayaran;
     @FXML private Button btnLaporanBooking;
-    @FXML private Button btnVerifikasiPengguna;
-    @FXML private Button btnVerifikasiKos;
     @FXML private Button btnLogout;
 
     @FXML
@@ -23,8 +21,6 @@ public class DashboardAdminController {
         if (btnManajemenKos != null) btnManajemenKos.setOnAction(e -> openPage("view/Admin/ManagementKos.fxml"));
         if (btnLaporanPembayaran != null) btnLaporanPembayaran.setOnAction(e -> openPage("view/Admin/LaporanPembayaran.fxml"));
         if (btnLaporanBooking != null) btnLaporanBooking.setOnAction(e -> openPage("view/Admin/LaporanBooking.fxml"));
-        if (btnVerifikasiPengguna != null) btnVerifikasiPengguna.setOnAction(e -> openPage("view/Admin/VerifikasiPengguna.fxml"));
-        if (btnVerifikasiKos != null) btnVerifikasiKos.setOnAction(e -> openPage("view/Admin/VerifikasiKos.fxml"));
         if (btnLogout != null) btnLogout.setOnAction(e -> handleLogout());
     }
 
