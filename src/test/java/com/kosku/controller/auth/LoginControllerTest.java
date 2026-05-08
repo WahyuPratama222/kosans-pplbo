@@ -32,19 +32,13 @@ public class LoginControllerTest {
 
     @Start
     public void start(Stage stage) throws IOException {
-        // Load FXML yang diasosiasikan dengan LoginController
-        // Parent root = FXMLLoader.load(Main.class.getResource("/view/login.fxml"));
-        // stage.setScene(new Scene(root));
-        // stage.show();
+        // BARIS INI WAJIB ADA: Mengisi wadah primaryStage di Main dengan stage testing
+        com.kosku.Main.primaryStage = stage; 
+
         Parent root = FXMLLoader.load(getClass().getResource("/view/auth/login.fxml"));
-    
-        if (root == null) {
-            throw new IOException("Gagal memuat FXML: File tidak ditemukan!");
-        }
-        
         stage.setScene(new Scene(root));
         stage.show();
-    }
+}
 
     @Test
     void testLoginFlow(FxRobot robot) {
