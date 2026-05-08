@@ -1,0 +1,21 @@
+# Progress Implementasi Fitur Admin
+
+- [x] **1. Update DAO**
+  - [x] `UserDAO`: Tambahkan `getUnverifiedUsers()`, `getTotalUsers()`
+  - [x] `KosDAO`: Tambahkan `getUnverifiedKos()`, `getTotalVerifiedKos()`
+  - [x] `PembayaranDAO`: Tambahkan `getPembayaranWaiting()`, `getTotalPembayaranBulanan()`
+  - [x] `BookingDAO`: Tambahkan `getTotalActiveBookings()`
+- [x] **2. Core & Dashboard Admin**
+  - [x] Buat `DashboardAdminController.java`
+  - [x] Update `DashboardAdmin.fxml` (Hubungkan tombol navigasi ke Controller)
+  - [x] Buat `MainMenuAdminController.java`
+  - [x] Update `MainMenuAdmin.fxml` (Pindahkan konten statistik dari DashboardAdmin)
+- [x] **3. Fitur Verifikasi Pengguna**
+  - [x] Buat `VerifikasiPengguna.fxml`
+  - [x] Buat `VerifikasiPenggunaController.java`
+- [x] **4. Fitur Verifikasi Kos**
+  - [x] Buat `VerifikasiKos.fxml`
+  - [x] Buat `VerifikasiKosController.java`
+- [x] **5. Fitur Laporan Pembayaran**
+  - [x] Buat `LaporanPembayaranAdminController.java`
+  - [x] Update `LaporanPembayaran.fxml` (Tambahkan kolom aksi verifikasi)

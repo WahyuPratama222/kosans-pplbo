@@ -43,13 +43,11 @@ public class ChatPemilikController {
         
         currentUser = SessionManager.getCurrentUser();
         if (currentUser == null) {
-            // Fallback for safety
-            currentUser = userDAO.getById(User.class, 3); // Based on seeder, 3 is pemilik_Rizki
+            currentUser = userDAO.getById(User.class, 3);
         }
 
         loadContacts();
         
-        // Auto-scroll to bottom when new messages arrive
         messageContainer.heightProperty().addListener((observable, oldValue, newValue) -> {
             chatScrollPane.setVvalue(1.0);
         });
@@ -89,7 +87,7 @@ public class ChatPemilikController {
         name.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
         
         Chat lastMsg = chatDAO.getLastMessage(currentUser, contact);
-        String previewText = (lastMsg != null) ? lastMsg.getPesan() : "Mulai percakapan...";
+        String previewText = (lastMsg != null) ? lastMsg.getIsiPesan() : "Mulai percakapan...";
         if (previewText.length() > 30) previewText = previewText.substring(0, 27) + "...";
         
         Label preview = new Label(previewText);
@@ -124,7 +122,7 @@ public class ChatPemilikController {
         
         for (Chat chat : history) {
             boolean isMine = chat.getPengirim().getIdUser().equals(currentUser.getIdUser());
-            messageContainer.getChildren().add(createMessageBubble(chat.getPesan(), chat.getWaktuKirim().format(DateTimeFormatter.ofPattern("HH:mm")), isMine));
+            messageContainer.getChildren().add(createMessageBubble(chat.getIsiPesan(), chat.getWaktuPesan().format(DateTimeFormatter.ofPattern("HH:mm")), isMine));
         }
     }
 
@@ -158,27 +156,14 @@ public class ChatPemilikController {
         Chat newChat = Chat.builder()
                 .pengirim(currentUser)
                 .penerima(selectedContact)
-                .pesan(text)
-                .isRead(false)
+                .isiPesan(text)
+                .sudahDibaca(false)
+                .tipeChat(Chat.TipeChat.PENYEWA_PEMILIK)
                 .build();
 
         chatDAO.saveOrUpdate(newChat);
         messageField.clear();
         loadMessages();
-        
-        // Refresh contacts to update preview
         loadContacts();
-        
-        // Highlight selected again
-        for (javafx.scene.Node node : contactContainer.getChildren()) {
-            if (node instanceof HBox) {
-                HBox item = (HBox) node;
-                VBox info = (VBox) item.getChildren().get(1);
-                Label name = (Label) info.getChildren().get(0);
-                if (name.getText().equals(selectedContact.getUsername())) {
-                    item.setStyle("-fx-background-color: -color-lavender; -fx-background-radius: 8;");
-                }
-            }
-        }
     }
 }

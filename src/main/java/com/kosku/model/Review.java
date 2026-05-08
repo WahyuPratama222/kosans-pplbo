@@ -4,6 +4,8 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 @Getter
 @Setter
@@ -27,6 +29,8 @@ public class Review {
     @JoinColumn(name = "id_penyewa", nullable = false)
     private User penyewa;
 
+    @Min(1)
+    @Max(5)
     @Column(nullable = false)
     private Integer rating;
 

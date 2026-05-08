@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.math.BigDecimal;
 
 @Getter 
 @Setter
@@ -34,8 +35,19 @@ public class Kos {
     @Column(columnDefinition = "TEXT")
     private String deskripsi;
 
-    @Column(name = "gambar_kos")
-    private String gambarKos;
+    @Column(name = "foto_kos")
+    private String fotoKos;
+
+    @Column(nullable = false, precision = 15, scale = 2)
+    private BigDecimal harga;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipe_kos", nullable = false)
+    private TipeKos tipeKos;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "durasi_sewa", nullable = false)
+    private DurasiSewa durasiSewa;
 
     @Builder.Default
     @Column(name = "is_verified")
@@ -57,5 +69,13 @@ public class Kos {
         if (isVerified == null) {
             isVerified = false;
         }
+    }
+
+    public enum DurasiSewa {
+        HARIAN, MINGGUAN, BULANAN, TAHUNAN
+    }
+
+    public enum TipeKos {
+        PUTRA, PUTRI, CAMPUR
     }
 }

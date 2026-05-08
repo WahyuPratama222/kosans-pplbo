@@ -6,44 +6,58 @@ import com.kosku.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * DAO untuk operasi Chat
+ */
 public class ChatDAO extends BaseDAO<Chat> {
 
     /**
-     * Mengambil riwayat percakapan antara dua user
+     * Ambil semua pesan antara dua user
+     * 
+     * @param pengirimId ID user pengirim
+     * @param penerimaId ID user penerima
+     * @return List pesan diurut dari yang terlama ke terbaru
+     */
+    public List<Chat> getMessagesBetweenUsers(Integer pengirimId, Integer penerimaId) {
+        String hql = "SELECT c FROM Chat c " +
+                "JOIN FETCH c.pengirim " +
+                "JOIN FETCH c.penerima " +
+                "WHERE (c.pengirim.idUser = :pengirimId AND c.penerima.idUser = :penerimaId) " +
+                "OR (c.pengirim.idUser = :penerimaId AND c.penerima.idUser = :pengirimId) " +
+                "ORDER BY c.waktuPesan ASC";
+        return listByQuery(hql, Map.of("pengirimId", pengirimId, "penerimaId", penerimaId), Chat.class);
+    }
+
+    /**
+     * Mengambil riwayat percakapan antara dua user (Versi Object)
      */
     public List<Chat> getChatHistory(User user1, User user2) {
+        return getMessagesBetweenUsers(user1.getIdUser(), user2.getIdUser());
+    }
+
+    /**
+     * Ambil daftar user yang pernah berkomunikasi dengan user tertentu
+     */
+    public List<User> getChatPartners(Integer userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "FROM Chat WHERE " +
-                         "(pengirim = :u1 AND penerima = :u2) OR " +
-                         "(pengirim = :u2 AND penerima = :u1) " +
-                         "ORDER BY waktuKirim ASC";
-            Query<Chat> query = session.createQuery(hql, Chat.class);
-            query.setParameter("u1", user1);
-            query.setParameter("u2", user2);
-            return query.list();
-        } catch (Exception e) {
-            throw new RuntimeException("Gagal mengambil riwayat chat: " + e.getMessage(), e);
+            String hql = "SELECT DISTINCT u FROM User u WHERE u.idUser IN (" +
+                    "  SELECT c.pengirim.idUser FROM Chat c WHERE c.penerima.idUser = :userId " +
+                    "  UNION " +
+                    "  SELECT c.penerima.idUser FROM Chat c WHERE c.pengirim.idUser = :userId" +
+                    ") AND u.idUser != :userId";
+            return session.createQuery(hql, User.class)
+                    .setParameter("userId", userId)
+                    .list();
         }
     }
 
     /**
-     * Mengambil daftar user yang pernah berinteraksi chat dengan user tertentu
+     * Mengambil daftar user yang pernah berinteraksi chat dengan user tertentu (Versi Object)
      */
     public List<User> getChatContacts(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // Query untuk mendapatkan user unik yang pernah berkirim pesan dengan 'user'
-            String hql = "SELECT DISTINCT u FROM User u WHERE u.idUser IN (" +
-                         "  SELECT c.penerima.idUser FROM Chat c WHERE c.pengirim = :u UNION " +
-                         "  SELECT c.pengirim.idUser FROM Chat c WHERE c.penerima = :u" +
-                         ") AND u.idUser != :uid";
-            Query<User> query = session.createQuery(hql, User.class);
-            query.setParameter("u", user);
-            query.setParameter("uid", user.getIdUser());
-            return query.list();
-        } catch (Exception e) {
-            throw new RuntimeException("Gagal mengambil kontak chat: " + e.getMessage(), e);
-        }
+        return getChatPartners(user.getIdUser());
     }
 
     /**
@@ -54,7 +68,7 @@ public class ChatDAO extends BaseDAO<Chat> {
             String hql = "FROM Chat WHERE " +
                          "(pengirim = :u1 AND penerima = :u2) OR " +
                          "(pengirim = :u2 AND penerima = :u1) " +
-                         "ORDER BY waktuKirim DESC";
+                         "ORDER BY waktuPesan DESC";
             Query<Chat> query = session.createQuery(hql, Chat.class);
             query.setParameter("u1", user1);
             query.setParameter("u2", user2);
@@ -63,5 +77,45 @@ public class ChatDAO extends BaseDAO<Chat> {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * Hitung jumlah pesan yang belum dibaca untuk user tertentu
+     */
+    public long countUnreadMessages(Integer penerimaId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT COUNT(c) FROM Chat c " +
+                    "WHERE c.penerima.idUser = :penerimaId AND c.sudahDibaca = false";
+            return session.createQuery(hql, Long.class)
+                    .setParameter("penerimaId", penerimaId)
+                    .uniqueResult();
+        }
+    }
+
+    /**
+     * Mark pesan sebagai sudah dibaca
+     */
+    public void markMessageAsRead(Integer chatId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            var transaction = session.beginTransaction();
+            try {
+                Chat chat = session.get(Chat.class, chatId);
+                if (chat != null) {
+                    chat.setSudahDibaca(true);
+                    session.merge(chat);
+                }
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+                throw e;
+            }
+        }
+    }
+
+    /**
+     * Hapus pesan
+     */
+    public void deleteMessage(Integer chatId) {
+        delete(Chat.class, chatId);
     }
 }

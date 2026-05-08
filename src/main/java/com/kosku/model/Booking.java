@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.math.BigDecimal;
 
 @Getter 
 @Setter
@@ -44,8 +45,8 @@ public class Booking {
     @Builder.Default
     private StatusBooking statusBooking = StatusBooking.PENDING;
 
-    @Column(name = "total_harga", nullable = false)
-    private Double totalHarga;
+    @Column(name = "total_harga", nullable = false, precision = 15, scale = 2)
+    private BigDecimal totalHarga;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

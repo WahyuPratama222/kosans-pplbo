@@ -9,7 +9,6 @@
         <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Mapping Entities -->
         <mapping class="com.kosku.model.User"/>
@@ -19,5 +18,6 @@
         <mapping class="com.kosku.model.Pembayaran"/>
         <mapping class="com.kosku.model.Review"/>
         <mapping class="com.kosku.model.Chat"/>
+        <mapping class="com.kosku.model.Notifikasi"/>
     </session-factory>
 </hibernate-configuration>

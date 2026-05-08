@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.ProfilController" stylesheets="@../../css/style.css">
+    <top>
+        <fx:include source="NavbarPenyewa.fxml" />
+    </top>
+    <bottom>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #F0F4FF; -fx-background: #F0F4FF;" vvalue="1.0" BorderPane.alignment="CENTER">
+            <content>
+                <VBox alignment="TOP_CENTER" spacing="40.0" style="-fx-background-color: #F0F4FF; -fx-padding: 40;">
+                    
+                    <!-- Header Title -->
+                    <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Profil Saya" />
+
+                    <HBox alignment="TOP_CENTER" spacing="40.0">
+                        
+                        <!-- Left Side: Profile Picture Card -->
+                        <VBox alignment="CENTER" prefWidth="400.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 40; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);">
+                            <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="false">
+                                <image>
+                                    <Image url="@../../images/tesProfile.png" />
+                                </image>
+                                <clip>
+                                    <Circle centerX="75" centerY="75" radius="75" />
+                                </clip>
+                            </ImageView>
+                            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="User Penyewa" />
+                            <Label style="-fx-font-size: 16px; -fx-text-fill: #666;" text="Penyewa Aktif" />
+                        </VBox>
+
+                        <!-- Right Side: Edit Form -->
+                        <VBox prefWidth="800.0" spacing="30.0">
+                            
+                            <!-- Biodata Card -->
+                            <VBox spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 40; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);">
+                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Informasi Pribadi" />
+                                
+                                <HBox spacing="20.0">
+                                    <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Nama Lengkap" />
+                                        <TextField fx:id="tfNama" prefHeight="46.0" prefWidth="650.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
+                                    </VBox>
+                                </HBox>
+
+                                <HBox spacing="20.0">
+                                    <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Nomor HP" />
+                                        <TextField fx:id="tfNoHp" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
+                                    </VBox>
+                                    <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Email" />
+                                        <TextField fx:id="tfEmail" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
+                                    </VBox>
+                                </HBox>
+
+                                <Button mnemonicParsing="false" onAction="#simpanProfil" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 12 30;" text="Simpan Perubahan" />
+                            </VBox>
+
+                            <!-- Keamanan Card -->
+                            <VBox spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 40; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);">
+                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Keamanan Akun" />
+                                
+                                <HBox spacing="20.0">
+                                    <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Password Lama" />
+                                        <PasswordField fx:id="pfPasswordLama" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
+                                    </VBox>
+                                    <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Password Baru" />
+                                        <PasswordField fx:id="pfPasswordBaru" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
+                                    </VBox>
+                                    <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                        <Label style="-fx-font-size: 14px; -fx-text-fill: #444; -fx-font-weight: bold;" text="Konfirmasi Password" />
+                                        <PasswordField fx:id="pfKonfirmasiPassword" prefHeight="45.0" style="-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #D0D9E8; -fx-border-radius: 8;" />
+                                    </VBox>
+                                </HBox>
+
+                                <Button mnemonicParsing="false" onAction="#ubahPassword" style="-fx-background-color: #1A3A6B; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 12 30;" text="Ubah Password" />
+                            </VBox>
+
+                        </VBox>
+
+                    </HBox>
+
+                    <!-- FOOTER -->
+                    <HBox alignment="CENTER" prefHeight="80.0" style="-fx-background-color: #1A3A6B; -fx-padding: 0 60 0 60; -fx-background-radius: 16;">
+                        <Label style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;" text="© 2024 KosKurniawan — Semua Hak Dilindungi" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 13px;" text="Hubungi Kami: 0812-3456-7890" />
+                    </HBox>
+                    
+                </VBox>
+            </content>
+        </ScrollPane>
+    </bottom>
+</BorderPane>

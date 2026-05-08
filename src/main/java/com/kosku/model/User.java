@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter 
+@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,10 +20,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     private Integer idUser;
-    
+
     @Column(unique = true, nullable = false, length = 50)
     private String username;
-    
+
     @Column(nullable = false, length = 255)
     private String password;
 
@@ -63,6 +63,10 @@ public class User {
 
     @OneToMany(mappedBy = "penerima", cascade = CascadeType.ALL)
     private List<Chat> chatDiterima;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("waktuNotifikasi DESC")
+    private List<Notifikasi> notifikasiList;
 
     public enum Role {
         ADMIN, PEMILIK, PENYEWA

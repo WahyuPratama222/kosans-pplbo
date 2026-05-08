@@ -2,6 +2,8 @@ package com.kosku.dao;
 
 import com.kosku.model.Kos;
 import com.kosku.model.User;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +11,8 @@ public class KosDAO extends BaseDAO<Kos> {
 
     /**
      * Ambil semua kos milik seorang pemilik.
-     * Gunakan JOIN FETCH jika ingin data pemilik langsung terbawa tanpa query tambahan.
+     * Gunakan JOIN FETCH jika ingin data pemilik langsung terbawa tanpa query
+     * tambahan.
      */
     public List<Kos> getByPemilik(User pemilik) {
         String hql = "SELECT k FROM Kos k JOIN FETCH k.pemilik WHERE k.pemilik = :pemilik";
@@ -31,5 +34,34 @@ public class KosDAO extends BaseDAO<Kos> {
         String hql = "FROM Kos k WHERE LOWER(k.namaKos) LIKE :kw OR LOWER(k.alamat) LIKE :kw";
         String likeKeyword = "%" + keyword.toLowerCase() + "%";
         return listByQuery(hql, Map.of("kw", likeKeyword), Kos.class);
+    }
+
+    /**
+     * Ambil semua kos beserta kamarList-nya (eager fetch) agar harga kamar
+     * dapat diakses setelah session Hibernate ditutup.
+     */
+    public List<Kos> getAllWithKamar() {
+        String hql = "SELECT DISTINCT k FROM Kos k LEFT JOIN FETCH k.kamarList LEFT JOIN FETCH k.pemilik";
+        return listByQuery(hql, null, Kos.class);
+    }
+
+    public List<Kos> filterKos(BigDecimal maxHarga, Kos.TipeKos tipe) {
+        String hql = "FROM Kos k WHERE k.isVerified = true AND k.harga <= :maxHarga AND k.tipeKos = :tipe";
+        return listByQuery(hql, Map.of("maxHarga", maxHarga, "tipe", tipe), Kos.class);
+    } 
+
+    public List<Kos> getUnverifiedKos() {
+        String hql = "FROM Kos k WHERE k.isVerified = false";
+        return listByQuery(hql, null, Kos.class);
+    }
+
+    public long getTotalVerifiedKos() {
+        try (org.hibernate.Session session = com.kosku.util.HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "select count(k) from Kos k where k.isVerified = true";
+            org.hibernate.query.Query<Long> query = session.createQuery(hql, Long.class);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal menghitung total kos: " + e.getMessage(), e);
+        }
     }
 }
