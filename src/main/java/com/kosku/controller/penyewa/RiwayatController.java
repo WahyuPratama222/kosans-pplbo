@@ -21,7 +21,10 @@ public class RiwayatController implements Initializable {
     @FXML private NavbarController navbarController;
     @FXML private TextField tfCariRiwayat;
     @FXML private VBox vboxRiwayatBooking;
+    @FXML private Button btnPending;
+    @FXML private Button btnSelesai;
 
+    private String currentTab = "PENDING";
     private BookingDAO bookingDAO;
 
     @Override
@@ -57,15 +60,62 @@ public class RiwayatController implements Initializable {
                 return;
             }
 
+            int count = 0;
+            boolean isPendingTab = "PENDING".equals(currentTab);
+            
             for (Booking booking : bookings) {
-                HBox card = createBookingCard(booking);
-                vboxRiwayatBooking.getChildren().add(card);
+                Booking.StatusBooking status = booking.getStatusBooking();
+                
+                boolean show = false;
+                if (isPendingTab) {
+                    show = (status == Booking.StatusBooking.PENDING || status == Booking.StatusBooking.DITERIMA);
+                } else {
+                    show = (status == Booking.StatusBooking.SELESAI || status == Booking.StatusBooking.DITOLAK || status == Booking.StatusBooking.DIBATALKAN);
+                }
+
+                if (show) {
+                    HBox card = createBookingCard(booking);
+                    vboxRiwayatBooking.getChildren().add(card);
+                    count++;
+                }
+            }
+            
+            if (count == 0) {
+                Label lblEmpty = new Label(isPendingTab ? "Tidak ada booking yang sedang berjalan/menunggu pembayaran." : "Belum ada riwayat booking yang selesai/dibatalkan.");
+                lblEmpty.setStyle("-fx-font-size: 16px; -fx-text-fill: #888;");
+                vboxRiwayatBooking.getChildren().add(lblEmpty);
             }
         } catch (Exception e) {
             System.err.println("Error loading booking: " + e.getMessage());
         }
     }
 
+    @FXML
+    private void showPending() {
+        currentTab = "PENDING";
+        updateTabStyles();
+        loadRiwayatBooking();
+    }
+
+    @FXML
+    private void showSelesai() {
+        currentTab = "SELESAI";
+        updateTabStyles();
+        loadRiwayatBooking();
+    }
+
+    private void updateTabStyles() {
+        String activeStyle = "-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 24; -fx-background-radius: 24; -fx-cursor: hand;";
+        String inactiveStyle = "-fx-background-color: white; -fx-text-fill: #555; -fx-font-weight: bold; -fx-padding: 10 24; -fx-background-radius: 24; -fx-border-color: #DDD; -fx-border-radius: 24; -fx-cursor: hand;";
+
+        if ("PENDING".equals(currentTab)) {
+            if (btnPending != null) btnPending.setStyle(activeStyle);
+            if (btnSelesai != null) btnSelesai.setStyle(inactiveStyle);
+        } else {
+            if (btnPending != null) btnPending.setStyle(inactiveStyle);
+            if (btnSelesai != null) btnSelesai.setStyle(activeStyle);
+        }
+    }
     private HBox createBookingCard(Booking booking) {
         Kos kos = booking.getKamar().getKos();
         
@@ -138,17 +188,70 @@ public class RiwayatController implements Initializable {
 
         Region spacer2 = new Region();
         HBox.setHgrow(spacer2, Priority.ALWAYS);
-        Button btnDetail = new Button("Lihat Detail");
-        btnDetail.setStyle("-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;");
-        btnDetail.setOnAction(e -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Detail Booking");
-            alert.setHeaderText("Informasi Booking");
-            alert.setContentText("ID Booking: " + booking.getIdBooking() + "\nStatus: " + booking.getStatusBooking());
-            alert.showAndWait();
-        });
+        
+        HBox actionBox = new HBox(10);
+        actionBox.setAlignment(Pos.CENTER_RIGHT);
 
-        priceBox.getChildren().addAll(priceText, spacer2, btnDetail);
+        if (booking.getStatusBooking() == Booking.StatusBooking.PENDING || booking.getStatusBooking() == Booking.StatusBooking.DITERIMA) {
+            Button btnTanya = new Button("Tanya Pemilik");
+            btnTanya.setStyle("-fx-background-color: white; -fx-text-fill: #2D6BE4; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-border-color: #2D6BE4; -fx-border-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;");
+            btnTanya.setOnAction(e -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Fitur Chat");
+                alert.setHeaderText("Terhubung ke Chat Pemilik");
+                alert.setContentText("Fitur chat sedang dalam tahap pengembangan oleh tim lain.");
+                alert.showAndWait();
+            });
+
+            Button btnBayar = new Button("Lanjut ke Pembayaran");
+            btnBayar.setStyle("-fx-background-color: #16A34A; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;");
+            btnBayar.setOnAction(e -> {
+                DetailBookingController.selectedBooking = booking;
+                com.kosku.Main.navigateTo("/view/penyewa/DetailBookingPenyewa.fxml", "Detail Booking");
+            });
+
+            actionBox.getChildren().addAll(btnTanya, btnBayar);
+        } else if (booking.getStatusBooking() == Booking.StatusBooking.SELESAI) {
+            Button btnDetail = new Button("Lihat Detail");
+            btnDetail.setStyle("-fx-background-color: white; -fx-text-fill: #2D6BE4; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-border-color: #2D6BE4; -fx-border-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;");
+            btnDetail.setOnAction(e -> {
+                DetailBookingSelesaiController.selectedBooking = booking;
+                com.kosku.Main.navigateTo("/view/penyewa/DetailBookingSelesaiPenyewa.fxml", "Detail Booking Selesai");
+            });
+
+            Button btnRating = new Button("Beri Rating");
+            btnRating.setStyle("-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;");
+            btnRating.setOnAction(e -> {
+                try {
+                    com.kosku.dao.ReviewDAO reviewDAO = new com.kosku.dao.ReviewDAO();
+                    com.kosku.model.Review existing = reviewDAO.getReviewByBooking(booking.getIdBooking());
+                    if (existing != null) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Peringatan");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Anda sudah memberikan rating untuk booking ini.");
+                        alert.showAndWait();
+                    } else {
+                        BeriRatingController.selectedBooking = booking;
+                        com.kosku.Main.navigateTo("/view/penyewa/BeriRatingPenyewa.fxml", "Beri Rating & Ulasan");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+
+            actionBox.getChildren().addAll(btnDetail, btnRating);
+        } else {
+            Button btnDetail = new Button("Lihat Detail");
+            btnDetail.setStyle("-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;");
+            btnDetail.setOnAction(e -> {
+                DetailBookingController.selectedBooking = booking;
+                com.kosku.Main.navigateTo("/view/penyewa/DetailBookingPenyewa.fxml", "Detail Booking");
+            });
+            actionBox.getChildren().add(btnDetail);
+        }
+
+        priceBox.getChildren().addAll(priceText, spacer2, actionBox);
         detailsBox.getChildren().addAll(titleBox, lblAlamat, lblKamar, lblTanggal, priceBox);
         card.getChildren().addAll(imagePane, detailsBox);
 

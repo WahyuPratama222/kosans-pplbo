@@ -41,7 +41,7 @@
                                 <!-- Left: Image -->
                                 <VBox spacing="20.0">
                                     <children>
-                                        <ImageView fx:id="ivFotoKos" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="false" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                                        <ImageView fx:id="ivFotoKos" fitHeight="350.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="false" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
                                             <image>
                                                 <Image url="@../../images/tesKos.png" />
                                             </image>
@@ -62,8 +62,8 @@
                                         </HBox>
 
                                         <!-- Title & Address -->
-                                        <Label fx:id="lblNamaKos" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Nama Kos" />
-                                        <Label fx:id="lblAlamat" style="-fx-font-size: 16px; -fx-text-fill: #666;" text="📍 Alamat Kos" />
+                                        <Label fx:id="lblNamaKos" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Nama Kos" />
+                                        <Label fx:id="lblAlamat" style="-fx-font-size: 14px; -fx-text-fill: #666;" text="📍 Alamat Kos" />
 
                                         <Region prefHeight="10.0" />
                                         <Label style="-fx-background-color: #E8EDF5; -fx-pref-height: 1px; -fx-pref-width: 1000px;" />
@@ -74,11 +74,12 @@
                                             <children>
                                                 <VBox>
                                                     <children>
-                                                        <Label style="-fx-font-size: 14px; -fx-text-fill: #888;" text="Harga mulai dari" />
-                                                        <Label fx:id="lblHarga" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;" text="Rp 0" />
+                                                        <Label style="-fx-font-size: 13px; -fx-text-fill: #888;" text="Harga mulai dari" />
+                                                        <Label fx:id="lblHarga" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;" text="Rp 0" />
                                                     </children>
                                                 </VBox>
                                                 <Region HBox.hgrow="ALWAYS" />
+                                                <Button mnemonicParsing="false" onAction="#handleChatPemilik" style="-fx-background-color: white; -fx-text-fill: #2D6BE4; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 12; -fx-border-color: #2D6BE4; -fx-border-width: 2; -fx-border-radius: 12; -fx-cursor: hand; -fx-padding: 13 40 13 40;" text="💬 Tanya Pemilik" />
                                                 <Button mnemonicParsing="false" onAction="#handleBooking" style="-fx-background-color: #16A34A; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand; -fx-padding: 15 40 15 40;" text="Booking Sekarang" />
                                             </children>
                                         </HBox>
@@ -90,14 +91,14 @@
                                             <children>
                                                 <VBox style="-fx-background-color: #F8F9FF; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #E8EDF5; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
                                                     <children>
-                                                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Kamar Tersedia" />
-                                                        <Label fx:id="lblKamarTersedia" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;" text="0 Kamar" />
+                                                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Kamar Tersedia" />
+                                                        <Label fx:id="lblKamarTersedia" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" text="0 Kamar" />
                                                     </children>
                                                 </VBox>
                                                 <VBox style="-fx-background-color: #F8F9FF; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #E8EDF5; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
                                                     <children>
-                                                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Status Verifikasi" />
-                                                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #16A34A;" text="✅ Terverifikasi" />
+                                                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Status Verifikasi" />
+                                                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #16A34A;" text="✅ Terverifikasi" />
                                                     </children>
                                                 </VBox>
                                             </children>
@@ -106,8 +107,8 @@
                                         <!-- Description -->
                                         <VBox spacing="10.0">
                                             <children>
-                                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Deskripsi Kos" />
-                                                <Label fx:id="lblDeskripsi" style="-fx-font-size: 16px; -fx-text-fill: #555; -fx-wrap-text: true; -fx-line-spacing: 5px;" text="Deskripsi tidak tersedia." />
+                                                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Deskripsi Kos" />
+                                                <Label fx:id="lblDeskripsi" style="-fx-font-size: 14px; -fx-text-fill: #555; -fx-wrap-text: true; -fx-line-spacing: 5px;" text="Deskripsi tidak tersedia." />
                                             </children>
                                         </VBox>
 
@@ -116,6 +117,25 @@
                             </HBox>
                         </children>
                     </VBox>
+
+                    <!-- Section Ulasan -->
+                    <VBox prefWidth="1720.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 20, 0, 0, 8); -fx-padding: 40;">
+                        <VBox.margin>
+                            <Insets top="30.0" />
+                        </VBox.margin>
+                        <children>
+                            <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1A2744;" text="Ulasan &amp; Rating" />
+                            
+                            <!-- Container untuk daftar ulasan -->
+                            <VBox fx:id="vboxUlasan" spacing="15.0" />
+                            
+                            <!-- Tombol Muat Lebih Banyak -->
+                            <HBox alignment="CENTER">
+                                <Button fx:id="btnMuatLebihUlasan" mnemonicParsing="false" onAction="#handleMuatLebihUlasan" style="-fx-background-color: white; -fx-text-fill: #2D6BE4; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-border-color: #2D6BE4; -fx-border-radius: 10; -fx-cursor: hand; -fx-padding: 8 20 8 20;" text="Tampilkan Lebih Banyak" />
+                            </HBox>
+                        </children>
+                    </VBox>
+
                 </VBox>
             </content>
         </ScrollPane>

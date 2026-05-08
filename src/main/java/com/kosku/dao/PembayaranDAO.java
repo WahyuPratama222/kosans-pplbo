@@ -30,4 +30,9 @@ public class PembayaranDAO extends BaseDAO<Pembayaran> {
             throw new RuntimeException("Gagal menghitung total pembayaran: " + e.getMessage(), e);
         }
     }
+
+    public Pembayaran getPembayaranByBooking(com.kosku.model.Booking booking) {
+        String hql = "FROM Pembayaran p WHERE p.booking = :booking";
+        return singleByQuery(hql, java.util.Map.of("booking", booking), Pembayaran.class);
+    }
 }

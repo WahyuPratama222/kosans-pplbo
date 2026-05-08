@@ -144,6 +144,14 @@
                                             <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="📅 Detail Booking" />
                                             <Separator prefWidth="200.0" style="-fx-padding: 0 0 5 0;" />
 
+                                            <!-- Kamar Selection -->
+                                            <VBox spacing="8.0">
+                                                <children>
+                                                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Pilih Kamar *" />
+                                                    <ComboBox fx:id="cbKamar" promptText="Pilih kamar yang tersedia" style="-fx-padding: 14; -fx-font-size: 14px; -fx-border-color: #D0DCF3; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: white;" prefWidth="500.0" />
+                                                </children>
+                                            </VBox>
+
                                             <!-- Duration Selection -->
                                             <VBox spacing="8.0">
                                                 <children>

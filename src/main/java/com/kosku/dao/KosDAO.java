@@ -45,6 +45,11 @@ public class KosDAO extends BaseDAO<Kos> {
         return listByQuery(hql, null, Kos.class);
     }
 
+    public Kos getKosByIdWithKamar(Integer id) {
+        String hql = "SELECT k FROM Kos k LEFT JOIN FETCH k.kamarList WHERE k.idKos = :id";
+        return singleByQuery(hql, Map.of("id", id), Kos.class);
+    }
+
     public List<Kos> filterKos(BigDecimal maxHarga, Kos.TipeKos tipe) {
         String hql = "FROM Kos k WHERE k.isVerified = true AND k.harga <= :maxHarga AND k.tipeKos = :tipe";
         return listByQuery(hql, Map.of("maxHarga", maxHarga, "tipe", tipe), Kos.class);

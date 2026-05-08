@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 40; -fx-border-color: #E8EDF5; -fx-border-width: 2; -fx-border-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 15, 0, 0, 5);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.PopupBookingSuksesController">
+   <children>
+      <Label style="-fx-font-size: 60px;" text="🎉" />
+      <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Booking Berhasil Dikirim!" />
+      <Label alignment="CENTER" style="-fx-font-size: 14px; -fx-text-fill: #666;" text="Booking Anda berhasil dikirim dengan status PENDING.&#10;Silakan tunggu konfirmasi dari pemilik kos sebelum melakukan pembayaran." textAlignment="CENTER" />
+      <HBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20 0 0 0;">
+         <children>
+            <Button fx:id="btnRiwayat" mnemonicParsing="false" onAction="#goToRiwayat" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 24; -fx-cursor: hand;" text="Lihat Booking" />
+            <Button fx:id="btnMainMenu" mnemonicParsing="false" onAction="#goToMainMenu" style="-fx-background-color: white; -fx-text-fill: #666; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 24; -fx-border-color: #DDD; -fx-border-radius: 10; -fx-cursor: hand;" text="Ke Halaman Utama" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
