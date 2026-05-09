@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.DetailBookingSelesaiController">
+    <top>
+        <fx:include source="NavbarPenyewa.fxml" />
+    </top>
+    
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #F0F4FF; -fx-background: #F0F4FF;" BorderPane.alignment="CENTER">
+            <content>
+                <VBox alignment="TOP_CENTER" spacing="0.0" style="-fx-background-color: #F0F4FF; -fx-padding: 40 100 60 100;">
+                    
+                    <!-- Header Section -->
+                    <HBox alignment="CENTER_LEFT" prefWidth="1720.0">
+                        <VBox.margin>
+                            <Insets bottom="30.0" />
+                        </VBox.margin>
+                        <children>
+                            <Button mnemonicParsing="false" onAction="#handleKembali" style="-fx-background-color: white; -fx-text-fill: #1A3A6B; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 20 10 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);" text="⬅ Kembali" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Detail Booking Selesai" />
+                        </children>
+                    </HBox>
+
+                    <!-- Main Content Layout (2 Columns) -->
+                    <HBox spacing="40.0" prefWidth="1720.0">
+                        <children>
+                            
+                            <!-- KIRI: Detail Info -->
+                            <VBox spacing="25.0" HBox.hgrow="ALWAYS">
+                                <children>
+                                    
+                                    <!-- 1. Status Transaksi -->
+                                    <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 5); -fx-border-color: #E8EDF5; -fx-border-width: 2; -fx-border-radius: 20;">
+                                        <children>
+                                            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="📋 Status Transaksi" />
+                                            <Separator />
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="ID Booking" />
+                                                <Label fx:id="lblIdBooking" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;" text="-" />
+                                            </HBox>
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Status" />
+                                                <Label fx:id="lblStatusBooking" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #16A34A; -fx-background-color: #DCFCE7; -fx-padding: 4 12; -fx-background-radius: 10;" text="Selesai" />
+                                            </HBox>
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Tanggal Booking Dibuat" />
+                                                <Label fx:id="lblTanggalBooking" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;" text="-" />
+                                            </HBox>
+                                        </children>
+                                    </VBox>
+
+                                    <!-- 2. Rincian Pembayaran -->
+                                    <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 5); -fx-border-color: #E8EDF5; -fx-border-width: 2; -fx-border-radius: 20;">
+                                        <children>
+                                            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="💰 Rincian Pembayaran" />
+                                            <Separator />
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Total Tagihan" />
+                                                <Label fx:id="lblTotalTagihan" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2D6BE4;" text="-" />
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT">
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Waktu Pembayaran Diunggah" />
+                                                <Label fx:id="lblWaktuPembayaran" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;" text="-" />
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT">
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Foto / File Bukti Bayar" />
+                                                <Button fx:id="btnLihatBukti" mnemonicParsing="false" onAction="#handleLihatBukti" style="-fx-background-color: #F8F9FF; -fx-text-fill: #2D6BE4; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-border-color: #D0DCF3; -fx-border-radius: 8; -fx-cursor: hand;" text="Lihat Bukti" />
+                                            </HBox>
+                                        </children>
+                                    </VBox>
+
+                                    <!-- 3. Detail Kamar & Properti -->
+                                    <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 5); -fx-border-color: #E8EDF5; -fx-border-width: 2; -fx-border-radius: 20;">
+                                        <children>
+                                            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="🏠 Detail Kamar &amp; Properti" />
+                                            <Separator />
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Nama Kos" />
+                                                <Label fx:id="lblNamaKos" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;" text="-" />
+                                            </HBox>
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Nomor Kamar" />
+                                                <Label fx:id="lblNomorKamar" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;" text="-" />
+                                            </HBox>
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Alamat Lengkap Kos" />
+                                                <Label fx:id="lblAlamatKos" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;" text="-" wrapText="true" />
+                                            </HBox>
+                                        </children>
+                                    </VBox>
+
+                                    <!-- 4. Waktu Sewa -->
+                                    <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 5); -fx-border-color: #E8EDF5; -fx-border-width: 2; -fx-border-radius: 20;">
+                                        <children>
+                                            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="⏱️ Waktu Sewa" />
+                                            <Separator />
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Tanggal Masuk (Check-in)" />
+                                                <Label fx:id="lblCheckIn" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;" text="-" />
+                                            </HBox>
+                                            <HBox>
+                                                <Label style="-fx-font-size: 15px; -fx-text-fill: #666;" prefWidth="250.0" text="Tanggal Keluar (Check-out)" />
+                                                <Label fx:id="lblCheckOut" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #333;" text="-" />
+                                            </HBox>
+                                        </children>
+                                    </VBox>
+
+                                </children>
+                            </VBox>
+
+                            <!-- KANAN: Tombol Aksi -->
+                            <VBox prefWidth="450.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 40; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 5); -fx-border-color: #E8EDF5; -fx-border-width: 2; -fx-border-radius: 20;">
+                                <children>
+                                    <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B; -fx-alignment: center; -fx-pref-width: 450;" text="Tindakan Lanjutan" textAlignment="CENTER" />
+                                    <Separator style="-fx-padding: 0 0 10 0;" />
+                                    
+                                    <Button mnemonicParsing="false" onAction="#handleRating" prefHeight="55.0" prefWidth="400.0" style="-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand;" text="⭐ Beri Rating &amp; Ulasan" />
+                                    
+                                    <Button mnemonicParsing="false" onAction="#handlePesanLagi" prefHeight="55.0" prefWidth="400.0" style="-fx-background-color: #16A34A; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand;" text="🔄 Pesan Kos Ini Lagi" />
+                                    
+                                    <Button mnemonicParsing="false" onAction="#handleHubungiPemilik" prefHeight="55.0" prefWidth="400.0" style="-fx-background-color: white; -fx-text-fill: #2D6BE4; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 12; -fx-border-color: #2D6BE4; -fx-border-width: 2; -fx-border-radius: 12; -fx-cursor: hand;" text="💬 Hubungi Pemilik" />
+                                    
+                                    <Button mnemonicParsing="false" onAction="#handleKomplain" prefHeight="55.0" prefWidth="400.0" style="-fx-background-color: white; -fx-text-fill: #DC2626; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 12; -fx-border-color: #DC2626; -fx-border-width: 2; -fx-border-radius: 12; -fx-cursor: hand;" text="⚠️ Ajukan Komplain ke Admin" />
+                                </children>
+                            </VBox>
+
+                        </children>
+                    </HBox>
+                    
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

@@ -20,16 +20,10 @@ public class ProfilController implements Initializable {
     private TextField tfNama;
     
     @FXML
-    private TextField tfUsername;
-    
-    @FXML
     private TextField tfEmail;
     
     @FXML
     private TextField tfNoHp;
-    
-    @FXML
-    private TextField tfPekerjaan;
     
     @FXML
     private PasswordField pfPasswordLama;
@@ -80,12 +74,8 @@ public class ProfilController implements Initializable {
             
             if (userCurrent != null) {
                 tfNama.setText(userCurrent.getUsername() != null ? userCurrent.getUsername() : "");
-                tfUsername.setText(userCurrent.getUsername() != null ? userCurrent.getUsername() : "");
                 tfEmail.setText(userCurrent.getEmail() != null ? userCurrent.getEmail() : "");
                 tfNoHp.setText(userCurrent.getNomorHp() != null ? userCurrent.getNomorHp() : "");
-                
-                // Pekerjaan bisa disimpan di extended profile jika ada
-                tfPekerjaan.setText("Mahasiswa"); // Placeholder
             } else {
                 showAlert(Alert.AlertType.WARNING, "Peringatan", 
                     "Data pengguna tidak ditemukan");
@@ -108,7 +98,6 @@ public class ProfilController implements Initializable {
         tfNama.setEditable(edit);
         tfEmail.setEditable(edit);
         tfNoHp.setEditable(edit);
-        tfPekerjaan.setEditable(edit);
         
         pfPasswordLama.setDisable(!edit);
         pfPasswordBaru.setDisable(!edit);

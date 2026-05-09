@@ -38,16 +38,27 @@ public class DetailKosPenyewaController implements Initializable {
     @FXML private Label lblDeskripsi;
     @FXML private Label lblKamarTersedia;
     @FXML private Label lblRating;
+    @FXML private javafx.scene.layout.VBox vboxUlasan;
+    @FXML private Button btnMuatLebihUlasan;
 
     private BookingDAO bookingDAO;
+    private com.kosku.dao.ReviewDAO reviewDAO;
+    
+    private int currentReviewOffset = 0;
+    private final int REVIEWS_PER_PAGE = 3;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         bookingDAO = new BookingDAO();
+        reviewDAO = new com.kosku.dao.ReviewDAO();
+        
         if (selectedKos != null) {
             tampilkanDetailKos(selectedKos);
+            loadUlasan();
         } else {
             lblNamaKos.setText("Data kos tidak ditemukan.");
+            vboxUlasan.getChildren().add(new Label("Data kos tidak tersedia."));
+            btnMuatLebihUlasan.setVisible(false);
         }
     }
 
@@ -88,7 +99,14 @@ public class DetailKosPenyewaController implements Initializable {
             }
         }
         lblKamarTersedia.setText(jumlahKamarTersedia + " Kamar");
-        lblRating.setText("⭐ 4.9");
+        
+        // Fetch average rating from DB
+        Double avgRating = reviewDAO.getAverageRating(kos.getIdKos());
+        if (avgRating != null && avgRating > 0) {
+            lblRating.setText(String.format("⭐ %.1f", avgRating));
+        } else {
+            lblRating.setText("⭐ -"); // Belum ada rating
+        }
 
         String imagePath = kos.getFotoKos() != null ? "/" + kos.getFotoKos() + ".png" : "/images/tesKos.png";
         try {
@@ -132,5 +150,79 @@ public class DetailKosPenyewaController implements Initializable {
 
         // Navigate ke halaman booking dengan data kos yang dipilih
         Main.navigateTo("/view/penyewa/BookingPenyewa.fxml", "Booking Kos");
+    }
+
+    @FXML
+    void handleChatPemilik(ActionEvent event) {
+        // TODO: Navigasi langsung ke halaman/room chat dengan pemilik kos (karyawan lain yang mengerjakan)
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Fitur Chat");
+        alert.setHeaderText("Terhubung ke Chat Pemilik");
+        alert.setContentText("Fitur chat sedang dalam tahap pengembangan oleh tim lain.");
+        alert.showAndWait();
+    }
+
+    private void loadUlasan() {
+        if (selectedKos == null) return;
+        
+        List<com.kosku.model.Review> reviews = reviewDAO.getReviewsByKos(selectedKos.getIdKos(), REVIEWS_PER_PAGE, currentReviewOffset);
+        
+        if (reviews == null || reviews.isEmpty()) {
+            if (currentReviewOffset == 0) {
+                Label lblEmpty = new Label("Belum ada ulasan untuk kos ini.");
+                lblEmpty.setStyle("-fx-font-size: 15px; -fx-text-fill: #888;");
+                vboxUlasan.getChildren().add(lblEmpty);
+            }
+            btnMuatLebihUlasan.setVisible(false);
+            return;
+        }
+
+        for (com.kosku.model.Review r : reviews) {
+            vboxUlasan.getChildren().add(createReviewCard(r));
+        }
+        
+        // Jika data yang diambil kurang dari limit, artinya sudah habis
+        if (reviews.size() < REVIEWS_PER_PAGE) {
+            btnMuatLebihUlasan.setVisible(false);
+        } else {
+            btnMuatLebihUlasan.setVisible(true);
+        }
+    }
+
+    private javafx.scene.layout.VBox createReviewCard(com.kosku.model.Review review) {
+        javafx.scene.layout.VBox card = new javafx.scene.layout.VBox(10);
+        card.setStyle("-fx-background-color: #F8F9FF; -fx-padding: 20; -fx-background-radius: 12; -fx-border-color: #E8EDF5; -fx-border-radius: 12;");
+        
+        javafx.scene.layout.HBox header = new javafx.scene.layout.HBox(15);
+        header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        
+        // Asumsi penyewa tidak null
+        String namaPenyewa = review.getPenyewa() != null ? review.getPenyewa().getUsername() : "Penyewa Anonim";
+        Label lblName = new Label(namaPenyewa);
+        lblName.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;");
+        
+        javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
+        javafx.scene.layout.HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+        
+        String tgl = review.getCreatedAt() != null ? review.getCreatedAt().toLocalDate().toString() : "";
+        Label lblDate = new Label(tgl);
+        lblDate.setStyle("-fx-font-size: 13px; -fx-text-fill: #888;");
+        
+        header.getChildren().addAll(lblName, spacer, lblDate);
+        
+        Label lblBintang = new Label("⭐".repeat(review.getRating()));
+        lblBintang.setStyle("-fx-text-fill: #F59E0B; -fx-font-size: 14px;");
+        
+        Label lblKomentar = new Label(review.getKomentar() != null ? review.getKomentar() : "");
+        lblKomentar.setStyle("-fx-font-size: 14px; -fx-text-fill: #555; -fx-wrap-text: true;");
+        
+        card.getChildren().addAll(header, lblBintang, lblKomentar);
+        return card;
+    }
+
+    @FXML
+    void handleMuatLebihUlasan(ActionEvent event) {
+        currentReviewOffset += REVIEWS_PER_PAGE;
+        loadUlasan();
     }
 }

@@ -40,6 +40,7 @@ public class BookingPenyewaController implements Initializable {
     @FXML private TextField tfNoTelepon;
     @FXML private TextField tfEmail;
     @FXML private ComboBox<String> cbDurasi;
+    @FXML private ComboBox<Kamar> cbKamar;
     @FXML private DatePicker dpTanggalMulai;
     @FXML private TextField tfTanggalBerakhir;
     @FXML private TextArea taKatatan;
@@ -81,6 +82,33 @@ public class BookingPenyewaController implements Initializable {
         );
         cbDurasi.setItems(durasiOptions);
         cbDurasi.getSelectionModel().selectFirst();
+
+        // Populate kamar options
+        if (selectedKos.getKamarList() != null) {
+            List<Kamar> availableKamar = selectedKos.getKamarList().stream()
+                    .filter(k -> Boolean.TRUE.equals(k.getStatusTersedia()))
+                    .collect(Collectors.toList());
+            
+            ObservableList<Kamar> kamarOptions = FXCollections.observableArrayList(availableKamar);
+            cbKamar.setItems(kamarOptions);
+            
+            // Set converter to display kamar number
+            cbKamar.setConverter(new javafx.util.StringConverter<Kamar>() {
+                @Override
+                public String toString(Kamar k) {
+                    return k == null ? "" : "Kamar " + k.getNomorKamar();
+                }
+
+                @Override
+                public Kamar fromString(String string) {
+                    return null; // Not needed
+                }
+            });
+
+            if (!availableKamar.isEmpty()) {
+                cbKamar.getSelectionModel().selectFirst();
+            }
+        }
 
         // Set default date to today
         dpTanggalMulai.setValue(LocalDate.now());
@@ -213,24 +241,57 @@ public class BookingPenyewaController implements Initializable {
 
         BigDecimal totalHarga = hargaBulanan.multiply(BigDecimal.valueOf(months));
 
-        // Create booking object (kamar akan ditentukan oleh pemilik kemudian)
+        Kamar selectedKamar = cbKamar.getValue();
+
+        // Create booking object
         Booking booking = Booking.builder()
                 .penyewa(User.builder().idUser(userId).build())
-                .kamar(null)  // Kamar ditentukan oleh pemilik
+                .kamar(selectedKamar)
                 .tanggalMulai(startDate)
                 .tanggalSelesai(endDate)
                 .totalHarga(totalHarga)
                 .statusBooking(Booking.StatusBooking.PENDING)
                 .tanggalBooking(LocalDateTime.now())
-                // TODO: Add catatan if TextArea is mapped to booking model
                 .build();
+                
+        // TODO: Mengirimkan informasi/catatan (taKatatan.getText()) langsung ke chat. Biarkan karyawan lain yang membuatnya.
 
         // Save booking
         try {
             bookingDAO.saveOrUpdate(booking);
-            showAlert(Alert.AlertType.INFORMATION, "Booking Sukses", 
-                    "Booking Anda berhasil dikirim dengan status PENDING.\nMenunggu konfirmasi pemilik kos.");
-            Main.navigateTo("/view/penyewa/RiwayatPenyewa.fxml", "Riwayat Booking");
+            
+            try {
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/view/penyewa/PopupBookingSukses.fxml"));
+                javafx.scene.Parent root = loader.load();
+                
+                javafx.stage.Stage popupStage = new javafx.stage.Stage();
+                popupStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+                popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+                
+                PopupBookingSuksesController controller = loader.getController();
+                controller.setPopupStage(popupStage);
+                
+                javafx.scene.Scene scene = new javafx.scene.Scene(root);
+                scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+                popupStage.setScene(scene);
+                
+                // Center it on primary stage
+                if (Main.getPrimaryStage() != null) {
+                    popupStage.initOwner(Main.getPrimaryStage());
+                }
+                
+                popupStage.showAndWait();
+            } catch (Exception ex) {
+                System.err.println("Gagal memuat custom popup: " + ex.getMessage());
+                // Fallback to normal alert
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Booking Sukses");
+                alert.setHeaderText("🎉 Booking Berhasil Dikirim!");
+                alert.setContentText("Booking Anda berhasil dikirim dengan status PENDING.\nSilakan tunggu konfirmasi dari pemilik kos sebelum melakukan pembayaran.");
+                alert.showAndWait();
+                Main.navigateTo("/view/penyewa/RiwayatPenyewa.fxml", "Riwayat Booking");
+            }
+            
         } catch (Exception e) {
             System.err.println("Error saving booking: " + e.getMessage());
             showAlert(Alert.AlertType.ERROR, "Error", 
@@ -250,6 +311,9 @@ public class BookingPenyewaController implements Initializable {
         }
         if (cbDurasi.getValue() == null) {
             return "Pilih durasi sewa";
+        }
+        if (cbKamar.getValue() == null) {
+            return "Pilih kamar yang akan disewa";
         }
         if (dpTanggalMulai.getValue() == null) {
             return "Pilih tanggal mulai sewa";

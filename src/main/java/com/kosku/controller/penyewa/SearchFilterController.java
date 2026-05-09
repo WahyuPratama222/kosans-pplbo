@@ -29,7 +29,6 @@ public class SearchFilterController {
     @FXML private ComboBox<String> sortCombo;
     @FXML private GridPane kosGrid;
 
-    private KosDAO kosDAO = new KosDAO();
     private ReviewDAO reviewDAO = new ReviewDAO();
 
     @FXML
@@ -50,9 +49,9 @@ public class SearchFilterController {
         imageHolder.setPrefHeight(150);
         imageHolder.getStyleClass().add("image-placeholder");
 
-        if (kos.getGambarKos() != null) {
+        if (kos.getFotoKos() != null) {
             try {
-                String fullPath = FileUtil.getAbsolutePath(kos.getGambarKos());
+                String fullPath = FileUtil.getAbsolutePath(kos.getFotoKos());
                 File file = new File(fullPath);
                 if (file.exists()) {
                     Image img = new Image(file.toURI().toString(), 280, 150, true, true);
