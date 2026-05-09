@@ -196,11 +196,10 @@ public class RiwayatController implements Initializable {
             Button btnTanya = new Button("Tanya Pemilik");
             btnTanya.setStyle("-fx-background-color: white; -fx-text-fill: #2D6BE4; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-border-color: #2D6BE4; -fx-border-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;");
             btnTanya.setOnAction(e -> {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Fitur Chat");
-                alert.setHeaderText("Terhubung ke Chat Pemilik");
-                alert.setContentText("Fitur chat sedang dalam tahap pengembangan oleh tim lain.");
-                alert.showAndWait();
+                if (kos != null && kos.getPemilik() != null) {
+                    ChatController.targetPemilikChat = kos.getPemilik();
+                }
+                com.kosku.Main.navigateTo("/view/penyewa/ChatPenyewa.fxml", "KosKu - Chat");
             });
 
             Button btnBayar = new Button("Lanjut ke Pembayaran");

@@ -26,10 +26,10 @@
                 <!-- Navigation Menu -->
                 <HBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#goToMainMenu" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20 8 20; -fx-background-radius: 20;" text="🏠  Beranda" />
-                        <Button mnemonicParsing="false" onAction="#goToRiwayat" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20 8 20; -fx-background-radius: 20;" text="📋  Riwayat" />
-                        <Button mnemonicParsing="false" onAction="#goToChat" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20 8 20; -fx-background-radius: 20;" text="💬  Chat" />
-                        <Button mnemonicParsing="false" onAction="#goToNotif" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20 8 20; -fx-background-radius: 20;" text="🔔  Notifikasi" />
+                        <Button fx:id="btnBeranda" mnemonicParsing="false" onAction="#goToMainMenu" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20 8 20; -fx-background-radius: 20;" text="🏠  Beranda" />
+                        <Button fx:id="btnRiwayat" mnemonicParsing="false" onAction="#goToRiwayat" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20 8 20; -fx-background-radius: 20;" text="📋  Riwayat" />
+                        <Button fx:id="btnChat" mnemonicParsing="false" onAction="#goToChat" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20 8 20; -fx-background-radius: 20;" text="💬  Chat" />
+                        <Button fx:id="btnNotif" mnemonicParsing="false" onAction="#goToNotif" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 20 8 20; -fx-background-radius: 20;" text="🔔  Notifikasi" />
                     </children>
                 </HBox>
 
