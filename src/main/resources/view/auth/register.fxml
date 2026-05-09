@@ -130,24 +130,60 @@
                                        prefWidth="380.0"/>
                         </VBox>
 
-                        <!-- Password -->
                         <VBox spacing="6.0">
                             <Label styleClass="auth-field-label" text="Password" />
-                            <PasswordField fx:id="passwordField"
-                                          styleClass="auth-field"
-                                          promptText="Minimal 6 karakter"
-                                          prefHeight="48.0"
-                                          prefWidth="380.0"/>
+                            <StackPane alignment="CENTER_RIGHT">
+                                <children>
+                                    <PasswordField fx:id="passwordField"
+                                                   styleClass="auth-field"
+                                                   promptText="Minimal 6 karakter"
+                                                   prefHeight="48.0"
+                                                   prefWidth="380.0"/>
+                                    <TextField fx:id="passwordTextField"
+                                               managed="false"
+                                               styleClass="auth-field"
+                                               promptText="Minimal 6 karakter"
+                                               prefHeight="48.0"
+                                               prefWidth="380.0"
+                                               visible="false"/>
+                                    <Button fx:id="togglePasswordButton"
+                                            onAction="#togglePasswordVisibility"
+                                            style="-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: #64748B; -fx-font-size: 18px;"
+                                            text="👁">
+                                        <StackPane.margin>
+                                            <Insets right="10.0" />
+                                        </StackPane.margin>
+                                    </Button>
+                                </children>
+                            </StackPane>
                         </VBox>
 
-                        <!-- Confirm Password -->
                         <VBox spacing="6.0">
                             <Label styleClass="auth-field-label" text="Konfirmasi Password" />
-                            <PasswordField fx:id="confirmPasswordField"
-                                          styleClass="auth-field"
-                                          promptText="Ulangi password Anda"
-                                          prefHeight="48.0"
-                                          prefWidth="380.0"/>
+                            <StackPane alignment="CENTER_RIGHT">
+                                <children>
+                                    <PasswordField fx:id="confirmPasswordField"
+                                                   styleClass="auth-field"
+                                                   promptText="Ulangi password Anda"
+                                                   prefHeight="48.0"
+                                                   prefWidth="380.0"/>
+                                    <TextField fx:id="confirmPasswordTextField"
+                                               managed="false"
+                                               styleClass="auth-field"
+                                               promptText="Ulangi password Anda"
+                                               prefHeight="48.0"
+                                               prefWidth="380.0"
+                                               visible="false"/>
+                                    <Button fx:id="toggleConfirmPasswordButton"
+                                            onAction="#toggleConfirmPasswordVisibility"
+                                            style="-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: #64748B; -fx-font-size: 18px;"
+                                            text="👁">
+                                        <StackPane.margin>
+                                            <Insets right="10.0" />
+                                        </StackPane.margin>
+                                    </Button>
+                                </children>
+                            </StackPane>
                         </VBox>
 
                     </VBox>

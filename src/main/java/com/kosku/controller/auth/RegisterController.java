@@ -12,6 +12,8 @@ public class RegisterController {
 
     @FXML private TextField usernameField, emailField, nomorHpField;
     @FXML private PasswordField passwordField, confirmPasswordField;
+    @FXML private TextField passwordTextField, confirmPasswordTextField;
+    @FXML private Button togglePasswordButton, toggleConfirmPasswordButton;
     @FXML private Button btnRolePemilik, btnRolePenyewa;
     @FXML private HBox roleInfoBanner;
     @FXML private Label roleInfoIcon, roleInfoText;
@@ -41,8 +43,8 @@ public class RegisterController {
         // 1. Ambil data
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
-        String password = passwordField.getText();
-        String confirmPass = confirmPasswordField.getText();
+        String password = passwordField.isVisible() ? passwordField.getText() : passwordTextField.getText();
+        String confirmPass = confirmPasswordField.isVisible() ? confirmPasswordField.getText() : confirmPasswordTextField.getText();
         String nomorHp = nomorHpField != null ? nomorHpField.getText().trim() : "";
 
         // 2. Validasi UI dasar (Tanpa cek DB)
@@ -120,5 +122,43 @@ public class RegisterController {
     @FXML
     public void handleGoToLogin(MouseEvent event) {
         Main.navigateTo("/view/auth/login.fxml", "KosKu - Login");
+    }
+
+    @FXML
+    private void togglePasswordVisibility() {
+        if (passwordField.isVisible()) {
+            passwordTextField.setText(passwordField.getText());
+            passwordTextField.setVisible(true);
+            passwordTextField.setManaged(true);
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            togglePasswordButton.setText("🙈");
+        } else {
+            passwordField.setText(passwordTextField.getText());
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+            passwordTextField.setVisible(false);
+            passwordTextField.setManaged(false);
+            togglePasswordButton.setText("👁");
+        }
+    }
+
+    @FXML
+    private void toggleConfirmPasswordVisibility() {
+        if (confirmPasswordField.isVisible()) {
+            confirmPasswordTextField.setText(confirmPasswordField.getText());
+            confirmPasswordTextField.setVisible(true);
+            confirmPasswordTextField.setManaged(true);
+            confirmPasswordField.setVisible(false);
+            confirmPasswordField.setManaged(false);
+            toggleConfirmPasswordButton.setText("🙈");
+        } else {
+            confirmPasswordField.setText(confirmPasswordTextField.getText());
+            confirmPasswordField.setVisible(true);
+            confirmPasswordField.setManaged(true);
+            confirmPasswordTextField.setVisible(false);
+            confirmPasswordTextField.setManaged(false);
+            toggleConfirmPasswordButton.setText("👁");
+        }
     }
 }
