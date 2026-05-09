@@ -72,14 +72,14 @@
                     <!-- TABLE -->
                     <VBox spacing="10.0" styleClass="card">
                         <Label text="Detail Booking" styleClass="label-subtitle" />
-                        <TableView prefHeight="350.0" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tabelBooking" prefHeight="350.0" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn prefWidth="100.0" text="ID Booking" />
-                                <TableColumn prefWidth="200.0" text="Penyewa" />
-                                <TableColumn prefWidth="200.0" text="Kos" />
-                                <TableColumn prefWidth="120.0" text="Status" />
-                                <TableColumn prefWidth="150.0" text="Total" />
-                                <TableColumn prefWidth="150.0" text="Tanggal" />
+                                <TableColumn fx:id="colId" prefWidth="100.0" text="ID Booking" />
+                                <TableColumn fx:id="colPenyewa" prefWidth="200.0" text="Penyewa" />
+                                <TableColumn fx:id="colKos" prefWidth="200.0" text="Kos" />
+                                <TableColumn fx:id="colStatus" prefWidth="120.0" text="Status" />
+                                <TableColumn fx:id="colTotal" prefWidth="150.0" text="Total" />
+                                <TableColumn fx:id="colTanggal" prefWidth="150.0" text="Tanggal" />
                             </columns>
                         </TableView>
                     </VBox>

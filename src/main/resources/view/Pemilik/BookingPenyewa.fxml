@@ -95,7 +95,7 @@
                         <VBox spacing="15.0" styleClass="card">
                             <children>
                                 <Label styleClass="label-subtitle" text="Riwayat Booking Terbaru" />
-                                <TableView fx:id="tabelBooking" prefHeight="350.0" styleClass="table-view">
+                                <TableView fx:id="tabelBooking" minHeight="350.0" prefHeight="350.0" styleClass="table-view" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="colId" prefWidth="120.0" text="ID Booking" />
                                         <TableColumn fx:id="colPenyewa" prefWidth="200.0" text="Penyewa" />

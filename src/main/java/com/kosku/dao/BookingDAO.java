@@ -62,6 +62,15 @@ public class BookingDAO extends BaseDAO<Booking> {
         }
     }
 
+    public List<Booking> getAllBookingWithDetails() {
+        String hql = "SELECT b FROM Booking b " +
+                "JOIN FETCH b.kamar k " +
+                "JOIN FETCH k.kos " +
+                "JOIN FETCH b.penyewa " +
+                "ORDER BY b.tanggalBooking DESC";
+        return listByQuery(hql, null, Booking.class);
+    }
+
     public long getTotalActiveBookings() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "SELECT COUNT(b) FROM Booking b WHERE b.statusBooking = :status";

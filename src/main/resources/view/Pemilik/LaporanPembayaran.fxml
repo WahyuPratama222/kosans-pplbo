@@ -124,6 +124,7 @@
                                         <TableColumn fx:id="colJumlah" prefWidth="150.0" text="Jumlah" />
                                         <TableColumn fx:id="colTanggal" prefWidth="150.0" text="Tanggal" />
                                         <TableColumn fx:id="colStatus" prefWidth="150.0" text="Status" />
+                                        <TableColumn fx:id="colAksi" prefWidth="150.0" text="Aksi" />
                                     </columns>
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

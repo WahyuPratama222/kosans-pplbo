@@ -1,3 +1,4 @@
+
 package com.kosku.controller.penyewa;
 
 import javafx.event.ActionEvent;
@@ -17,17 +18,27 @@ public class DetailBookingController implements Initializable {
 
     public static Booking selectedBooking;
 
-    @FXML private TextField tfTanggalMulai;
-    @FXML private TextField tfTanggalSelesai;
-    @FXML private ToggleGroup paymentGroup;
-    @FXML private Label lblStatusPembayaran;
-    
-    @FXML private Label lblNamaKos;
-    @FXML private Label lblTotalHarga;
-    @FXML private Label lblDurasiSewa;
-    @FXML private Label lblKamarDetail;
-    @FXML private Label lblAlamatKos;
-    @FXML private Button btnBayar;
+    @FXML
+    private TextField tfTanggalMulai;
+    @FXML
+    private TextField tfTanggalSelesai;
+    @FXML
+    private ToggleGroup paymentGroup;
+    @FXML
+    private Label lblStatusPembayaran;
+
+    @FXML
+    private Label lblNamaKos;
+    @FXML
+    private Label lblTotalHarga;
+    @FXML
+    private Label lblDurasiSewa;
+    @FXML
+    private Label lblKamarDetail;
+    @FXML
+    private Label lblAlamatKos;
+    @FXML
+    private Button btnBayar;
 
     private BookingDAO bookingDAO;
 
@@ -40,17 +51,32 @@ public class DetailBookingController implements Initializable {
         } else {
             lblNamaKos.setText("Data Booking Tidak Ditemukan");
         }
+
+        paymentGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            String defaultStyle = "-fx-background-color: white; -fx-border-color: #E2E8F0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 16; -fx-cursor: hand;";
+            String selectedStyle = "-fx-background-color: #FEF2F2; -fx-border-color: #EF4444; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 16; -fx-cursor: hand;";
+
+            if (oldToggle != null) {
+                ((ToggleButton) oldToggle).setStyle(defaultStyle);
+            }
+            if (newToggle != null) {
+                ((ToggleButton) newToggle).setStyle(selectedStyle);
+            }
+        });
     }
 
     private void tampilkanDataBooking() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        tfTanggalMulai.setText(selectedBooking.getTanggalMulai() != null ? selectedBooking.getTanggalMulai().format(formatter) : "-");
-        tfTanggalSelesai.setText(selectedBooking.getTanggalSelesai() != null ? selectedBooking.getTanggalSelesai().format(formatter) : "-");
+        tfTanggalMulai.setText(
+                selectedBooking.getTanggalMulai() != null ? selectedBooking.getTanggalMulai().format(formatter) : "-");
+        tfTanggalSelesai.setText(
+                selectedBooking.getTanggalSelesai() != null ? selectedBooking.getTanggalSelesai().format(formatter)
+                        : "-");
 
         Kos kos = selectedBooking.getKamar().getKos();
         lblNamaKos.setText(kos.getNamaKos());
         lblTotalHarga.setText("Rp " + String.format("%,.0f", selectedBooking.getTotalHarga()).replace(",", "."));
-        
+
         String durasi = kos.getDurasiSewa() != null ? kos.getDurasiSewa().name() : "";
         lblDurasiSewa.setText("/ " + durasi);
 
@@ -58,7 +84,7 @@ public class DetailBookingController implements Initializable {
         lblAlamatKos.setText(kos.getAlamat());
 
         Booking.StatusBooking status = selectedBooking.getStatusBooking();
-        
+
         if (status == Booking.StatusBooking.DITERIMA) {
             lblStatusPembayaran.setText("Status: Menunggu Pembayaran. Silakan pilih metode pembayaran dan konfirmasi.");
             btnBayar.setDisable(false);
@@ -107,8 +133,9 @@ public class DetailBookingController implements Initializable {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Konfirmasi Pembayaran");
         confirm.setHeaderText("Konfirmasi Pembayaran Anda");
-        confirm.setContentText("Apakah Anda yakin ingin melanjutkan pembayaran sebesar " + lblTotalHarga.getText() + "?");
-        
+        confirm.setContentText(
+                "Apakah Anda yakin ingin melanjutkan pembayaran sebesar " + lblTotalHarga.getText() + "?");
+
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 prosesPembayaran();
@@ -118,9 +145,10 @@ public class DetailBookingController implements Initializable {
 
     private void prosesPembayaran() {
         try {
-            // Karena ini simulasi sederhana, kita ubah status menjadi DITERIMA (Menunggu verifikasi) atau SELESAI.
+            // Karena ini simulasi sederhana, kita ubah status menjadi DITERIMA (Menunggu
+            // verifikasi) atau SELESAI.
             // Sesuai prompt: "menunggu verifikasi pemilik atau pembayaran"
-            // Setelah bayar -> Menunggu verifikasi (DITERIMA) atau langsung SELESAI? 
+            // Setelah bayar -> Menunggu verifikasi (DITERIMA) atau langsung SELESAI?
             // Kita set SELESAI agar masuk riwayat Selesai.
             selectedBooking.setStatusBooking(Booking.StatusBooking.SELESAI);
             bookingDAO.saveOrUpdate(selectedBooking);
@@ -133,7 +161,7 @@ public class DetailBookingController implements Initializable {
 
             // Kembali ke riwayat
             Main.navigateTo("/view/penyewa/RiwayatPenyewa.fxml", "Riwayat Booking");
-            
+
         } catch (Exception e) {
             System.err.println("Error proses pembayaran: " + e.getMessage());
             Alert alert = new Alert(Alert.AlertType.ERROR);

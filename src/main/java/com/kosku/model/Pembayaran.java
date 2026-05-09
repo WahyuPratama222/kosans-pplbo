@@ -33,8 +33,8 @@ public class Pembayaran {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_verifikasi", nullable = false, length = 20)
-    @Builder.Default // Agar nilai default WAITING tidak hilang saat pakai builder
-    private StatusVerifikasi statusVerifikasi = StatusVerifikasi.WAITING;
+    @Builder.Default // Agar nilai default WAITING_PEMILIK tidak hilang saat pakai builder
+    private StatusVerifikasi statusVerifikasi = StatusVerifikasi.WAITING_PEMILIK;
 
     @CreationTimestamp // Menggantikan manual set di @PrePersist
     @Column(name = "created_at", updatable = false)
@@ -45,13 +45,13 @@ public class Pembayaran {
     private LocalDateTime updatedAt;
 
     public enum StatusVerifikasi {
-        WAITING, VERIFIED, REJECTED
+        WAITING_PEMILIK, WAITING_ADMIN, VERIFIED, REJECTED
     }
 
     @PrePersist
     protected void onCreate() {
         if (this.statusVerifikasi == null) {
-            this.statusVerifikasi = StatusVerifikasi.WAITING;
+            this.statusVerifikasi = StatusVerifikasi.WAITING_PEMILIK;
         }
     }
 }

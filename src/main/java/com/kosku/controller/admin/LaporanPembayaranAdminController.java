@@ -34,8 +34,20 @@ public class LaporanPembayaranAdminController {
     @FXML
     public void initialize() {
         colId.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getIdPembayaran())));
-        colBookingId.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getBooking().getIdBooking())));
-        colPenyewa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBooking().getPenyewa().getUsername()));
+        colBookingId.setCellValueFactory(cellData -> {
+            try {
+                return new SimpleStringProperty(String.valueOf(cellData.getValue().getBooking().getIdBooking()));
+            } catch (Exception e) {
+                return new SimpleStringProperty("Unknown");
+            }
+        });
+        colPenyewa.setCellValueFactory(cellData -> {
+            try {
+                return new SimpleStringProperty(cellData.getValue().getBooking().getPenyewa().getUsername());
+            } catch (Exception e) {
+                return new SimpleStringProperty("Unknown");
+            }
+        });
         colJumlah.setCellValueFactory(cellData -> new SimpleStringProperty(currencyFormat.format(cellData.getValue().getJumlahBayar())));
         colStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatusVerifikasi().name()));
         colTanggal.setCellValueFactory(cellData -> new SimpleStringProperty(
@@ -49,7 +61,7 @@ public class LaporanPembayaranAdminController {
     private void loadData() {
         new Thread(() -> {
             try {
-                List<Pembayaran> list = pembayaranDAO.getAll(Pembayaran.class);
+                List<Pembayaran> list = pembayaranDAO.getAllPembayaranWithDetails();
                 Platform.runLater(() -> {
                     pembayaranList.setAll(list);
                     mainTable.setItems(pembayaranList);
@@ -88,8 +100,12 @@ public class LaporanPembayaranAdminController {
                     setGraphic(null);
                 } else {
                     Pembayaran p = getTableView().getItems().get(getIndex());
-                    if (p != null && p.getStatusVerifikasi() == Pembayaran.StatusVerifikasi.WAITING) {
+                    if (p != null && p.getStatusVerifikasi() == Pembayaran.StatusVerifikasi.WAITING_ADMIN) {
                         setGraphic(pane);
+                    } else if (p != null && p.getStatusVerifikasi() == Pembayaran.StatusVerifikasi.WAITING_PEMILIK) {
+                        setGraphic(new Label("Menunggu Pemilik"));
+                    } else if (p != null && p.getStatusVerifikasi() == Pembayaran.StatusVerifikasi.REJECTED) {
+                        setGraphic(new Label("Ditolak"));
                     } else {
                         setGraphic(new Label("Selesai"));
                     }
