@@ -57,16 +57,15 @@ public class User {
     @OneToMany(mappedBy = "penyewa", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookingList;
 
-    // Daftar chat yang dikirim oleh user ini
+    // Relasi Chat
     @OneToMany(mappedBy = "pengirim", cascade = CascadeType.ALL)
     private List<Chat> chatTerkirim;
 
-    // Daftar chat yang diterima oleh user ini
     @OneToMany(mappedBy = "penerima", cascade = CascadeType.ALL)
     private List<Chat> chatDiterima;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @OrderBy("waktuNotifikasi DESC") // Agar notifikasi terbaru muncul di atas
+    @OrderBy("waktuNotifikasi DESC")
     private List<Notifikasi> notifikasiList;
 
     public enum Role {

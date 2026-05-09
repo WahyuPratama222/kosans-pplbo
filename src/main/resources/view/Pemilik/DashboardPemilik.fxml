@@ -113,9 +113,10 @@
                                     <Label styleClass="label-subtitle" text="Aksi Cepat" />
                                     <VBox spacing="10.0">
                                        <children>
-                                          <Button alignment="CENTER_LEFT" maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-outline" text="➕ Daftarkan Gedung Kos Baru" />
-                                          <Button alignment="CENTER_LEFT" maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-outline" text="🛏️ Atur Ketersediaan Kamar" />
-                                          <Button alignment="CENTER_LEFT" maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-outline" text="🔔 Cek Permintaan Booking Baru" />
+                                          <Button alignment="CENTER_LEFT" maxWidth="Infinity" mnemonicParsing="false" onAction="#goToDaftarKos" styleClass="btn-outline" text="➕ Daftarkan Gedung Kos Baru" />
+                                          <Button alignment="CENTER_LEFT" maxWidth="Infinity" mnemonicParsing="false" onAction="#goToManajemenKamar" styleClass="btn-outline" text="🛏️ Atur Ketersediaan Kamar" />
+                                          <Button alignment="CENTER_LEFT" maxWidth="Infinity" mnemonicParsing="false" onAction="#goToChat" styleClass="btn-outline" text="💬 Cek Chat Terbaru" />
+                                          <Button alignment="CENTER_LEFT" maxWidth="Infinity" mnemonicParsing="false" onAction="#goToBooking" styleClass="btn-outline" text="🔔 Cek Permintaan Booking Baru" />
                                        </children>
                                     </VBox>
                                  </children>

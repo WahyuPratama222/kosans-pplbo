@@ -24,6 +24,26 @@ public class DashboardPemilikController {
         loadStats();
     }
 
+    @FXML
+    private void goToDaftarKos() {
+        com.kosku.Main.navigateTo("view/Pemilik/daftarKosPemilik.fxml");
+    }
+
+    @FXML
+    private void goToManajemenKamar() {
+        com.kosku.Main.navigateTo("view/Pemilik/ManagementKamar.fxml");
+    }
+
+    @FXML
+    private void goToChat() {
+        com.kosku.Main.navigateTo("view/Pemilik/ChatPemilik.fxml");
+    }
+
+    @FXML
+    private void goToBooking() {
+        com.kosku.Main.navigateTo("view/Pemilik/BookingPenyewa.fxml");
+    }
+
     private void setupCharts() {
         // 1. PieChart Okupansi (Terisi vs Kosong)
         PieChart.Data terisi = new PieChart.Data("Terisi", 65);

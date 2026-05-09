@@ -59,20 +59,44 @@
                             <children>
                                 <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Label styleClass="stat-label" text="💰 Total Pendapatan" />
-                                        <Label styleClass="stat-value" text="Rp 28.5M" />
+                                        <Label styleClass="stat-label" text="💰 Total Pendapatan (Verified)" />
+                                        <Label fx:id="totalRevenueLabel" styleClass="stat-value" text="Rp 0" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label styleClass="stat-label" text="✅ Transaksi Lunas" />
-                                        <Label styleClass="stat-value" text="27" textFill="#10b981" />
+                                        <Label fx:id="verifiedCountLabel" styleClass="stat-value" text="0" textFill="#10b981" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="10.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Label styleClass="stat-label" text="⏳ Transaksi Pending" />
-                                        <Label styleClass="stat-value" text="1" textFill="#f59e0b" />
+                                        <Label styleClass="stat-label" text="⏳ Menunggu Verifikasi" />
+                                        <Label fx:id="waitingCountLabel" styleClass="stat-value" text="0" textFill="#f59e0b" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="20.0">
+                            <children>
+                                <VBox spacing="15.0" styleClass="card" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="label-subtitle" text="Tren Pendapatan Bulanan" />
+                                        <javafx.scene.chart.BarChart fx:id="revenueChart" prefHeight="300.0">
+                                            <xAxis>
+                                                <javafx.scene.chart.CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                                <javafx.scene.chart.NumberAxis side="LEFT" />
+                                            </yAxis>
+                                        </javafx.scene.chart.BarChart>
+                                    </children>
+                                </VBox>
+                                <VBox prefWidth="400.0" spacing="15.0" styleClass="card">
+                                    <children>
+                                        <Label styleClass="label-subtitle" text="Komposisi Status Pembayaran" />
+                                        <javafx.scene.chart.PieChart fx:id="statusPieChart" prefHeight="300.0" />
                                     </children>
                                 </VBox>
                             </children>
@@ -86,20 +110,20 @@
                                         <Region HBox.hgrow="ALWAYS" />
                                         <HBox spacing="10.0">
                                             <children>
-                                                <Button styleClass="btn-outline" text="📥 Unduh CSV" />
-                                                <Button styleClass="btn-primary" text="🖨️ Cetak Laporan" />
+                                                <Button onAction="#handleExport" styleClass="btn-outline" text="📥 Unduh CSV" />
+                                                <Button onAction="#handlePrint" styleClass="btn-primary" text="🖨️ Cetak Laporan" />
                                             </children>
                                         </HBox>
                                     </children>
                                 </HBox>
-                                <TableView prefHeight="350.0" styleClass="table-view" VBox.vgrow="ALWAYS">
+                                <TableView fx:id="paymentTable" prefHeight="350.0" styleClass="table-view" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn prefWidth="60.0" text="No" />
-                                        <TableColumn prefWidth="200.0" text="Penyewa" />
-                                        <TableColumn prefWidth="180.0" text="Properti" />
-                                        <TableColumn prefWidth="150.0" text="Jumlah" />
-                                        <TableColumn prefWidth="150.0" text="Metode" />
-                                        <TableColumn prefWidth="150.0" text="Status" />
+                                        <TableColumn fx:id="colNo" prefWidth="60.0" text="No" />
+                                        <TableColumn fx:id="colPenyewa" prefWidth="200.0" text="Penyewa" />
+                                        <TableColumn fx:id="colKos" prefWidth="180.0" text="Properti" />
+                                        <TableColumn fx:id="colJumlah" prefWidth="150.0" text="Jumlah" />
+                                        <TableColumn fx:id="colTanggal" prefWidth="150.0" text="Tanggal" />
+                                        <TableColumn fx:id="colStatus" prefWidth="150.0" text="Status" />
                                     </columns>
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
