@@ -100,7 +100,10 @@ public class Main extends Application {
             // start()
 
         } catch (IOException e) {
-            System.err.println("Gagal memuat halaman: " + fxmlPath);
+            System.err.println("[navigateTo] IOException memuat halaman: " + fxmlPath);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("[navigateTo] Exception memuat halaman: " + fxmlPath);
             e.printStackTrace();
         }
     }

@@ -1,61 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.admin.LaporanPembayaranAdminController">
+<BorderPane prefHeight="900.0" prefWidth="1400.0"
+            style="-fx-background-color: #F8FAFC;"
+            stylesheets="@../../css/style.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.kosku.controller.admin.LaporanPembayaranAdminController">
     <top>
-        <fx:include source="NavbarAdmin.fxml" />
+        <fx:include fx:id="navbar" source="NavbarAdmin.fxml" />
     </top>
-
     <center>
-        <ScrollPane fitToHeight="true" fitToWidth="true">
+        <ScrollPane fitToWidth="true" fitToHeight="true">
             <content>
-                <VBox spacing="20.0" style="-fx-padding: 25; -fx-background-color: #F8FAFC;">
-                    <children>
-                        <VBox spacing="5.0">
-                            <children>
-                                <Button fx:id="btnKembali" text="← Kembali ke Dashboard" style="-fx-background-color: transparent; -fx-border-color: #64748B; -fx-border-radius: 5; -fx-text-fill: #1E2E4F; -fx-padding: 5 10; -fx-cursor: hand;" />
-                                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Laporan Keseluruhan" />
-                                <Separator />
-                            </children>
-                        </VBox>
+                <VBox spacing="20.0" styleClass="page-content">
+                    <padding><Insets top="25.0" right="40.0" bottom="30.0" left="40.0" /></padding>
 
-                        <VBox spacing="10.0" VBox.vgrow="ALWAYS">
-                            <children>
-                                <TableView fx:id="mainTable" prefHeight="400.0" VBox.vgrow="ALWAYS">
-                                    <columns>
-                                        <TableColumn fx:id="colId" prefWidth="50.0" text="ID Pembayaran" />
-                                        <TableColumn fx:id="colBookingId" prefWidth="100.0" text="ID Booking" />
-                                        <TableColumn fx:id="colPenyewa" prefWidth="200.0" text="Penyewa" />
-                                        <TableColumn fx:id="colJumlah" prefWidth="150.0" text="Jumlah" />
-                                        <TableColumn fx:id="colStatus" prefWidth="150.0" text="Status" />
-                                        <TableColumn fx:id="colTanggal" prefWidth="150.0" text="Tanggal" />
-                                        <TableColumn fx:id="colAction" prefWidth="200.0" text="Aksi" />
-                                    </columns> </TableView> </children>
-                        </VBox>
+                    <VBox spacing="5.0">
+                        <Label text="💰 Laporan Pembayaran" styleClass="label-title" />
+                        <Label text="Verifikasi dan kelola semua data pembayaran penyewa"
+                               style="-fx-text-fill: #64748B; -fx-font-size: 12px;" />
+                    </VBox>
+                    <Separator />
 
-                        <HBox alignment="CENTER" spacing="10.0">
-                            <children>
-                                <Button text="← Sebelumnya" />
-                                <Label text="Halaman 1" />
-                                <Button text="Selanjutnya →" />
-                                <ComboBox prefWidth="80.0" promptText="10">
-                                    <items>
-                                        <FXCollections fx:factory="observableArrayList">
-                                            <String fx:value="10" />
-                                            <String fx:value="25" />
-                                            <String fx:value="50" />
-                                        </FXCollections>
-                                    </items>
-                                </ComboBox>
-                            </children>
-                        </HBox>
-                    </children>
+                    <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="mainTable" prefHeight="500.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colId"        text="ID Pembayaran" prefWidth="100" />
+                                <TableColumn fx:id="colBookingId" text="ID Booking"    prefWidth="100" />
+                                <TableColumn fx:id="colPenyewa"   text="Penyewa"       prefWidth="200" />
+                                <TableColumn fx:id="colJumlah"    text="Jumlah"        prefWidth="150" />
+                                <TableColumn fx:id="colStatus"    text="Status"        prefWidth="150" />
+                                <TableColumn fx:id="colTanggal"   text="Tanggal"       prefWidth="150" />
+                                <TableColumn fx:id="colAction"    text="Aksi"          prefWidth="200" />
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Button text="← Sebelumnya" styleClass="btn-outline" prefWidth="120" />
+                        <Label text="Halaman 1" style="-fx-font-weight: bold;" />
+                        <Button text="Selanjutnya →" styleClass="btn-outline" prefWidth="120" />
+                    </HBox>
                 </VBox>
             </content>
         </ScrollPane>

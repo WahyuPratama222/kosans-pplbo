@@ -1,35 +1,79 @@
 package com.kosku.controller.admin;
 
 import com.kosku.Main;
-import com.kosku.util.SessionManager;
+import com.kosku.dao.BookingDAO;
+import com.kosku.dao.KosDAO;
+import com.kosku.dao.PembayaranDAO;
+import com.kosku.dao.UserDAO;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class DashboardAdminController {
 
-    @FXML private Button btnDashboard;
-    @FXML private Button btnManajemenPengguna;
-    @FXML private Button btnManajemenKos;
-    @FXML private Button btnLaporanPembayaran;
-    @FXML private Button btnLaporanBooking;
-    @FXML private Button btnLogout;
+    @FXML private Label lblTotalUsers;
+    @FXML private Label lblTotalKos;
+    @FXML private Label lblTotalBooking;
+    @FXML private Label lblTotalPembayaran;
+    @FXML private Button btnLihatPengguna;
+    @FXML private Button btnLihatKos;
+
+    private final UserDAO userDAO = new UserDAO();
+    private final KosDAO kosDAO = new KosDAO();
+    private final BookingDAO bookingDAO = new BookingDAO();
+    private final PembayaranDAO pembayaranDAO = new PembayaranDAO();
 
     @FXML
     public void initialize() {
-        if (btnDashboard != null) btnDashboard.setOnAction(e -> openPage("view/Admin/MainMenuAdmin.fxml"));
-        if (btnManajemenPengguna != null) btnManajemenPengguna.setOnAction(e -> openPage("view/Admin/ManagementPengguna.fxml"));
-        if (btnManajemenKos != null) btnManajemenKos.setOnAction(e -> openPage("view/Admin/ManagementKos.fxml"));
-        if (btnLaporanPembayaran != null) btnLaporanPembayaran.setOnAction(e -> openPage("view/Admin/LaporanPembayaran.fxml"));
-        if (btnLaporanBooking != null) btnLaporanBooking.setOnAction(e -> openPage("view/Admin/LaporanBooking.fxml"));
-        if (btnLogout != null) btnLogout.setOnAction(e -> handleLogout());
+        loadStatistics();
     }
 
-    private void openPage(String fxmlPath) {
-        Main.navigateTo(fxmlPath);
+    private void loadStatistics() {
+        new Thread(() -> {
+            try {
+                long totalUsers    = userDAO.getTotalUsers();
+                long totalKos      = kosDAO.getTotalVerifiedKos();
+                long totalBooking  = bookingDAO.getTotalActiveBookings();
+                BigDecimal totalPembayaran = pembayaranDAO.getTotalPembayaranBulanan();
+
+                NumberFormat fmt = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+                String fmtPembayaran = fmt.format(totalPembayaran);
+
+                Platform.runLater(() -> {
+                    if (lblTotalUsers != null)      lblTotalUsers.setText(String.valueOf(totalUsers));
+                    if (lblTotalKos != null)         lblTotalKos.setText(String.valueOf(totalKos));
+                    if (lblTotalBooking != null)     lblTotalBooking.setText(String.valueOf(totalBooking));
+                    if (lblTotalPembayaran != null)  lblTotalPembayaran.setText(fmtPembayaran);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
-    private void handleLogout() {
-        SessionManager.clearSession();
-        Main.navigateTo("view/auth/login.fxml", "KosKu - Login");
+    // onAction handlers untuk tombol di FXML
+    @FXML
+    private void goToManajemenPengguna() {
+        Main.navigateTo("view/Admin/ManagementPengguna.fxml", "KosKu - Manajemen Pengguna");
+    }
+
+    @FXML
+    private void goToManajemenKos() {
+        Main.navigateTo("view/Admin/ManagementKos.fxml", "KosKu - Manajemen Kos");
+    }
+
+    @FXML
+    private void goToLaporanPembayaran() {
+        Main.navigateTo("view/Admin/LaporanPembayaran.fxml", "KosKu - Laporan Pembayaran");
+    }
+
+    @FXML
+    private void goToLaporanBooking() {
+        Main.navigateTo("view/Admin/LaporanBooking.fxml", "KosKu - Laporan Booking");
     }
 }

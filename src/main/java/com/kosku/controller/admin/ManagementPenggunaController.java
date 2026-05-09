@@ -1,21 +1,19 @@
 package com.kosku.controller.admin;
 
-import com.kosku.Main;
 import com.kosku.dao.UserDAO;
 import com.kosku.model.User;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.application.Platform;
 
 import java.util.List;
 
 public class ManagementPenggunaController {
 
-    @FXML private Button btnKembali;
     @FXML private TableView<User> tablePengguna;
     @FXML private TableColumn<User, String> colId;
     @FXML private TableColumn<User, String> colUsername;
@@ -24,26 +22,24 @@ public class ManagementPenggunaController {
     @FXML private TableColumn<User, String> colNoHp;
     @FXML private TableColumn<User, String> colStatus;
     @FXML private TableColumn<User, Void> colAction;
+    @FXML private Label lblStatTotal;
+    @FXML private Label lblStatAdmin;
+    @FXML private Label lblStatPemilik;
+    @FXML private Label lblStatPenyewa;
 
-    private UserDAO userDAO = new UserDAO();
-    private ObservableList<User> userList = FXCollections.observableArrayList();
+    private final UserDAO userDAO = new UserDAO();
+    private final ObservableList<User> userList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        if(btnKembali != null) {
-            btnKembali.setOnAction(e -> Main.navigateTo("view/Admin/DashboardAdmin.fxml"));
-        }
-
-        colId.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getIdUser())));
-        colUsername.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUsername()));
-        colEmail.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
-        colRole.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRole().name()));
-        colNoHp.setCellValueFactory(cellData -> new SimpleStringProperty(
-                cellData.getValue().getNomorHp() != null ? cellData.getValue().getNomorHp() : "-"
-        ));
-        colStatus.setCellValueFactory(cellData -> new SimpleStringProperty(
-                Boolean.TRUE.equals(cellData.getValue().getIsVerified()) ? "Verified" : "Belum Verifikasi"
-        ));
+        colId.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getIdUser())));
+        colUsername.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getUsername()));
+        colEmail.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getEmail()));
+        colRole.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getRole().name()));
+        colNoHp.setCellValueFactory(d -> new SimpleStringProperty(
+                d.getValue().getNomorHp() != null ? d.getValue().getNomorHp() : "-"));
+        colStatus.setCellValueFactory(d -> new SimpleStringProperty(
+                Boolean.TRUE.equals(d.getValue().getIsVerified()) ? "Verified" : "Belum Verifikasi"));
 
         setupActionColumn();
         loadData();
@@ -52,65 +48,50 @@ public class ManagementPenggunaController {
     private void loadData() {
         new Thread(() -> {
             try {
-                List<User> allUsers = userDAO.getAll(User.class);
+                List<User> all = userDAO.getAll(User.class);
+                long admins   = all.stream().filter(u -> u.getRole() == User.Role.ADMIN).count();
+                long pemiliks = all.stream().filter(u -> u.getRole() == User.Role.PEMILIK).count();
+                long penyewas = all.stream().filter(u -> u.getRole() == User.Role.PENYEWA).count();
+
                 Platform.runLater(() -> {
-                    userList.setAll(allUsers);
+                    userList.setAll(all);
                     tablePengguna.setItems(userList);
+                    if (lblStatTotal  != null) lblStatTotal.setText(String.valueOf(all.size()));
+                    if (lblStatAdmin  != null) lblStatAdmin.setText(String.valueOf(admins));
+                    if (lblStatPemilik != null) lblStatPemilik.setText(String.valueOf(pemiliks));
+                    if (lblStatPenyewa != null) lblStatPenyewa.setText(String.valueOf(penyewas));
                 });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) { e.printStackTrace(); }
         }).start();
     }
 
     private void setupActionColumn() {
         colAction.setCellFactory(param -> new TableCell<>() {
             private final Button btnApprove = new Button("Verifikasi");
-            private final Button btnReject = new Button("Tolak");
-            private final Button btnDelete = new Button("Hapus");
-            
-            private final HBox paneUnverified = new HBox(10, btnApprove, btnReject);
-            private final HBox paneVerified = new HBox(10, btnDelete);
+            private final Button btnReject  = new Button("Tolak");
+            private final Button btnDelete  = new Button("Hapus");
+            private final HBox paneUnverified = new HBox(8, btnApprove, btnReject);
+            private final HBox paneVerified   = new HBox(8, btnDelete);
 
             {
-                btnApprove.setStyle("-fx-background-color: #10B981; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 11px;");
-                btnReject.setStyle("-fx-background-color: #EF4444; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 11px;");
-                btnDelete.setStyle("-fx-background-color: #EF4444; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 11px;");
+                btnApprove.setStyle("-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-size: 11px;");
+                btnReject.setStyle("-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-size: 11px;");
+                btnDelete.setStyle("-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-size: 11px;");
 
-                btnApprove.setOnAction(event -> {
-                    User user = getTableView().getItems().get(getIndex());
-                    handleApprove(user);
-                });
-
-                btnReject.setOnAction(event -> {
-                    User user = getTableView().getItems().get(getIndex());
-                    handleDelete(user, "Tolak pendaftaran");
-                });
-
-                btnDelete.setOnAction(event -> {
-                    User user = getTableView().getItems().get(getIndex());
-                    handleDelete(user, "Hapus akun");
-                });
+                btnApprove.setOnAction(e -> handleApprove(getTableView().getItems().get(getIndex())));
+                btnReject.setOnAction(e -> handleDelete(getTableView().getItems().get(getIndex()), "Tolak pendaftaran"));
+                btnDelete.setOnAction(e -> handleDelete(getTableView().getItems().get(getIndex()), "Hapus akun"));
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    User user = getTableView().getItems().get(getIndex());
-                    if (user != null && !Boolean.TRUE.equals(user.getIsVerified())) {
-                        setGraphic(paneUnverified);
-                    } else {
-                        // Jangan biarkan admin menghapus dirinya sendiri
-                        if (user.getRole() == User.Role.ADMIN) {
-                            setGraphic(new Label("Admin"));
-                        } else {
-                            setGraphic(paneVerified);
-                        }
-                    }
-                }
+                if (empty) { setGraphic(null); return; }
+                User user = getTableView().getItems().get(getIndex());
+                if (user == null) return;
+                if (!Boolean.TRUE.equals(user.getIsVerified())) setGraphic(paneUnverified);
+                else if (user.getRole() == User.Role.ADMIN) setGraphic(new Label("Admin"));
+                else setGraphic(paneVerified);
             }
         });
     }
@@ -118,20 +99,16 @@ public class ManagementPenggunaController {
     private void handleApprove(User user) {
         user.setIsVerified(true);
         userDAO.saveOrUpdate(user);
-        
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Pengguna " + user.getUsername() + " berhasil diverifikasi.");
-        alert.showAndWait();
-        
+        new Alert(Alert.AlertType.INFORMATION, "Pengguna " + user.getUsername() + " diverifikasi.").showAndWait();
         loadData();
     }
 
-    private void handleDelete(User user, String actionType) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Yakin ingin " + actionType + " pengguna " + user.getUsername() + "?", ButtonType.YES, ButtonType.NO);
-        confirm.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-                userDAO.delete(User.class, user.getIdUser());
-                loadData();
-            }
+    private void handleDelete(User user, String action) {
+        Alert c = new Alert(Alert.AlertType.CONFIRMATION,
+                "Yakin " + action + " pengguna " + user.getUsername() + "?",
+                ButtonType.YES, ButtonType.NO);
+        c.showAndWait().ifPresent(r -> {
+            if (r == ButtonType.YES) { userDAO.delete(User.class, user.getIdUser()); loadData(); }
         });
     }
 }

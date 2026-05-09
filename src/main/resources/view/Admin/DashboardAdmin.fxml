@@ -4,39 +4,92 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.admin.DashboardAdminController" stylesheets="@../../css/style.css">
-    <!-- TOP NAVBAR -->
+<BorderPane prefHeight="900.0" prefWidth="1400.0"
+            stylesheets="@../../css/style.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.kosku.controller.admin.DashboardAdminController">
+
     <top>
-        <fx:include source="NavbarAdmin.fxml" />
+        <fx:include fx:id="navbar" source="NavbarAdmin.fxml" />
     </top>
 
-    <!-- LEFT SIDEBAR -->
-    <left>
-        <VBox prefWidth="250.0" prefHeight="700.0" style="-fx-background-color: #1E2E4F;" spacing="10" styleClass="side-menu">
-            <Label text="MENU" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" />
-            <Separator />
-            
-            <Button fx:id="btnDashboard" text="📊 Dashboard" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button fx:id="btnManajemenPengguna" text="👥 Manajemen Pengguna" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button fx:id="btnManajemenKos" text="🏠 Manajemen Kos" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button fx:id="btnLaporanPembayaran" text="💰 Laporan Pembayaran" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button fx:id="btnLaporanBooking" text="📋 Laporan Booking" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            <Button text="⚙️ Pengaturan Sistem" styleClass="btn-outline" style="-fx-alignment: center-left; -fx-text-alignment: left; -fx-max-width: INFINITY; -fx-padding: 10 15; -fx-border-radius: 4; -fx-text-fill: white;" />
-            
-            <Region VBox.vgrow="ALWAYS" />
-            <Separator />
-            <Label text="v1.0 © 2026" style="-fx-text-fill: #8FB3E2; -fx-font-size: 10px;" />
-            <padding>
-                <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
-            </padding>
-        </VBox>
-    </left>
-
-    <!-- CENTER CONTENT -->
     <center>
-        <fx:include source="MainMenuAdmin.fxml" />
+        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="main-container">
+            <content>
+                <VBox spacing="25.0" styleClass="page-content">
+                    <padding>
+                        <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+                    </padding>
+
+                    <!-- WELCOME HEADER -->
+                    <VBox spacing="5.0">
+                        <Label styleClass="label-title" text="Selamat Datang, Administrator" />
+                        <Label style="-fx-text-fill: #64748B; -fx-font-size: 12px;"
+                               text="Kelola semua aspek sistem KosKu dari sini" />
+                    </VBox>
+
+                    <Separator />
+
+                    <!-- STATISTICS CARDS -->
+                    <Label styleClass="label-subtitle" text="Statistik Keseluruhan" />
+                    <HBox spacing="15.0">
+                        <VBox styleClass="stat-card" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="stat-label" text="Total Pengguna" />
+                            <Label fx:id="lblTotalUsers" styleClass="stat-value" text="0" />
+                            <Label style="-fx-text-fill: #10B981; -fx-font-size: 11px;" text="Data Terkini" />
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="stat-label" text="Total Kos Verified" />
+                            <Label fx:id="lblTotalKos" styleClass="stat-value" text="0" />
+                            <Label style="-fx-text-fill: #10B981; -fx-font-size: 11px;" text="Data Terkini" />
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="stat-label" text="Total Booking Aktif" />
+                            <Label fx:id="lblTotalBooking" styleClass="stat-value" text="0" />
+                            <Label style="-fx-text-fill: #10B981; -fx-font-size: 11px;" text="Status DITERIMA" />
+                        </VBox>
+                        <VBox styleClass="stat-card" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Label styleClass="stat-label" text="Total Pembayaran Verified" />
+                            <Label fx:id="lblTotalPembayaran" styleClass="stat-value" text="Rp 0" />
+                            <Label style="-fx-text-fill: #10B981; -fx-font-size: 11px;" text="Data Terkini" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- QUICK ACTIONS -->
+                    <Label styleClass="label-subtitle" text="Aksi Cepat" />
+                    <HBox spacing="10.0">
+                        <Button fx:id="btnLihatPengguna" text="👥 Lihat Pengguna"
+                                styleClass="btn-primary" prefWidth="180"
+                                onAction="#goToManajemenPengguna" />
+                        <Button fx:id="btnLihatKos" text="🏠 Lihat Manajemen Kos"
+                                styleClass="btn-primary" prefWidth="180"
+                                onAction="#goToManajemenKos" />
+                        <Button text="💰 Laporan Pembayaran"
+                                styleClass="btn-secondary" prefWidth="180"
+                                onAction="#goToLaporanPembayaran" />
+                        <Button text="📋 Laporan Booking"
+                                styleClass="btn-secondary" prefWidth="180"
+                                onAction="#goToLaporanBooking" />
+                    </HBox>
+
+                    <!-- SYSTEM INFO -->
+                    <VBox styleClass="card" spacing="10.0">
+                        <Label styleClass="label-subtitle" text="Status Sistem" />
+                        <HBox spacing="15.0" style="-fx-padding: 10 0;">
+                            <Label text="🔔" style="-fx-font-size: 16px;" />
+                            <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                                <Label text="Sistem berjalan normal"
+                                       style="-fx-font-weight: bold; -fx-font-size: 12px;" />
+                                <Label text="Data sinkron dengan database"
+                                       style="-fx-font-size: 10px; -fx-text-fill: #64748B;" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
     </center>
 </BorderPane>
