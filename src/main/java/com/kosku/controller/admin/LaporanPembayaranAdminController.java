@@ -1,6 +1,5 @@
 package com.kosku.controller.admin;
 
-import com.kosku.Main;
 import com.kosku.dao.PembayaranDAO;
 import com.kosku.model.Pembayaran;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,7 +17,6 @@ import java.util.Locale;
 
 public class LaporanPembayaranAdminController {
 
-    @FXML private Button btnKembali;
     @FXML private TableView<Pembayaran> mainTable;
     @FXML private TableColumn<Pembayaran, String> colId;
     @FXML private TableColumn<Pembayaran, String> colBookingId;
@@ -35,8 +33,6 @@ public class LaporanPembayaranAdminController {
 
     @FXML
     public void initialize() {
-        btnKembali.setOnAction(e -> Main.navigateTo("view/Admin/DashboardAdmin.fxml"));
-
         colId.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getIdPembayaran())));
         colBookingId.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getBooking().getIdBooking())));
         colPenyewa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBooking().getPenyewa().getUsername()));
@@ -53,8 +49,6 @@ public class LaporanPembayaranAdminController {
     private void loadData() {
         new Thread(() -> {
             try {
-                // Untuk admin, kita bisa melihat semua atau hanya yang WAITING.
-                // Kita ambil semua pembayaran agar Laporan lengkap, tapi tombol aksi hanya untuk WAITING.
                 List<Pembayaran> list = pembayaranDAO.getAll(Pembayaran.class);
                 Platform.runLater(() -> {
                     pembayaranList.setAll(list);
@@ -94,7 +88,6 @@ public class LaporanPembayaranAdminController {
                     setGraphic(null);
                 } else {
                     Pembayaran p = getTableView().getItems().get(getIndex());
-                    // Hanya tampilkan tombol jika status masih WAITING
                     if (p != null && p.getStatusVerifikasi() == Pembayaran.StatusVerifikasi.WAITING) {
                         setGraphic(pane);
                     } else {
@@ -108,10 +101,10 @@ public class LaporanPembayaranAdminController {
     private void handleApprove(Pembayaran pembayaran) {
         pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.VERIFIED);
         pembayaranDAO.saveOrUpdate(pembayaran);
-        
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Pembayaran ID " + pembayaran.getIdPembayaran() + " diverifikasi.");
         alert.showAndWait();
-        
+
         loadData();
     }
 

@@ -5,21 +5,54 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #31487A, #8FB3E2);" styleClass="navbar-admin" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.admin.NavbarAdminController">
+<BorderPane prefHeight="60.0" prefWidth="1400.0"
+            style="-fx-background-color: linear-gradient(to right, #1E2E4F, #31487A);"
+            stylesheets="@../../css/style.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.kosku.controller.admin.NavbarAdminController">
     <left>
-        <Label text="🏢 Sistem Manajemen KosKu - Panel Admin" style="-fx-text-fill: white;" styleClass="navbar-title" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets left="20.0" />
-            </padding>
+        <Label text="🏢 KosKu Admin Panel"
+               style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER">
+            <padding><Insets left="25.0" /></padding>
         </Label>
     </left>
+    <center>
+        <HBox fx:id="navMenuContainer" alignment="CENTER" spacing="5.0"
+              BorderPane.alignment="CENTER">
+            <VBox fx:id="containerDashboard" alignment="CENTER"
+                  onMouseClicked="#goToDashboard" styleClass="nav-item-container">
+                <Label styleClass="nav-item-label" text="📊 Dashboard" />
+            </VBox>
+            <VBox fx:id="containerPengguna" alignment="CENTER"
+                  onMouseClicked="#goToPengguna" styleClass="nav-item-container">
+                <Label styleClass="nav-item-label" text="👥 Pengguna" />
+            </VBox>
+            <VBox fx:id="containerKos" alignment="CENTER"
+                  onMouseClicked="#goToKos" styleClass="nav-item-container">
+                <Label styleClass="nav-item-label" text="🏠 Kos" />
+            </VBox>
+            <VBox fx:id="containerLaporanPembayaran" alignment="CENTER"
+                  onMouseClicked="#goToLaporanPembayaran" styleClass="nav-item-container">
+                <Label styleClass="nav-item-label" text="💰 Laporan Bayar" />
+            </VBox>
+            <VBox fx:id="containerLaporanBooking" alignment="CENTER"
+                  onMouseClicked="#goToLaporanBooking" styleClass="nav-item-container">
+                <Label styleClass="nav-item-label" text="📋 Laporan Booking" />
+            </VBox>
+        </HBox>
+    </center>
     <right>
-        <HBox spacing="20" alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
-            <Label text="👤 Administrator" style="-fx-text-fill: white; -fx-font-size: 12px;" />
-            <Button fx:id="btnLogout" text="Logout" styleClass="btn-danger" style="-fx-padding: 5 15;" />
-            <padding>
-                <Insets right="20.0" />
-            </padding>
+        <HBox alignment="CENTER_RIGHT" spacing="15.0" BorderPane.alignment="CENTER">
+            <Label fx:id="lblAdminName"
+                   text="👤 Administrator"
+                   style="-fx-text-fill: white; -fx-font-size: 12px;" />
+            <Button text="Logout"
+                    styleClass="btn-danger"
+                    style="-fx-padding: 6 18; -fx-background-radius: 20;"
+                    onAction="#handleLogout" />
+            <padding><Insets right="25.0" /></padding>
         </HBox>
     </right>
 </BorderPane>

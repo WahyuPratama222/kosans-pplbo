@@ -47,11 +47,11 @@ public class LoginController {
 
         switch (user.getRole()) {
             case ADMIN:
-                viewPath = "/view/admin/DashboardAdmin.fxml";
+                viewPath = "/view/Admin/DashboardAdmin.fxml";
                 title = "KosKu - Dashboard Admin";
                 break;
             case PEMILIK:
-                viewPath = "/view/pemilik/DashboardPemilik.fxml";
+                viewPath = "/view/Pemilik/DashboardPemilik.fxml";
                 title = "KosKu - Dashboard Pemilik";
                 break;
             default: // PENYEWA
