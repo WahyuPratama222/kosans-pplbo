@@ -22,7 +22,7 @@ import com.kosku.util.SessionManager;
 
 public class ChatController implements Initializable {
 
-    @FXML private NavbarController navbarController;
+    @FXML private NavbarPenyewaController navbarController;
     @FXML private TextField tfCariKontak;
     @FXML private VBox vboxKontak;
     
@@ -46,7 +46,7 @@ public class ChatController implements Initializable {
         currentUserId = SessionManager.getCurrentUserId();
         
         if (navbarController != null) {
-            navbarController.setHighlight("chat");
+            navbarController.setActivePage("chat");
         }
         
         loadContacts();
