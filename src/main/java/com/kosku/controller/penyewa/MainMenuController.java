@@ -477,26 +477,37 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void lihatDetail1(ActionEvent event) {
-        System.out.println("Membuka detail Kos 1...");
-        // TODO: Pindah ke halaman detail kos untuk item 1
+        // Navigasi ke detail kos pertama dari daftar yang sudah diload
+        if (allKosList != null && !allKosList.isEmpty()) {
+            showKosDetail(allKosList.get(0));
+        } else {
+            System.out.println("Data kos belum tersedia.");
+        }
     }
 
     @FXML
     void lihatDetail2(ActionEvent event) {
-        System.out.println("Membuka detail Kos 2...");
-        // TODO: Pindah ke halaman detail kos untuk item 2
+        if (allKosList != null && allKosList.size() > 1) {
+            showKosDetail(allKosList.get(1));
+        } else if (allKosList != null && !allKosList.isEmpty()) {
+            showKosDetail(allKosList.get(0));
+        }
     }
 
     @FXML
     void lihatDetail3(ActionEvent event) {
-        System.out.println("Membuka detail Kos 3...");
-        // TODO: Pindah ke halaman detail kos untuk item 3
+        if (allKosList != null && allKosList.size() > 2) {
+            showKosDetail(allKosList.get(2));
+        } else if (allKosList != null && !allKosList.isEmpty()) {
+            showKosDetail(allKosList.get(0));
+        }
     }
 
     @FXML
     void muatLebih(ActionEvent event) {
-        System.out.println("Memuat lebih banyak data kos...");
-        // TODO: Ambil data tambahan dari database dan masukkan ke flowPaneKos
+        // Reload data terbaru dari database
+        loadAllKos();
+        System.out.println("Data kos di-refresh dari database.");
     }
 
 }

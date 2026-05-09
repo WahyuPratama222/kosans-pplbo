@@ -7,7 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.admin.LaporanBookingAdminController">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+    stylesheets="@../../css/style.css"
+    fx:controller="com.kosku.controller.admin.LaporanBookingAdminController">
     <top>
         <fx:include source="NavbarAdmin.fxml" />
     </top>
@@ -40,22 +42,11 @@
                             <children>
                                 <DatePicker prefWidth="140.0" promptText="Dari Tanggal" />
                                 <DatePicker prefWidth="140.0" promptText="Sampai Tanggal" />
-                                <ComboBox prefWidth="150.0" promptText="Status Booking">
-                                    <items>
-                                        <FXCollections fx:factory="observableArrayList">
-                                            <String fx:value="Semua" />
-                                            <String fx:value="Pending" />
-                                            <String fx:value="Confirmed" />
-                                            <String fx:value="Active" />
-                                            <String fx:value="Completed" />
-                                            <String fx:value="Cancelled" />
-                                        </FXCollections>
-                                    </items>
-                                </ComboBox>
-                                <TextField prefWidth="250.0" promptText="Cari nama atau ID..." />
-                                <Button prefWidth="100.0" text="🔍 Filter" />
+                                <ComboBox fx:id="cbStatus" prefWidth="150.0" promptText="Status Booking" />
+                                <TextField fx:id="tfCari" prefWidth="250.0" promptText="Cari nama penyewa atau ID..." />
+                                <Button prefWidth="100.0" text="🔍 Filter" onAction="#handleFilter" />
                                 <Region HBox.hgrow="ALWAYS" />
-                                <Button prefWidth="80.0" text="↻ Reset" />
+                                <Button prefWidth="80.0" text="↻ Reset" onAction="#handleReset" />
                             </children>
                         </HBox>
 
@@ -64,19 +55,19 @@
                                 <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label text="Total Booking" textFill="#64748b" />
-                                        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="1,205" />
+                                        <Label fx:id="lblTotalBooking" style="-fx-font-size: 22px; -fx-font-weight: bold;" text="0" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label text="Booking Aktif" textFill="#10b981" />
-                                        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="847" textFill="#10b981" />
+                                        <Label fx:id="lblBookingAktif" style="-fx-font-size: 22px; -fx-font-weight: bold;" text="0" textFill="#10b981" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label text="Booking Pending" textFill="#f59e0b" />
-                                        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="28" textFill="#f59e0b" />
+                                        <Label fx:id="lblBookingPending" style="-fx-font-size: 22px; -fx-font-weight: bold;" text="0" textFill="#f59e0b" />
                                     </children>
                                 </VBox>
                             </children>
@@ -132,12 +123,16 @@
                         <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 10;">
                             <children>
                                 <Label style="-fx-font-weight: bold;" text="Detail Booking" />
-                                <TableView prefHeight="300.0" VBox.vgrow="ALWAYS">
+                                <TableView fx:id="tabelBooking" prefHeight="400.0" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn prefWidth="100.0" text="ID Booking" />
-                                        <TableColumn prefWidth="150.0" text="Penyewa" />
-                                        <TableColumn prefWidth="120.0" text="Status" />
-                                        <TableColumn prefWidth="120.0" text="Total" />
+                                        <TableColumn fx:id="colIdBooking"    prefWidth="80.0"  text="ID" />
+                                        <TableColumn fx:id="colPenyewa"      prefWidth="150.0" text="Penyewa" />
+                                        <TableColumn fx:id="colKos"          prefWidth="160.0" text="Kos" />
+                                        <TableColumn fx:id="colKamar"        prefWidth="80.0"  text="Kamar" />
+                                        <TableColumn fx:id="colTanggalMulai" prefWidth="110.0" text="Tgl Mulai" />
+                                        <TableColumn fx:id="colTanggalSelesai" prefWidth="110.0" text="Tgl Selesai" />
+                                        <TableColumn fx:id="colStatus"       prefWidth="110.0" text="Status" />
+                                        <TableColumn fx:id="colTotal"        prefWidth="140.0" text="Total Harga" />
                                     </columns>
                                 </TableView>
                             </children>
