@@ -4,6 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.DialogPane;
+import java.util.Optional;
+import com.kosku.util.SessionManager;
 
 public class NavbarPemilikController {
 
@@ -75,22 +81,22 @@ public class NavbarPemilikController {
 
     @FXML
     private void goToDashboard() {
-        System.out.println("Navigating to Dashboard...");
+        com.kosku.Main.navigateTo("view/Pemilik/DashboardPemilik.fxml", "KosKu - Dashboard Pemilik");
     }
 
     @FXML
     private void goToKelolaKos() {
-        System.out.println("Navigating to Kelola Kos...");
+        com.kosku.Main.navigateTo("view/Pemilik/daftarKosPemilik.fxml", "KosKu - Kelola Kos");
     }
 
     @FXML
     private void goToBooking() {
-        System.out.println("Navigating to Booking...");
+        com.kosku.Main.navigateTo("view/Pemilik/BookingPenyewa.fxml", "KosKu - Booking Penyewa");
     }
 
     @FXML
     private void goToLaporan() {
-        System.out.println("Navigating to Laporan...");
+        com.kosku.Main.navigateTo("view/Pemilik/LaporanPembayaran.fxml", "KosKu - Laporan Pembayaran");
     }
 
     @FXML
@@ -100,6 +106,27 @@ public class NavbarPemilikController {
 
     @FXML
     private void handleLogout() {
-        System.out.println("Logging out...");
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Konfirmasi Keluar");
+        confirmAlert.setHeaderText("Keluar dari Akun Pemilik");
+        confirmAlert.setContentText("Sesi Anda akan diakhiri.\nApakah Anda yakin ingin keluar dari aplikasi?");
+        
+        ButtonType btnYes = new ButtonType("Ya, Keluar", ButtonBar.ButtonData.OK_DONE);
+        ButtonType btnNo = new ButtonType("Batal", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmAlert.getButtonTypes().setAll(btnYes, btnNo);
+        
+        DialogPane dialogPane = confirmAlert.getDialogPane();
+        dialogPane.setStyle("-fx-font-family: 'Segoe UI', sans-serif; -fx-font-size: 14px; -fx-background-color: #F8FAFC;");
+        
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == btnYes) {
+            try {
+                SessionManager.logout();
+                com.kosku.Main.navigateTo("/view/auth/login.fxml", "KosKu - Login");
+                System.out.println("Logout Pemilik berhasil!");
+            } catch (Exception e) {
+                System.err.println("Error logout: " + e.getMessage());
+            }
+        }
     }
 }

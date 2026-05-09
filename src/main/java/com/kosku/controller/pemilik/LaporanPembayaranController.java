@@ -90,7 +90,7 @@ public class LaporanPembayaranController {
         waitingCountLabel.setText(String.valueOf(statusCounts.getOrDefault("WAITING", 0L)));
         
         // 2. Load Table
-        ObservableList<Pembayaran> payments = FXCollections.observableArrayList(pembayaranDAO.getAllPembayaran());
+        ObservableList<Pembayaran> payments = FXCollections.observableArrayList(pembayaranDAO.getAll(Pembayaran.class));
         paymentTable.setItems(payments);
         
         // 3. Load Charts

@@ -154,12 +154,10 @@ public class DetailKosPenyewaController implements Initializable {
 
     @FXML
     void handleChatPemilik(ActionEvent event) {
-        // TODO: Navigasi langsung ke halaman/room chat dengan pemilik kos (karyawan lain yang mengerjakan)
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Fitur Chat");
-        alert.setHeaderText("Terhubung ke Chat Pemilik");
-        alert.setContentText("Fitur chat sedang dalam tahap pengembangan oleh tim lain.");
-        alert.showAndWait();
+        if (selectedKos != null && selectedKos.getPemilik() != null) {
+            ChatController.targetPemilikChat = selectedKos.getPemilik();
+        }
+        Main.navigateTo("/view/penyewa/ChatPenyewa.fxml", "KosKu - Chat");
     }
 
     private void loadUlasan() {

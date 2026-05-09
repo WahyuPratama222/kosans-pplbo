@@ -40,6 +40,16 @@ public class BookingDAO extends BaseDAO<Booking> {
         return listByQuery(hql, Map.of("idPenyewa", idPenyewa), Booking.class);
     }
 
+    public List<Booking> getBookingByPemilik(int idPemilik) {
+        String hql = "SELECT b FROM Booking b " +
+                "JOIN FETCH b.kamar k " +
+                "JOIN FETCH k.kos kos " +
+                "JOIN FETCH b.penyewa p " +
+                "WHERE kos.pemilik.idUser = :idPemilik " +
+                "ORDER BY b.tanggalBooking DESC";
+        return listByQuery(hql, Map.of("idPemilik", idPemilik), Booking.class);
+    }
+
     public long countBookingAktifByKamar(Kamar kamar) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "SELECT COUNT(b) FROM Booking b " +
@@ -60,7 +70,8 @@ public class BookingDAO extends BaseDAO<Booking> {
                     .uniqueResult();
             return count != null ? count : 0L;
         } catch (Exception e) {
-            throw new RuntimeException("Gagal menghitung total booking aktif: " + e.getMessage(), e);
+            System.err.println("Gagal menghitung total booking: " + e.getMessage());
+            return 0L;
         }
     }
 }

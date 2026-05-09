@@ -61,4 +61,15 @@ public class UserDAO extends BaseDAO<User> {
 			throw new RuntimeException("Gagal menghitung total user: " + e.getMessage(), e);
 		}
 	}
+
+	public java.util.List<User> getUsersByRole(User.Role role) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "from User where role = :role";
+			Query<User> query = session.createQuery(hql, User.class);
+			query.setParameter("role", role);
+			return query.list();
+		} catch (Exception e) {
+			throw new RuntimeException("Gagal mencari users by role: " + e.getMessage(), e);
+		}
+	}
 }

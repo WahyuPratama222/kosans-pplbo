@@ -55,7 +55,7 @@ public class LaporanPembayaranAdminController {
             try {
                 // Untuk admin, kita bisa melihat semua atau hanya yang WAITING.
                 // Kita ambil semua pembayaran agar Laporan lengkap, tapi tombol aksi hanya untuk WAITING.
-                List<Pembayaran> list = pembayaranDAO.getAllPembayaran();
+                List<Pembayaran> list = pembayaranDAO.getAll(Pembayaran.class);
                 Platform.runLater(() -> {
                     pembayaranList.setAll(list);
                     mainTable.setItems(pembayaranList);
