@@ -99,10 +99,22 @@ public class SearchFilterController {
         detailBtn.setMaxWidth(Double.MAX_VALUE);
         detailBtn.getStyleClass().add("btn-primary");
         VBox.setMargin(detailBtn, new javafx.geometry.Insets(10, 0, 0, 0));
+        
+        // Tambahkan tombol Chat di card
+        Button chatBtn = new Button("💬 Chat Pemilik");
+        chatBtn.setMaxWidth(Double.MAX_VALUE);
+        chatBtn.getStyleClass().add("btn-outline");
+        chatBtn.setOnAction(e -> startChatWithPemilik(kos.getPemilik()));
 
-        content.getChildren().addAll(nameLabel, addressLabel, ratingBox, detailBtn);
+        content.getChildren().addAll(nameLabel, addressLabel, ratingBox, detailBtn, chatBtn);
         card.getChildren().addAll(imageHolder, content);
         
         return card;
+    }
+
+    private void startChatWithPemilik(com.kosku.model.User pemilik) {
+        if (pemilik == null) return;
+        System.out.println("Navigasi chat ke: " + pemilik.getUsername());
+        com.kosku.Main.navigateTo("view/penyewa/ChatPenyewa.fxml", "KosKu - Chat dengan " + pemilik.getUsername());
     }
 }

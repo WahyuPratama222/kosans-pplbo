@@ -20,6 +20,9 @@ public class NavbarPemilikController {
     private VBox containerLaporan;
 
     @FXML
+    private VBox containerChat;
+
+    @FXML
     private HBox navMenuContainer;
 
     @FXML
@@ -50,6 +53,9 @@ public class NavbarPemilikController {
                 break;
             case "laporan":
                 highlight(containerLaporan);
+                break;
+            case "chat":
+                highlight(containerChat);
                 break;
         }
     }
@@ -86,7 +92,12 @@ public class NavbarPemilikController {
     private void goToLaporan() {
         System.out.println("Navigating to Laporan...");
     }
-    
+
+    @FXML
+    private void goToChat() {
+        com.kosku.Main.navigateTo("view/Pemilik/ChatPemilik.fxml", "KosKu - Chat Penyewa");
+    }
+
     @FXML
     private void handleLogout() {
         System.out.println("Logging out...");
