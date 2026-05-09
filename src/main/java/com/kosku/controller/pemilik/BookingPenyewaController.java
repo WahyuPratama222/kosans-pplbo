@@ -22,13 +22,13 @@ public class BookingPenyewaController implements Initializable {
     @FXML
     private NavbarPemilikController navbarController;
 
-    @FXML private TableView<Booking> tabelBooking;
-    @FXML private TableColumn<Booking, Integer> colId;
-    @FXML private TableColumn<Booking, String> colPenyewa;
-    @FXML private TableColumn<Booking, String> colProperti;
-    @FXML private TableColumn<Booking, String> colCheckin;
-    @FXML private TableColumn<Booking, String> colStatus;
-    @FXML private TableColumn<Booking, Void> colAksi;
+    @FXML private TableView<BookingDTO> tabelBooking;
+    @FXML private TableColumn<BookingDTO, Integer> colId;
+    @FXML private TableColumn<BookingDTO, String> colPenyewa;
+    @FXML private TableColumn<BookingDTO, String> colProperti;
+    @FXML private TableColumn<BookingDTO, String> colCheckin;
+    @FXML private TableColumn<BookingDTO, String> colStatus;
+    @FXML private TableColumn<BookingDTO, Void> colAksi;
 
     @FXML private Label lblTotalBooking;
     @FXML private Label lblMenunggu;
@@ -52,35 +52,11 @@ public class BookingPenyewaController implements Initializable {
     }
 
     private void setupTable() {
-        colId.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getIdBooking() != null ? data.getValue().getIdBooking() : 0).asObject());
-        colPenyewa.setCellValueFactory(data -> {
-            try {
-                return new SimpleStringProperty(data.getValue().getPenyewa().getUsername());
-            } catch (Exception e) {
-                return new SimpleStringProperty("Unknown");
-            }
-        });
-        colProperti.setCellValueFactory(data -> {
-            try {
-                return new SimpleStringProperty(data.getValue().getKamar().getKos().getNamaKos() + " - Kamar " + data.getValue().getKamar().getNomorKamar());
-            } catch (Exception e) {
-                return new SimpleStringProperty("Unknown");
-            }
-        });
-        colCheckin.setCellValueFactory(data -> {
-            try {
-                return new SimpleStringProperty(data.getValue().getTanggalMulai() != null ? data.getValue().getTanggalMulai().toString() : "Unknown");
-            } catch (Exception e) {
-                return new SimpleStringProperty("Unknown");
-            }
-        });
-        colStatus.setCellValueFactory(data -> {
-            try {
-                return new SimpleStringProperty(data.getValue().getStatusBooking() != null ? data.getValue().getStatusBooking().name() : "Unknown");
-            } catch (Exception e) {
-                return new SimpleStringProperty("Unknown");
-            }
-        });
+        colId.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().idBooking).asObject());
+        colPenyewa.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().penyewaName));
+        colProperti.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().propertiName));
+        colCheckin.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().checkinDate));
+        colStatus.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().status));
         
         colAksi.setCellFactory(param -> new TableCell<>() {
             private final Button btnChat = new Button("Chat Penyewa");
@@ -88,9 +64,9 @@ public class BookingPenyewaController implements Initializable {
             {
                 btnChat.setStyle("-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 5;");
                 btnChat.setOnAction(event -> {
-                    Booking booking = getTableView().getItems().get(getIndex());
-                    if (booking != null && booking.getPenyewa() != null) {
-                        ChatPemilikController.targetPenyewaChat = booking.getPenyewa();
+                    BookingDTO dto = getTableView().getItems().get(getIndex());
+                    if (dto != null && dto.originalPenyewa != null) {
+                        ChatPemilikController.targetPenyewaChat = dto.originalPenyewa;
                         com.kosku.Main.navigateTo("/view/Pemilik/ChatPemilik.fxml", "KosKu - Chat Penyewa");
                     }
                 });
@@ -113,7 +89,8 @@ public class BookingPenyewaController implements Initializable {
         if (pemilikId == null) return;
 
         allBookings = bookingDAO.getBookingByPemilik(pemilikId);
-        tabelBooking.setItems(FXCollections.observableArrayList(allBookings));
+        List<BookingDTO> dtos = allBookings.stream().map(BookingDTO::new).collect(Collectors.toList());
+        tabelBooking.setItems(FXCollections.observableArrayList(dtos));
 
         int total = allBookings.size();
         long pending = allBookings.stream().filter(b -> b.getStatusBooking() == Booking.StatusBooking.PENDING).count();
@@ -127,7 +104,9 @@ public class BookingPenyewaController implements Initializable {
             boxWarning.setVisible(true);
             boxWarning.setManaged(true);
             lblWarningTitle.setText("Ada " + pending + " booking yang menunggu konfirmasi Anda");
-            btnLihatSekarang.setOnAction(e -> filterTableByStatus(Booking.StatusBooking.PENDING));
+            btnLihatSekarang.setOnAction(e -> {
+                com.kosku.Main.navigateTo("view/Pemilik/KonfirmasiBooking.fxml");
+            });
         } else {
             boxWarning.setVisible(false);
             boxWarning.setManaged(false);
@@ -136,9 +115,41 @@ public class BookingPenyewaController implements Initializable {
 
     private void filterTableByStatus(Booking.StatusBooking status) {
         if (allBookings == null) return;
-        List<Booking> filtered = allBookings.stream()
+        List<BookingDTO> filtered = allBookings.stream()
                 .filter(b -> b.getStatusBooking() == status)
+                .map(BookingDTO::new)
                 .collect(Collectors.toList());
         tabelBooking.setItems(FXCollections.observableArrayList(filtered));
+    }
+
+    public static class BookingDTO {
+        public final int idBooking;
+        public final String penyewaName;
+        public final String propertiName;
+        public final String checkinDate;
+        public final String status;
+        public final com.kosku.model.User originalPenyewa;
+
+        public BookingDTO(Booking b) {
+            this.idBooking = b.getIdBooking() != null ? b.getIdBooking() : 0;
+            this.originalPenyewa = b.getPenyewa();
+            
+            String pName = "Unknown";
+            try {
+                if (b.getPenyewa() != null) pName = b.getPenyewa().getUsername();
+            } catch (Exception e) {}
+            this.penyewaName = pName;
+
+            String prName = "Unknown";
+            try {
+                if (b.getKamar() != null && b.getKamar().getKos() != null) {
+                    prName = b.getKamar().getKos().getNamaKos() + " - Kamar " + b.getKamar().getNomorKamar();
+                }
+            } catch (Exception e) {}
+            this.propertiName = prName;
+
+            this.checkinDate = b.getTanggalMulai() != null ? b.getTanggalMulai().toString() : "Unknown";
+            this.status = b.getStatusBooking() != null ? b.getStatusBooking().name() : "Unknown";
+        }
     }
 }

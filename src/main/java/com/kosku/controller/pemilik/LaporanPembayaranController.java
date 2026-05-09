@@ -2,6 +2,7 @@ package com.kosku.controller.pemilik;
 
 import com.kosku.dao.PembayaranDAO;
 import com.kosku.model.Pembayaran;
+import com.kosku.util.SessionManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,11 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.HBox;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -34,6 +40,7 @@ public class LaporanPembayaranController {
     @FXML private TableColumn<Pembayaran, String> colJumlah;
     @FXML private TableColumn<Pembayaran, String> colTanggal;
     @FXML private TableColumn<Pembayaran, String> colStatus;
+    @FXML private TableColumn<Pembayaran, Void> colAksi;
 
     private final PembayaranDAO pembayaranDAO = new PembayaranDAO();
     private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
@@ -56,51 +63,79 @@ public class LaporanPembayaranController {
         });
         
         colPenyewa.setCellValueFactory(cellData -> {
-            var booking = cellData.getValue().getBooking();
-            return new SimpleStringProperty(booking != null && booking.getPenyewa() != null ? 
-                booking.getPenyewa().getUsername() : "-");
+            try {
+                var booking = cellData.getValue().getBooking();
+                return new SimpleStringProperty(booking != null && booking.getPenyewa() != null ? 
+                    booking.getPenyewa().getUsername() : "-");
+            } catch (Exception e) {
+                return new SimpleStringProperty("-");
+            }
         });
         
         colKos.setCellValueFactory(cellData -> {
-            var booking = cellData.getValue().getBooking();
-            if (booking != null && booking.getKamar() != null && booking.getKamar().getKos() != null) {
-                return new SimpleStringProperty(booking.getKamar().getKos().getNamaKos());
+            try {
+                var booking = cellData.getValue().getBooking();
+                if (booking != null && booking.getKamar() != null && booking.getKamar().getKos() != null) {
+                    return new SimpleStringProperty(booking.getKamar().getKos().getNamaKos());
+                }
+                return new SimpleStringProperty("-");
+            } catch (Exception e) {
+                return new SimpleStringProperty("-");
             }
-            return new SimpleStringProperty("-");
         });
         
-        colJumlah.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(currencyFormat.format(cellData.getValue().getJumlahBayar())));
+        colJumlah.setCellValueFactory(cellData -> {
+            try {
+                return new SimpleStringProperty(currencyFormat.format(cellData.getValue().getJumlahBayar()));
+            } catch (Exception e) {
+                return new SimpleStringProperty("Rp0");
+            }
+        });
             
-        colTanggal.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getCreatedAt() != null ? 
-                cellData.getValue().getCreatedAt().format(dateFormatter) : "-"));
+        colTanggal.setCellValueFactory(cellData -> {
+            try {
+                return new SimpleStringProperty(cellData.getValue().getCreatedAt() != null ? 
+                    cellData.getValue().getCreatedAt().format(dateFormatter) : "-");
+            } catch (Exception e) {
+                return new SimpleStringProperty("-");
+            }
+        });
                 
-        colStatus.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getStatusVerifikasi().toString()));
+        colStatus.setCellValueFactory(cellData -> {
+            try {
+                return new SimpleStringProperty(cellData.getValue().getStatusVerifikasi().toString());
+            } catch (Exception e) {
+                return new SimpleStringProperty("-");
+            }
+        });
+
+        setupActionColumn();
     }
 
     private void loadAnalyticsData() {
+        if (SessionManager.getCurrentUser() == null) return;
+        int idPemilik = SessionManager.getCurrentUser().getIdUser();
+
         // 1. Load Stats
-        BigDecimal totalRevenue = pembayaranDAO.getTotalPembayaranBulanan();
+        BigDecimal totalRevenue = pembayaranDAO.getTotalPembayaranBulananByPemilik(idPemilik);
         totalRevenueLabel.setText(currencyFormat.format(totalRevenue));
         
-        Map<String, Long> statusCounts = pembayaranDAO.getPaymentStatusCounts();
+        Map<String, Long> statusCounts = pembayaranDAO.getPaymentStatusCountsByPemilik(idPemilik);
         verifiedCountLabel.setText(String.valueOf(statusCounts.getOrDefault("VERIFIED", 0L)));
-        waitingCountLabel.setText(String.valueOf(statusCounts.getOrDefault("WAITING", 0L)));
+        waitingCountLabel.setText(String.valueOf(statusCounts.getOrDefault("WAITING_PEMILIK", 0L)));
         
         // 2. Load Table
-        ObservableList<Pembayaran> payments = FXCollections.observableArrayList(pembayaranDAO.getAll(Pembayaran.class));
+        ObservableList<Pembayaran> payments = FXCollections.observableArrayList(pembayaranDAO.getPembayaranByPemilik(idPemilik));
         paymentTable.setItems(payments);
         
         // 3. Load Charts
-        loadRevenueChart();
+        loadRevenueChart(idPemilik);
         loadStatusPieChart(statusCounts);
     }
 
-    private void loadRevenueChart() {
+    private void loadRevenueChart(int idPemilik) {
         revenueChart.getData().clear();
-        Map<String, BigDecimal> monthlyData = pembayaranDAO.getMonthlyRevenue(6);
+        Map<String, BigDecimal> monthlyData = pembayaranDAO.getMonthlyRevenueByPemilik(6, idPemilik);
         
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Pendapatan");
@@ -116,6 +151,69 @@ public class LaporanPembayaranController {
         statusPieChart.getData().clear();
         statusCounts.forEach((status, count) -> {
             statusPieChart.getData().add(new PieChart.Data(status + " (" + count + ")", count));
+        });
+    }
+
+    private void setupActionColumn() {
+        colAksi.setCellFactory(param -> new TableCell<>() {
+            private final Button btnApprove = new Button("Verifikasi");
+            private final Button btnReject = new Button("Tolak");
+            private final HBox pane = new HBox(10, btnApprove, btnReject);
+
+            {
+                btnApprove.setStyle("-fx-background-color: #10B981; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
+                btnReject.setStyle("-fx-background-color: #EF4444; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
+
+                btnApprove.setOnAction(event -> {
+                    Pembayaran pembayaran = getTableView().getItems().get(getIndex());
+                    handleApprove(pembayaran);
+                });
+
+                btnReject.setOnAction(event -> {
+                    Pembayaran pembayaran = getTableView().getItems().get(getIndex());
+                    handleReject(pembayaran);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Pembayaran p = getTableView().getItems().get(getIndex());
+                    if (p != null && p.getStatusVerifikasi() == Pembayaran.StatusVerifikasi.WAITING_PEMILIK) {
+                        setGraphic(pane);
+                    } else if (p != null && p.getStatusVerifikasi() == Pembayaran.StatusVerifikasi.WAITING_ADMIN) {
+                        setGraphic(new Label("Menunggu Admin"));
+                    } else if (p != null && p.getStatusVerifikasi() == Pembayaran.StatusVerifikasi.REJECTED) {
+                        setGraphic(new Label("Ditolak"));
+                    } else {
+                        setGraphic(new Label("Selesai"));
+                    }
+                }
+            }
+        });
+    }
+
+    private void handleApprove(Pembayaran pembayaran) {
+        pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.WAITING_ADMIN);
+        pembayaranDAO.saveOrUpdate(pembayaran);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Pembayaran ID " + pembayaran.getIdPembayaran() + " diteruskan ke Admin.");
+        alert.showAndWait();
+
+        loadAnalyticsData();
+    }
+
+    private void handleReject(Pembayaran pembayaran) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Yakin ingin menolak pembayaran ini?", ButtonType.YES, ButtonType.NO);
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.REJECTED);
+                pembayaranDAO.saveOrUpdate(pembayaran);
+                loadAnalyticsData();
+            }
         });
     }
 
