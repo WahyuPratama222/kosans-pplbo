@@ -116,10 +116,61 @@ public class KonfirmasiBookingController implements Initializable {
     }
 
     private void handleTolak(Booking b) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Anda yakin ingin menolak booking ini?", ButtonType.YES, ButtonType.NO);
-        confirm.showAndWait().ifPresent(res -> {
-            if (res == ButtonType.YES) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Tolak Booking");
+        dialog.setHeaderText(null);
+        
+        // Custom Dialog Pane styling
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: white; -fx-padding: 20;");
+        
+        VBox content = new VBox(15);
+        
+        Label titleLabel = new Label("Tolak Booking dari " + (b.getPenyewa() != null ? b.getPenyewa().getUsername() : "Penyewa"));
+        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1E293B;");
+        
+        Label infoLabel = new Label("Silakan masukkan alasan penolakan di bawah ini. Alasan ini akan dikirimkan kepada penyewa.");
+        infoLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #64748B;");
+        infoLabel.setWrapText(true);
+        infoLabel.setPrefWidth(400);
+        
+        TextArea textArea = new TextArea();
+        textArea.setPromptText("Contoh: Maaf, kamar sedang dalam perbaikan...");
+        textArea.setPrefRowCount(4);
+        textArea.setWrapText(true);
+        textArea.setStyle("-fx-font-size: 14px; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #CBD5E1;");
+        
+        content.getChildren().addAll(titleLabel, infoLabel, textArea);
+        dialogPane.setContent(content);
+
+        ButtonType tolakButtonType = new ButtonType("Tolak Booking", ButtonBar.ButtonData.OK_DONE);
+        ButtonType batalButtonType = new ButtonType("Batal", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialogPane.getButtonTypes().addAll(tolakButtonType, batalButtonType);
+
+        // Styling the buttons
+        Button tolakButton = (Button) dialogPane.lookupButton(tolakButtonType);
+        tolakButton.setStyle("-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 8; -fx-cursor: hand;");
+        
+        Button batalButton = (Button) dialogPane.lookupButton(batalButtonType);
+        batalButton.setStyle("-fx-background-color: #F1F5F9; -fx-text-fill: #475569; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 8; -fx-cursor: hand;");
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == tolakButtonType) {
+                return textArea.getText();
+            }
+            return null;
+        });
+
+        dialog.showAndWait().ifPresent(alasan -> {
+            if (alasan.trim().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Peringatan");
+                alert.setHeaderText(null);
+                alert.setContentText("Alasan penolakan tidak boleh kosong!");
+                alert.showAndWait();
+            } else {
                 b.setStatusBooking(Booking.StatusBooking.DITOLAK);
+                b.setAlasanTolak(alasan.trim());
                 bookingDAO.saveOrUpdate(b);
                 loadPendingBookings(); // Refresh UI
             }

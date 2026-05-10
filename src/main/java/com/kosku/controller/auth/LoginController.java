@@ -14,6 +14,8 @@ public class LoginController {
 
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
+    @FXML private TextField passwordTextField;
+    @FXML private javafx.scene.control.Button togglePasswordButton;
 
     // Inisialisasi Service
     private final AuthService authService = new AuthService();
@@ -21,7 +23,7 @@ public class LoginController {
     @FXML
     public void handleLogin(ActionEvent event) {
         String identifier = emailField.getText();
-        String password = passwordField.getText();
+        String password = passwordField.isVisible() ? passwordField.getText() : passwordTextField.getText();
 
         try {
             // Delegasikan logika autentikasi ke Service
@@ -74,5 +76,24 @@ public class LoginController {
     @FXML
     public void handleGoToRegister(MouseEvent event) {
         Main.navigateTo("/view/auth/register.fxml", "KosKu - Register");
+    }
+
+    @FXML
+    private void togglePasswordVisibility(ActionEvent event) {
+        if (passwordField.isVisible()) {
+            passwordTextField.setText(passwordField.getText());
+            passwordTextField.setVisible(true);
+            passwordTextField.setManaged(true);
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            togglePasswordButton.setText("🙈");
+        } else {
+            passwordField.setText(passwordTextField.getText());
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+            passwordTextField.setVisible(false);
+            passwordTextField.setManaged(false);
+            togglePasswordButton.setText("👁");
+        }
     }
 }

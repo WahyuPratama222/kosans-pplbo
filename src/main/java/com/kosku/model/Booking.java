@@ -45,6 +45,9 @@ public class Booking {
     @Builder.Default
     private StatusBooking statusBooking = StatusBooking.PENDING;
 
+    @Column(name = "alasan_tolak", columnDefinition = "TEXT")
+    private String alasanTolak;
+
     @Column(name = "total_harga", nullable = false, precision = 15, scale = 2)
     private BigDecimal totalHarga;
 

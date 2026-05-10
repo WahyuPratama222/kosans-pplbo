@@ -176,6 +176,15 @@ public class RiwayatController implements Initializable {
         Label lblTanggal = new Label("Periode: " + booking.getTanggalMulai() + " s/d " + booking.getTanggalSelesai());
         lblTanggal.setStyle("-fx-font-size: 12px; -fx-text-fill: #BBB;");
 
+        detailsBox.getChildren().addAll(titleBox, lblAlamat, lblKamar, lblTanggal);
+
+        if (booking.getStatusBooking() == Booking.StatusBooking.DITOLAK && booking.getAlasanTolak() != null) {
+            Label lblAlasan = new Label("Alasan Penolakan: " + booking.getAlasanTolak());
+            lblAlasan.setStyle("-fx-font-size: 13px; -fx-text-fill: #DC2626; -fx-font-style: italic; -fx-padding: 8; -fx-background-color: #FEF2F2; -fx-background-radius: 6;");
+            lblAlasan.setWrapText(true);
+            detailsBox.getChildren().add(lblAlasan);
+        }
+
         HBox priceBox = new HBox();
         priceBox.setAlignment(Pos.CENTER_LEFT);
         priceBox.setSpacing(12);
@@ -245,13 +254,22 @@ public class RiwayatController implements Initializable {
             btnDetail.setStyle("-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand; -fx-padding: 10 24;");
             btnDetail.setOnAction(e -> {
                 DetailBookingController.selectedBooking = booking;
-                com.kosku.Main.navigateTo("/view/penyewa/DetailBookingPenyewa.fxml", "Detail Booking");
+                if (booking.getStatusBooking() == Booking.StatusBooking.DITOLAK) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Info Penolakan");
+                    alert.setHeaderText("Booking Ditolak");
+                    alert.setContentText("Alasan: " + (booking.getAlasanTolak() != null ? booking.getAlasanTolak() : "Tidak ada alasan yang diberikan."));
+                    alert.showAndWait();
+                } else {
+                    DetailBookingController.selectedBooking = booking;
+                    com.kosku.Main.navigateTo("/view/penyewa/DetailBookingPenyewa.fxml", "Detail Booking");
+                }
             });
             actionBox.getChildren().add(btnDetail);
         }
 
         priceBox.getChildren().addAll(priceText, spacer2, actionBox);
-        detailsBox.getChildren().addAll(titleBox, lblAlamat, lblKamar, lblTanggal, priceBox);
+        detailsBox.getChildren().add(priceBox);
         card.getChildren().addAll(imagePane, detailsBox);
 
         return card;
