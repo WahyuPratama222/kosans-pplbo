@@ -17,6 +17,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import com.kosku.util.PopupManager;
+import com.kosku.service.NotifikasiService;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -199,8 +200,12 @@ public class LaporanPembayaranController {
         pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.WAITING_ADMIN);
         pembayaranDAO.saveOrUpdate(pembayaran);
 
-        PopupManager.showInfo("Sukses", "Pembayaran ID " + pembayaran.getIdPembayaran() + " diteruskan ke Admin.");
+        // Kirim notifikasi ke penyewa bahwa pembayaran sudah diterima pemilik
+        if (pembayaran.getBooking() != null) {
+            NotifikasiService.kirimNotifPembayaranVerified(pembayaran.getBooking());
+        }
 
+        PopupManager.showInfo("Sukses", "Pembayaran ID " + pembayaran.getIdPembayaran() + " diteruskan ke Admin.");
         loadAnalyticsData();
     }
 

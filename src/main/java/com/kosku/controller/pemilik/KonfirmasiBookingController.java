@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import com.kosku.dao.BookingDAO;
 import com.kosku.model.Booking;
+import com.kosku.service.NotifikasiService;
 import com.kosku.util.PopupManager;
 import com.kosku.util.SessionManager;
 
@@ -110,6 +111,11 @@ public class KonfirmasiBookingController implements Initializable {
         if (confirmed) {
             b.setStatusBooking(Booking.StatusBooking.DITERIMA);
             bookingDAO.saveOrUpdate(b);
+
+            // Kirim notifikasi ke penyewa
+            NotifikasiService.kirimNotifBookingDiterima(b);
+
+            PopupManager.showInfo("Berhasil", "Booking telah diterima dan penyewa sudah mendapat notifikasi.");
             loadPendingBookings();
         }
     }
@@ -167,7 +173,12 @@ public class KonfirmasiBookingController implements Initializable {
                 b.setStatusBooking(Booking.StatusBooking.DITOLAK);
                 b.setAlasanTolak(alasan.trim());
                 bookingDAO.saveOrUpdate(b);
-                loadPendingBookings(); // Refresh UI
+
+                // Kirim notifikasi ke penyewa
+                NotifikasiService.kirimNotifBookingDitolak(b, alasan.trim());
+
+                PopupManager.showInfo("Selesai", "Booking telah ditolak dan penyewa sudah mendapat notifikasi.");
+                loadPendingBookings();
             }
         });
     }

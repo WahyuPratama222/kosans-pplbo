@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 32; -fx-border-color: #E8EDF5; -fx-border-width: 1; -fx-border-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 14, 0, 0, 6);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.PopupMessageController">
+<VBox alignment="CENTER" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 32; -fx-border-color: #E8EDF5; -fx-border-width: 1; -fx-border-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 14, 0, 0, 6);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.PopupMessageController">
     <children>
         <Label fx:id="lblIcon" style="-fx-font-size: 48px;" text="✅" />
         <Label fx:id="lblTitle" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Judul Popup" />
