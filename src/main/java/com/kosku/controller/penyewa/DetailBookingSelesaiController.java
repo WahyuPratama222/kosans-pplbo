@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import com.kosku.Main;
 import com.kosku.dao.PembayaranDAO;
+import com.kosku.util.PopupManager;
 import com.kosku.model.Booking;
 import com.kosku.model.Kamar;
 import com.kosku.model.Kos;
@@ -87,11 +88,7 @@ public class DetailBookingSelesaiController implements Initializable {
     @FXML
     void handleLihatBukti(ActionEvent event) {
         // TODO: Tampilkan gambar bukti bayar dalam modal
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Bukti Pembayaran");
-        alert.setHeaderText("Lihat Bukti Bayar");
-        alert.setContentText("Fitur melihat bukti bayar sedang dalam tahap pengembangan.");
-        alert.showAndWait();
+        PopupManager.showInfo("Bukti Pembayaran", "Fitur melihat bukti bayar sedang dalam tahap pengembangan.");
     }
 
     @FXML
@@ -106,11 +103,7 @@ public class DetailBookingSelesaiController implements Initializable {
             com.kosku.dao.ReviewDAO reviewDAO = new com.kosku.dao.ReviewDAO();
             com.kosku.model.Review existing = reviewDAO.getReviewByBooking(selectedBooking.getIdBooking());
             if (existing != null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Peringatan");
-                alert.setHeaderText(null);
-                alert.setContentText("Anda sudah memberikan rating untuk booking ini.");
-                alert.showAndWait();
+                PopupManager.showWarning("Peringatan", "Anda sudah memberikan rating untuk booking ini.");
             } else {
                 BeriRatingController.selectedBooking = selectedBooking;
                 Main.navigateTo("/view/penyewa/BeriRatingPenyewa.fxml", "Beri Rating & Ulasan");
@@ -132,20 +125,12 @@ public class DetailBookingSelesaiController implements Initializable {
     @FXML
     void handleHubungiPemilik(ActionEvent event) {
         // TODO: Implementasi chat dengan pemilik
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Hubungi Pemilik");
-        alert.setHeaderText(null);
-        alert.setContentText("Fitur chat dengan pemilik sedang dalam tahap pengembangan oleh tim lain.");
-        alert.showAndWait();
+        PopupManager.showInfo("Hubungi Pemilik", "Fitur chat dengan pemilik sedang dalam tahap pengembangan oleh tim lain.");
     }
 
     @FXML
     void handleKomplain(ActionEvent event) {
         // TODO: Implementasi chat komplain ke admin
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Ajukan Komplain");
-        alert.setHeaderText(null);
-        alert.setContentText("Fitur pengajuan komplain ke admin sedang dalam tahap pengembangan oleh tim lain.");
-        alert.showAndWait();
+        PopupManager.showInfo("Ajukan Komplain", "Fitur pengajuan komplain ke admin sedang dalam tahap pengembangan oleh tim lain.");
     }
 }

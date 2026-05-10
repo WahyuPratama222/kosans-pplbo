@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.application.Platform;
+import com.kosku.util.PopupManager;
 
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -118,20 +119,17 @@ public class LaporanPembayaranAdminController {
         pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.VERIFIED);
         pembayaranDAO.saveOrUpdate(pembayaran);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Pembayaran ID " + pembayaran.getIdPembayaran() + " diverifikasi.");
-        alert.showAndWait();
+        PopupManager.showInfo("Sukses", "Pembayaran ID " + pembayaran.getIdPembayaran() + " diverifikasi.");
 
         loadData();
     }
 
     private void handleReject(Pembayaran pembayaran) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Yakin ingin menolak pembayaran ini?", ButtonType.YES, ButtonType.NO);
-        confirm.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-                pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.REJECTED);
-                pembayaranDAO.saveOrUpdate(pembayaran);
-                loadData();
-            }
-        });
+        boolean confirmed = PopupManager.showConfirmation("Konfirmasi", "Yakin ingin menolak pembayaran ini?");
+        if (confirmed) {
+            pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.REJECTED);
+            pembayaranDAO.saveOrUpdate(pembayaran);
+            loadData();
+        }
     }
 }

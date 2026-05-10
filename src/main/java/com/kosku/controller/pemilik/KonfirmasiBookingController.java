@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 
 import com.kosku.dao.BookingDAO;
 import com.kosku.model.Booking;
+import com.kosku.service.NotifikasiService;
+import com.kosku.util.PopupManager;
 import com.kosku.util.SessionManager;
 
 public class KonfirmasiBookingController implements Initializable {
@@ -105,14 +107,17 @@ public class KonfirmasiBookingController implements Initializable {
     }
 
     private void handleTerima(Booking b) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Anda yakin ingin menerima booking ini?", ButtonType.YES, ButtonType.NO);
-        confirm.showAndWait().ifPresent(res -> {
-            if (res == ButtonType.YES) {
-                b.setStatusBooking(Booking.StatusBooking.DITERIMA);
-                bookingDAO.saveOrUpdate(b);
-                loadPendingBookings(); // Refresh UI
-            }
-        });
+        boolean confirmed = PopupManager.showConfirmation("Konfirmasi", "Anda yakin ingin menerima booking ini?");
+        if (confirmed) {
+            b.setStatusBooking(Booking.StatusBooking.DITERIMA);
+            bookingDAO.saveOrUpdate(b);
+
+            // Kirim notifikasi ke penyewa
+            NotifikasiService.kirimNotifBookingDiterima(b);
+
+            PopupManager.showInfo("Berhasil", "Booking telah diterima dan penyewa sudah mendapat notifikasi.");
+            loadPendingBookings();
+        }
     }
 
     private void handleTolak(Booking b) {
@@ -163,16 +168,17 @@ public class KonfirmasiBookingController implements Initializable {
 
         dialog.showAndWait().ifPresent(alasan -> {
             if (alasan.trim().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Peringatan");
-                alert.setHeaderText(null);
-                alert.setContentText("Alasan penolakan tidak boleh kosong!");
-                alert.showAndWait();
+                PopupManager.showWarning("Peringatan", "Alasan penolakan tidak boleh kosong!");
             } else {
                 b.setStatusBooking(Booking.StatusBooking.DITOLAK);
                 b.setAlasanTolak(alasan.trim());
                 bookingDAO.saveOrUpdate(b);
-                loadPendingBookings(); // Refresh UI
+
+                // Kirim notifikasi ke penyewa
+                NotifikasiService.kirimNotifBookingDitolak(b, alasan.trim());
+
+                PopupManager.showInfo("Selesai", "Booking telah ditolak dan penyewa sudah mendapat notifikasi.");
+                loadPendingBookings();
             }
         });
     }

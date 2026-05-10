@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.geometry.Pos;
 import javafx.scene.shape.Circle;
 import javafx.event.ActionEvent;
+import com.kosku.util.PopupManager;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -290,9 +291,7 @@ public class ChatController implements Initializable {
     @FXML
     void kirimPesan(ActionEvent event) {
         if (activePartner == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Silakan pilih kontak terlebih dahulu sebelum mengirim pesan.");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            PopupManager.showWarning("Peringatan", "Silakan pilih kontak terlebih dahulu sebelum mengirim pesan.");
             return;
         }
         if (tfPesan == null || tfPesan.getText().trim().isEmpty() || currentUserId == null) {

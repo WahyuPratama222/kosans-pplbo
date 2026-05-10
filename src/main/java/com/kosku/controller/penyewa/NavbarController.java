@@ -2,23 +2,16 @@ package com.kosku.controller.penyewa;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
 import com.kosku.Main;
 import com.kosku.dao.UserDAO;
 import com.kosku.model.User;
+import com.kosku.util.PopupManager;
 import com.kosku.util.SessionManager;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class NavbarController implements Initializable {
@@ -147,13 +140,8 @@ public class NavbarController implements Initializable {
     @FXML
     void handleLogout(Event event) {
         // Konfirmasi logout
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Konfirmasi Logout");
-        confirmAlert.setHeaderText(null);
-        confirmAlert.setContentText("Apakah Anda yakin ingin keluar?");
-        
-        Optional<ButtonType> result = confirmAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        boolean confirmed = PopupManager.showConfirmation("Konfirmasi Logout", "Apakah Anda yakin ingin keluar?");
+        if (confirmed) {
             try {
                 // Clear session/login data
                 SessionManager.logout();
@@ -164,8 +152,7 @@ public class NavbarController implements Initializable {
                 System.out.println("Logout berhasil!");
             } catch (Exception e) {
                 System.err.println("Error logout: " + e.getMessage());
-                showAlert(Alert.AlertType.ERROR, "Error", 
-                    "Gagal logout: " + e.getMessage());
+                PopupManager.showError("Error", "Gagal logout: " + e.getMessage());
             }
         }
     }
@@ -175,13 +162,5 @@ public class NavbarController implements Initializable {
      */
     public void refreshUserProfile() {
         loadUserProfile();
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

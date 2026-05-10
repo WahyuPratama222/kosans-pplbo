@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.input.MouseEvent;
+import com.kosku.util.PopupManager;
 
 public class RegisterController {
 
@@ -64,27 +65,27 @@ public class RegisterController {
             authService.register(newUser);
 
             // 5. Berhasil
-            showAlert(Alert.AlertType.INFORMATION, "Registrasi Berhasil!", 
+            PopupManager.showInfo("Registrasi Berhasil!",
                 "Akun " + (selectedRole == User.Role.PEMILIK ? "Pemilik" : "Penyewa") + " berhasil dibuat.");
             Main.navigateTo("/view/auth/login.fxml", "KosKu - Login");
 
         } catch (Exception e) {
             // Error dari service (misal: "Username sudah digunakan") tampil di sini
-            showAlert(Alert.AlertType.ERROR, "Gagal Daftar", e.getMessage());
+            PopupManager.showError("Gagal Daftar", e.getMessage());
         }
     }
 
     private boolean validateInput(String username, String email, String pass, String confirm) {
         if (username.isEmpty() || email.isEmpty() || pass.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Input Kosong", "Semua kolom wajib diisi!");
+            PopupManager.showError("Input Kosong", "Semua kolom wajib diisi!");
             return false;
         }
         if (pass.length() < 6) {
-            showAlert(Alert.AlertType.ERROR, "Password Lemah", "Minimal 6 karakter.");
+            PopupManager.showError("Password Lemah", "Minimal 6 karakter.");
             return false;
         }
         if (!pass.equals(confirm)) {
-            showAlert(Alert.AlertType.ERROR, "Password Tidak Cocok", "Konfirmasi password salah.");
+            PopupManager.showError("Password Tidak Cocok", "Konfirmasi password salah.");
             return false;
         }
         return true;
@@ -111,13 +112,6 @@ public class RegisterController {
         btn.getStyleClass().add(active ? "role-btn-active" : "role-btn-inactive");
     }
 
-    private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     @FXML
     public void handleGoToLogin(MouseEvent event) {

@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import com.kosku.util.PopupManager;
 
 import java.util.List;
 
@@ -99,16 +100,13 @@ public class ManagementPenggunaController {
     private void handleApprove(User user) {
         user.setIsVerified(true);
         userDAO.saveOrUpdate(user);
-        new Alert(Alert.AlertType.INFORMATION, "Pengguna " + user.getUsername() + " diverifikasi.").showAndWait();
+        PopupManager.showInfo("Sukses", "Pengguna " + user.getUsername() + " diverifikasi.");
         loadData();
     }
 
     private void handleDelete(User user, String action) {
-        Alert c = new Alert(Alert.AlertType.CONFIRMATION,
-                "Yakin " + action + " pengguna " + user.getUsername() + "?",
-                ButtonType.YES, ButtonType.NO);
-        c.showAndWait().ifPresent(r -> {
-            if (r == ButtonType.YES) { userDAO.delete(User.class, user.getIdUser()); loadData(); }
-        });
+        boolean confirmed = PopupManager.showConfirmation("Konfirmasi",
+                "Yakin " + action + " pengguna " + user.getUsername() + "?");
+        if (confirmed) { userDAO.delete(User.class, user.getIdUser()); loadData(); }
     }
 }

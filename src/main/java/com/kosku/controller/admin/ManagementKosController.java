@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import com.kosku.util.PopupManager;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -97,16 +98,13 @@ public class ManagementKosController {
     private void handleApprove(Kos kos) {
         kos.setIsVerified(true);
         kosDAO.saveOrUpdate(kos);
-        new Alert(Alert.AlertType.INFORMATION, "Kos " + kos.getNamaKos() + " diverifikasi.").showAndWait();
+        PopupManager.showInfo("Sukses", "Kos " + kos.getNamaKos() + " diverifikasi.");
         loadData();
     }
 
     private void handleDelete(Kos kos, String action) {
-        Alert c = new Alert(Alert.AlertType.CONFIRMATION,
-                "Yakin " + action + " kos " + kos.getNamaKos() + "?",
-                ButtonType.YES, ButtonType.NO);
-        c.showAndWait().ifPresent(r -> {
-            if (r == ButtonType.YES) { kosDAO.delete(Kos.class, kos.getIdKos()); loadData(); }
-        });
+        boolean confirmed = PopupManager.showConfirmation("Konfirmasi",
+                "Yakin " + action + " kos " + kos.getNamaKos() + "?");
+        if (confirmed) { kosDAO.delete(Kos.class, kos.getIdKos()); loadData(); }
     }
 }
