@@ -94,6 +94,17 @@ public class SessionManager {
     }
 
     /**
+     * Update username di session (dipanggil setelah user mengubah nama di profil)
+     */
+    public static void updateCurrentUsername(String newUsername) {
+        currentUsername = newUsername;
+        if (currentUser != null) {
+            currentUser.setUsername(newUsername);
+        }
+    }
+
+
+    /**
      * Clear session (biasa digunakan di testing)
      */
     public static void clearSession() {

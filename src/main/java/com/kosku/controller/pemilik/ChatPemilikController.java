@@ -22,9 +22,12 @@ import com.kosku.dao.ChatDAO;
 import com.kosku.dao.UserDAO;
 import com.kosku.model.Chat;
 import com.kosku.model.User;
+import com.kosku.util.PopupManager;
 import com.kosku.util.SessionManager;
 
 public class ChatPemilikController implements Initializable {
+
+    public static User targetPenyewaChat;
 
     @FXML
     private NavbarPemilikController navbarController;
@@ -240,9 +243,7 @@ public class ChatPemilikController implements Initializable {
     @FXML
     void kirimPesan(ActionEvent event) {
         if (activePartner == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Silakan pilih kontak terlebih dahulu sebelum mengirim pesan.");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            PopupManager.showWarning("Peringatan", "Silakan pilih kontak terlebih dahulu sebelum mengirim pesan.");
             return;
         }
         if (tfPesan == null || tfPesan.getText().trim().isEmpty() || currentUserId == null) {

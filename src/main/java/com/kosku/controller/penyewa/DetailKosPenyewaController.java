@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.util.StringConverter;
 import com.kosku.Main;
 import com.kosku.dao.BookingDAO;
+import com.kosku.util.PopupManager;
 import com.kosku.model.Booking;
 import com.kosku.model.Kamar;
 import com.kosku.model.Kos;
@@ -129,9 +130,7 @@ public class DetailKosPenyewaController implements Initializable {
     void handleBooking(ActionEvent event) {
         Integer userId = SessionManager.getCurrentUserId();
         if (userId == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Anda harus login sebagai penyewa untuk melakukan booking.");
-            alert.showAndWait();
+            PopupManager.showWarning("Akses Ditolak", "Anda harus login sebagai penyewa untuk melakukan booking.");
             return;
         }
 
@@ -140,11 +139,7 @@ public class DetailKosPenyewaController implements Initializable {
                 .collect(Collectors.toList());
 
         if (kamarTersedia.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Kamar Penuh");
-            alert.setHeaderText(null);
-            alert.setContentText("Maaf, saat ini tidak ada kamar yang tersedia di kos ini.");
-            alert.showAndWait();
+            PopupManager.showWarning("Kamar Penuh", "Maaf, saat ini tidak ada kamar yang tersedia di kos ini.");
             return;
         }
 

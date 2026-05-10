@@ -8,7 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.control.Alert;
+import com.kosku.util.PopupManager;
 
 public class LoginController {
 
@@ -36,7 +36,7 @@ public class LoginController {
         } catch (Exception e) {
             // Tangkap pesan error dari Service (misal: "Password salah" atau "Akun tidak ditemukan")
             System.err.println("[Login Error] " + e.getMessage());
-            showAlert("Login Gagal", e.getMessage());
+            PopupManager.showError("Login Gagal", e.getMessage());
         }
     }
 
@@ -65,13 +65,6 @@ public class LoginController {
         Main.navigateTo(viewPath, title);
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     @FXML
     public void handleGoToRegister(MouseEvent event) {

@@ -15,9 +15,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Button;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
+import com.kosku.util.PopupManager;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -200,21 +199,18 @@ public class LaporanPembayaranController {
         pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.WAITING_ADMIN);
         pembayaranDAO.saveOrUpdate(pembayaran);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Pembayaran ID " + pembayaran.getIdPembayaran() + " diteruskan ke Admin.");
-        alert.showAndWait();
+        PopupManager.showInfo("Sukses", "Pembayaran ID " + pembayaran.getIdPembayaran() + " diteruskan ke Admin.");
 
         loadAnalyticsData();
     }
 
     private void handleReject(Pembayaran pembayaran) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Yakin ingin menolak pembayaran ini?", ButtonType.YES, ButtonType.NO);
-        confirm.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-                pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.REJECTED);
-                pembayaranDAO.saveOrUpdate(pembayaran);
-                loadAnalyticsData();
-            }
-        });
+        boolean confirmed = PopupManager.showConfirmation("Konfirmasi", "Yakin ingin menolak pembayaran ini?");
+        if (confirmed) {
+            pembayaran.setStatusVerifikasi(Pembayaran.StatusVerifikasi.REJECTED);
+            pembayaranDAO.saveOrUpdate(pembayaran);
+            loadAnalyticsData();
+        }
     }
 
     @FXML

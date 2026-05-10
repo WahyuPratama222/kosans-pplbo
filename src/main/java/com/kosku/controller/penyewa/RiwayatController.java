@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import com.kosku.dao.BookingDAO;
 import com.kosku.model.Booking;
 import com.kosku.model.Kos;
+import com.kosku.util.PopupManager;
 import com.kosku.util.SessionManager;
 
 public class RiwayatController implements Initializable {
@@ -234,11 +235,7 @@ public class RiwayatController implements Initializable {
                     com.kosku.dao.ReviewDAO reviewDAO = new com.kosku.dao.ReviewDAO();
                     com.kosku.model.Review existing = reviewDAO.getReviewByBooking(booking.getIdBooking());
                     if (existing != null) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Peringatan");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Anda sudah memberikan rating untuk booking ini.");
-                        alert.showAndWait();
+                        PopupManager.showWarning("Peringatan", "Anda sudah memberikan rating untuk booking ini.");
                     } else {
                         BeriRatingController.selectedBooking = booking;
                         com.kosku.Main.navigateTo("/view/penyewa/BeriRatingPenyewa.fxml", "Beri Rating & Ulasan");
@@ -255,11 +252,7 @@ public class RiwayatController implements Initializable {
             btnDetail.setOnAction(e -> {
                 DetailBookingController.selectedBooking = booking;
                 if (booking.getStatusBooking() == Booking.StatusBooking.DITOLAK) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Info Penolakan");
-                    alert.setHeaderText("Booking Ditolak");
-                    alert.setContentText("Alasan: " + (booking.getAlasanTolak() != null ? booking.getAlasanTolak() : "Tidak ada alasan yang diberikan."));
-                    alert.showAndWait();
+                    PopupManager.showInfo("Info Penolakan", "Booking Ditolak\nAlasan: " + (booking.getAlasanTolak() != null ? booking.getAlasanTolak() : "Tidak ada alasan yang diberikan."));
                 } else {
                     DetailBookingController.selectedBooking = booking;
                     com.kosku.Main.navigateTo("/view/penyewa/DetailBookingPenyewa.fxml", "Detail Booking");

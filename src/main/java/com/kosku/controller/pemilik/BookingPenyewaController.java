@@ -113,15 +113,6 @@ public class BookingPenyewaController implements Initializable {
         }
     }
 
-    private void filterTableByStatus(Booking.StatusBooking status) {
-        if (allBookings == null) return;
-        List<BookingDTO> filtered = allBookings.stream()
-                .filter(b -> b.getStatusBooking() == status)
-                .map(BookingDTO::new)
-                .collect(Collectors.toList());
-        tabelBooking.setItems(FXCollections.observableArrayList(filtered));
-    }
-
     public static class BookingDTO {
         public final int idBooking;
         public final String penyewaName;

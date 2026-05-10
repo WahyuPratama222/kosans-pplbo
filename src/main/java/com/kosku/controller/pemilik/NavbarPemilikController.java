@@ -4,11 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.DialogPane;
-import java.util.Optional;
+import com.kosku.util.PopupManager;
 import com.kosku.util.SessionManager;
 
 public class NavbarPemilikController {
@@ -106,20 +102,11 @@ public class NavbarPemilikController {
 
     @FXML
     private void handleLogout() {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Konfirmasi Keluar");
-        confirmAlert.setHeaderText("Keluar dari Akun Pemilik");
-        confirmAlert.setContentText("Sesi Anda akan diakhiri.\nApakah Anda yakin ingin keluar dari aplikasi?");
-        
-        ButtonType btnYes = new ButtonType("Ya, Keluar", ButtonBar.ButtonData.OK_DONE);
-        ButtonType btnNo = new ButtonType("Batal", ButtonBar.ButtonData.CANCEL_CLOSE);
-        confirmAlert.getButtonTypes().setAll(btnYes, btnNo);
-        
-        DialogPane dialogPane = confirmAlert.getDialogPane();
-        dialogPane.setStyle("-fx-font-family: 'Segoe UI', sans-serif; -fx-font-size: 14px; -fx-background-color: #F8FAFC;");
-        
-        Optional<ButtonType> result = confirmAlert.showAndWait();
-        if (result.isPresent() && result.get() == btnYes) {
+        boolean confirmed = PopupManager.showConfirmation(
+            "Konfirmasi Keluar",
+            "Sesi Anda akan diakhiri.\nApakah Anda yakin ingin keluar dari aplikasi?"
+        );
+        if (confirmed) {
             try {
                 SessionManager.logout();
                 com.kosku.Main.navigateTo("/view/auth/login.fxml", "KosKu - Login");

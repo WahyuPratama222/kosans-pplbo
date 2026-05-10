@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 32; -fx-border-color: #E8EDF5; -fx-border-width: 1; -fx-border-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 14, 0, 0, 6);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kosku.controller.penyewa.PopupMessageController">
+    <children>
+        <Label fx:id="lblIcon" style="-fx-font-size: 48px;" text="✅" />
+        <Label fx:id="lblTitle" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1A3A6B;" text="Judul Popup" />
+        <Label fx:id="lblMessage" wrapText="true" textAlignment="CENTER" style="-fx-font-size: 14px; -fx-text-fill: #4B5563; -fx-max-width: 360;" text="Deskripsi popup" />
+        <HBox fx:id="buttonRow" alignment="CENTER" spacing="14.0">
+            <children>
+                <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: #F3F4F6; -fx-text-fill: #374151; -fx-font-size: 14px; -fx-background-radius: 10; -fx-padding: 10 24; -fx-cursor: hand;" text="Batal" />
+                <Button fx:id="btnOk" mnemonicParsing="false" onAction="#handleOk" style="-fx-background-color: #2D6BE4; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10; -fx-padding: 10 24; -fx-cursor: hand;" text="OK" />
+            </children>
+        </HBox>
+    </children>
+</VBox>

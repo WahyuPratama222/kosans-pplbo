@@ -14,6 +14,7 @@ import com.kosku.model.Booking;
 import com.kosku.model.Kamar;
 import com.kosku.model.Kos;
 import com.kosku.model.User;
+import com.kosku.util.PopupManager;
 import com.kosku.util.SessionManager;
 
 import java.math.BigDecimal;
@@ -62,7 +63,7 @@ public class BookingPenyewaController implements Initializable {
         selectedKos = DetailKosPenyewaController.selectedKos;
 
         if (selectedKos == null) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Data kos tidak ditemukan");
+            PopupManager.showError("Error", "Data kos tidak ditemukan");
             return;
         }
 
@@ -223,14 +224,14 @@ public class BookingPenyewaController implements Initializable {
         // Validate form
         String validationError = validateForm();
         if (validationError != null) {
-            showAlert(Alert.AlertType.WARNING, "Validasi Gagal", validationError);
+            PopupManager.showWarning("Validasi Gagal", validationError);
             return;
         }
 
         // Get form data
         Integer userId = SessionManager.getCurrentUserId();
         if (userId == null) {
-            showAlert(Alert.AlertType.WARNING, "Error", "Anda harus login untuk melakukan booking");
+            PopupManager.showWarning("Error", "Anda harus login untuk melakukan booking");
             return;
         }
 
@@ -283,18 +284,13 @@ public class BookingPenyewaController implements Initializable {
                 popupStage.showAndWait();
             } catch (Exception ex) {
                 System.err.println("Gagal memuat custom popup: " + ex.getMessage());
-                // Fallback to normal alert
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Booking Sukses");
-                alert.setHeaderText("🎉 Booking Berhasil Dikirim!");
-                alert.setContentText("Booking Anda berhasil dikirim dengan status PENDING.\nSilakan tunggu konfirmasi dari pemilik kos sebelum melakukan pembayaran.");
-                alert.showAndWait();
+                PopupManager.showInfo("Booking Sukses", "Booking Anda berhasil dikirim dengan status PENDING.\nSilakan tunggu konfirmasi dari pemilik kos sebelum melakukan pembayaran.");
                 Main.navigateTo("/view/penyewa/RiwayatPenyewa.fxml", "Riwayat Booking");
             }
             
         } catch (Exception e) {
             System.err.println("Error saving booking: " + e.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Error", 
+            PopupManager.showError("Error",
                     "Terjadi kesalahan saat memproses booking: " + e.getMessage());
         }
     }
@@ -327,11 +323,4 @@ public class BookingPenyewaController implements Initializable {
         return null;
     }
 
-    private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 }

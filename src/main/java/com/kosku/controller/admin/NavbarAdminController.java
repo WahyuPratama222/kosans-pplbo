@@ -4,14 +4,10 @@ import com.kosku.Main;
 import com.kosku.util.SessionManager;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.util.Optional;
+import com.kosku.util.PopupManager;
 
 public class NavbarAdminController {
 
@@ -83,17 +79,11 @@ public class NavbarAdminController {
 
     @FXML
     private void handleLogout() {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Konfirmasi Keluar");
-        confirm.setHeaderText("Keluar dari Panel Admin");
-        confirm.setContentText("Sesi Anda akan diakhiri. Yakin ingin logout?");
-
-        ButtonType btnYes = new ButtonType("Ya, Keluar", ButtonBar.ButtonData.OK_DONE);
-        ButtonType btnNo  = new ButtonType("Batal", ButtonBar.ButtonData.CANCEL_CLOSE);
-        confirm.getButtonTypes().setAll(btnYes, btnNo);
-
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == btnYes) {
+        boolean confirmed = PopupManager.showConfirmation(
+            "Konfirmasi Keluar",
+            "Sesi Anda akan diakhiri. Yakin ingin logout?"
+        );
+        if (confirmed) {
             SessionManager.logout();
             Main.navigateTo("/view/auth/login.fxml", "KosKu - Login");
         }

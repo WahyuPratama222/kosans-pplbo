@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -25,6 +24,7 @@ import java.net.URL;
 import com.kosku.dao.KosDAO;
 import com.kosku.model.Kos;
 import com.kosku.model.Kamar;
+import com.kosku.util.PopupManager;
 
 public class MainMenuController implements Initializable {
 
@@ -121,13 +121,13 @@ public class MainMenuController implements Initializable {
                 lblJumlahKos.setText("Menampilkan " + filteredKosList.size() + " kos");
             } else {
                 lblJumlahKos.setText("Tidak ada kos tersedia");
-                showAlert(Alert.AlertType.INFORMATION, "Informasi", 
+                PopupManager.showInfo("Informasi",
                     "Data kos belum ada atau sedang memuat");
             }
         } catch (Exception e) {
             System.err.println("Error loading kos data: " + e.getMessage());
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", 
+            PopupManager.showError("Error",
                 "Gagal memuat data kos: " + e.getMessage());
         }
     }
@@ -356,13 +356,13 @@ public class MainMenuController implements Initializable {
     @FXML
     void filterAC(ActionEvent event) {
         System.out.println("Filter cepat: Fasilitas AC");
-        showAlert(Alert.AlertType.INFORMATION, "Info", "Filter AC akan segera tersedia");
+        PopupManager.showInfo("Info", "Filter AC akan segera tersedia");
     }
 
     @FXML
     void filterWifi(ActionEvent event) {
         System.out.println("Filter cepat: Fasilitas WiFi");
-        showAlert(Alert.AlertType.INFORMATION, "Info", "Filter WiFi akan segera tersedia");
+        PopupManager.showInfo("Info", "Filter WiFi akan segera tersedia");
     }
 
     @FXML
@@ -447,7 +447,7 @@ public class MainMenuController implements Initializable {
             lblJumlahKos.setText("Ditemukan " + filteredKosList.size() + " kos");
         } catch (Exception e) {
             System.err.println("Error applying filter: " + e.getMessage());
-            showAlert(Alert.AlertType.ERROR, "Error", "Gagal menerapkan filter");
+            PopupManager.showError("Error", "Gagal menerapkan filter");
         }
     }
 
@@ -465,14 +465,6 @@ public class MainMenuController implements Initializable {
         
         applyAllFilters();
         System.out.println("Filter telah direset.");
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     @FXML

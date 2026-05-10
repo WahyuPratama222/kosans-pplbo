@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import com.kosku.dao.NotifikasiDAO;
 import com.kosku.model.Notifikasi;
 import com.kosku.model.Notifikasi.TipeNotifikasi;
+import com.kosku.util.PopupManager;
 import com.kosku.util.SessionManager;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -63,7 +64,7 @@ public class NotifController implements Initializable {
             Integer userId = SessionManager.getCurrentUserId();
 
             if (userId == null) {
-                showAlert(Alert.AlertType.WARNING, "Peringatan", "Anda harus login terlebih dahulu");
+                PopupManager.showWarning("Peringatan", "Anda harus login terlebih dahulu");
                 return;
             }
 
@@ -79,7 +80,7 @@ public class NotifController implements Initializable {
         } catch (Exception e) {
             System.err.println("Error loading notifikasi: " + e.getMessage());
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "Gagal memuat notifikasi: " + e.getMessage());
+            PopupManager.showError("Error", "Gagal memuat notifikasi: " + e.getMessage());
         }
     }
 
@@ -215,7 +216,7 @@ public class NotifController implements Initializable {
             Integer userId = SessionManager.getCurrentUserId();
             loadNotifikasi(null);
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Gagal menandai notifikasi: " + e.getMessage());
+            PopupManager.showError("Error", "Gagal menandai notifikasi: " + e.getMessage());
         }
     }
 
@@ -224,7 +225,7 @@ public class NotifController implements Initializable {
             notifikasiDAO.deleteNotification(notif.getIdNotifikasi());
             loadNotifikasi(null);
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Gagal menghapus notifikasi: " + e.getMessage());
+            PopupManager.showError("Error", "Gagal menghapus notifikasi: " + e.getMessage());
         }
     }
 
@@ -262,44 +263,36 @@ public class NotifController implements Initializable {
         try {
             Integer userId = SessionManager.getCurrentUserId();
             if (userId == null) {
-                showAlert(Alert.AlertType.WARNING, "Peringatan", "Anda harus login terlebih dahulu");
+                PopupManager.showWarning("Peringatan", "Anda harus login terlebih dahulu");
                 return;
             }
             notifikasiDAO.markAllAsRead(userId);
             loadNotifikasi(null);
-            showAlert(Alert.AlertType.INFORMATION, "Sukses", "Semua notifikasi ditandai sudah dibaca");
+            PopupManager.showInfo("Sukses", "Semua notifikasi ditandai sudah dibaca");
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Gagal menandai semua: " + e.getMessage());
+            PopupManager.showError("Error", "Gagal menandai semua: " + e.getMessage());
         }
     }
 
     @FXML
     void hapusSemua(ActionEvent event) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Konfirmasi");
-        confirm.setHeaderText(null);
-        confirm.setContentText("Hapus semua notifikasi?");
-        if (confirm.showAndWait().filter(r -> r == ButtonType.OK).isPresent()) {
-            try {
-                Integer userId = SessionManager.getCurrentUserId();
-                if (userId == null) {
-                    showAlert(Alert.AlertType.WARNING, "Peringatan", "Anda harus login terlebih dahulu");
-                    return;
-                }
-                notifikasiDAO.deleteAllNotifications(userId);
-                loadNotifikasi(null);
-                showAlert(Alert.AlertType.INFORMATION, "Sukses", "Semua notifikasi berhasil dihapus");
-            } catch (Exception e) {
-                showAlert(Alert.AlertType.ERROR, "Error", "Gagal menghapus semua notifikasi: " + e.getMessage());
+        boolean confirmed = PopupManager.showConfirmation("Konfirmasi", "Hapus semua notifikasi?");
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            Integer userId = SessionManager.getCurrentUserId();
+            if (userId == null) {
+                PopupManager.showWarning("Peringatan", "Anda harus login terlebih dahulu");
+                return;
             }
+            notifikasiDAO.deleteAllNotifications(userId);
+            loadNotifikasi(null);
+            PopupManager.showInfo("Sukses", "Semua notifikasi berhasil dihapus");
+        } catch (Exception e) {
+            PopupManager.showError("Error", "Gagal menghapus semua notifikasi: " + e.getMessage());
         }
     }
 
-    private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }

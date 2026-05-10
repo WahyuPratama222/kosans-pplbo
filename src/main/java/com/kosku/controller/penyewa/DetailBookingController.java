@@ -9,6 +9,7 @@ import com.kosku.Main;
 import com.kosku.dao.BookingDAO;
 import com.kosku.model.Booking;
 import com.kosku.model.Kos;
+import com.kosku.util.PopupManager;
 
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -121,26 +122,15 @@ public class DetailBookingController implements Initializable {
     @FXML
     void handleBayar(ActionEvent event) {
         if (paymentGroup.getSelectedToggle() == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Pilih Metode Pembayaran");
-            alert.setHeaderText(null);
-            alert.setContentText("Silakan pilih metode pembayaran terlebih dahulu!");
-            alert.showAndWait();
+            PopupManager.showWarning("Pilih Metode Pembayaran", "Silakan pilih metode pembayaran terlebih dahulu!");
             return;
         }
 
-        // Simulasi pembayaran
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Konfirmasi Pembayaran");
-        confirm.setHeaderText("Konfirmasi Pembayaran Anda");
-        confirm.setContentText(
+        boolean confirmed = PopupManager.showConfirmation("Konfirmasi Pembayaran",
                 "Apakah Anda yakin ingin melanjutkan pembayaran sebesar " + lblTotalHarga.getText() + "?");
-
-        confirm.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                prosesPembayaran();
-            }
-        });
+        if (confirmed) {
+            prosesPembayaran();
+        }
     }
 
     private void prosesPembayaran() {
@@ -153,20 +143,14 @@ public class DetailBookingController implements Initializable {
             selectedBooking.setStatusBooking(Booking.StatusBooking.SELESAI);
             bookingDAO.saveOrUpdate(selectedBooking);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Pembayaran Berhasil");
-            alert.setHeaderText(null);
-            alert.setContentText("Pembayaran Anda berhasil dikonfirmasi. Booking Selesai.");
-            alert.showAndWait();
+            PopupManager.showInfo("Pembayaran Berhasil", "Pembayaran Anda berhasil dikonfirmasi. Booking Selesai.");
 
             // Kembali ke riwayat
             Main.navigateTo("/view/penyewa/RiwayatPenyewa.fxml", "Riwayat Booking");
 
         } catch (Exception e) {
             System.err.println("Error proses pembayaran: " + e.getMessage());
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Terjadi kesalahan saat memproses pembayaran.");
-            alert.showAndWait();
+            PopupManager.showError("Kesalahan", "Terjadi kesalahan saat memproses pembayaran.");
         }
     }
 
